@@ -4,6 +4,15 @@
 <meta name="robots" content="noindex,nofollow">
 <script src="staging-env.js"></script>
 
+<script>
+  // Auth gate — redirect unauthenticated users to login page
+  (function(){
+    if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+      window.location.replace('login.html');
+    }
+  })();
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5E515WN5S"></script>
 <script>
