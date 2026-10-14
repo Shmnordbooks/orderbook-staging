@@ -3,6 +3,9 @@
       by prefixing every localStorage/sessionStorage key with "STG_".
    2) Shows a red TEST ENVIRONMENT bar on every page. */
 (function () {
+  // never send Google Analytics hits from the test site
+  window['ga-disable-G-R5E515WN5S'] = true;
+  window.gtag = function () {};
   var P = 'STG_';
   var proto = Storage.prototype;
   var g = proto.getItem, s = proto.setItem, r = proto.removeItem;
