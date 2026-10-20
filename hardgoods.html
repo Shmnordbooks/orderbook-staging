@@ -38653,21 +38653,37 @@ function updateCategoryBanner() {
   var label = CATEGORY_LABELS[currentCat] || currentCat;
   title.textContent = String(label).toLocaleUpperCase('en-US');
   banner.style.display = '';
-  // Short looping clip under the sign — shown only for categories that have an entry in CATEGORY_VIDEOS.
+  // Short clip(s) under the sign — shown only for categories that have an entry in CATEGORY_VIDEOS.
+  // One clip loops; several clips play one after another and cycle.
   if (vbox && vid) {
     var cv = window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat];
-    if (!cv) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} return; }
-    if (vid.getAttribute('data-src') !== cv.src) {
-      vid.setAttribute('data-src', cv.src);
-      vid.poster = cv.poster || '';
-      vid.src = cv.src;
+    if (!cv) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} vid.removeAttribute('data-cat'); return; }
+    if (vid.getAttribute('data-cat') !== currentCat) {
+      vid.setAttribute('data-cat', currentCat);
+      var clips = cv.clips;
+      var idx = 0;
+      vid.loop = clips.length === 1;
+      vid.style.objectPosition = cv.pos || '50% 30%';
+      vid.onended = null;
+      function loadClip() {
+        vid.poster = clips[idx].poster || '';
+        vid.src = clips[idx].src;
+        var p2 = vid.play(); if (p2 && p2.catch) p2.catch(function(){});
+      }
+      if (clips.length > 1) vid.onended = function(){ idx = (idx + 1) % clips.length; loadClip(); };
+      vid.poster = clips[0].poster || '';
+      vid.src = clips[0].src;
     }
     vbox.style.display = '';
     var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
   }
 }
 window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
-  'Bottom Bracket': { src: 'banner-bottom-bracket.mp4', poster: 'banner-bottom-bracket-poster.jpg' }
+  'Bottom Bracket': { pos:'50% 30%', clips:[{ src:'banner-bottom-bracket.mp4', poster:'banner-bottom-bracket-poster.jpg' }] },
+  'Brake Sets': { pos:'50% 55%', clips:[
+    { src:'banner-brake-sets-1.mp4', poster:'banner-brake-sets-1-poster.jpg' },
+    { src:'banner-brake-sets-2.mp4', poster:'banner-brake-sets-2-poster.jpg' }
+  ] }
 };
 
 
