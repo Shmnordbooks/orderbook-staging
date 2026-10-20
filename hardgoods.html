@@ -519,15 +519,15 @@
   }
   /* ═══ CATEGORY VIDEO STRIP — short looping clip under the sign ═══ */
   .cg-video{
-    width:100%;height:170px;position:relative;overflow:hidden;
+    width:100%;height:200px;position:relative;overflow:hidden;
     border-radius:10px;background:#050d18;
     margin:-8px 0 18px 0;
     box-shadow:0 10px 30px -14px rgba(0,0,0,.6);
   }
-  .cg-video video{width:100%;height:100%;object-fit:cover;display:block}
+  .cg-video video{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
   .cg-video::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(180deg,rgba(7,35,66,.35),transparent 35%,rgba(0,0,0,.25))}
-  @media(max-width:900px){ .cg-video{height:110px;margin:-4px 0 14px 0;border-radius:8px} }
+    box-shadow:inset 0 0 0 1px rgba(125,220,255,.18);border-radius:inherit}
+  @media(max-width:900px){ .cg-video{height:120px;margin:-4px 0 14px 0;border-radius:8px} }
   @media(prefers-reduced-motion:reduce){ .cg-video{display:none !important} }
 
   @media(max-width:900px){
@@ -2447,7 +2447,7 @@ html.light .sidebar a:hover {
         </div>
       </div>
       <div class="cg-video" id="categoryVideo" style="display:none">
-        <video id="categoryVideoEl" muted loop playsinline preload="none" poster="banner-test-poster.jpg"></video>
+        <video id="categoryVideoEl" muted loop playsinline preload="none"></video>
       </div>
       <div class="results-info" id="resultsInfo"></div>
       <div id="tableContainer"></div>
@@ -38653,18 +38653,22 @@ function updateCategoryBanner() {
   var label = CATEGORY_LABELS[currentCat] || currentCat;
   title.textContent = String(label).toLocaleUpperCase('en-US');
   banner.style.display = '';
-  // Short looping clip under the sign. Per-category clips can be added to CATEGORY_VIDEOS; otherwise the default is used.
+  // Short looping clip under the sign — shown only for categories that have an entry in CATEGORY_VIDEOS.
   if (vbox && vid) {
-    var src = (window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat]) || 'banner-test.mp4';
-    if (vid.getAttribute('data-src') !== src) {
-      vid.setAttribute('data-src', src);
-      vid.src = src;
+    var cv = window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat];
+    if (!cv) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} return; }
+    if (vid.getAttribute('data-src') !== cv.src) {
+      vid.setAttribute('data-src', cv.src);
+      vid.poster = cv.poster || '';
+      vid.src = cv.src;
     }
     vbox.style.display = '';
     var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
   }
 }
-window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {};
+window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
+  'Bottom Bracket': { src: 'banner-bottom-bracket.mp4', poster: 'banner-bottom-bracket-poster.jpg' }
+};
 
 
 
