@@ -38663,14 +38663,15 @@ function updateCategoryBanner() {
       var clips = cv.clips;
       var idx = 0;
       vid.loop = clips.length === 1;
-      vid.style.objectPosition = cv.pos || '50% 30%';
       vid.onended = null;
       function loadClip() {
+        vid.style.objectPosition = clips[idx].pos || cv.pos || '50% 30%';
         vid.poster = clips[idx].poster || '';
         vid.src = clips[idx].src;
         var p2 = vid.play(); if (p2 && p2.catch) p2.catch(function(){});
       }
       if (clips.length > 1) vid.onended = function(){ idx = (idx + 1) % clips.length; loadClip(); };
+      vid.style.objectPosition = clips[0].pos || cv.pos || '50% 30%';
       vid.poster = clips[0].poster || '';
       vid.src = clips[0].src;
     }
@@ -38682,7 +38683,7 @@ window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
   'Bottom Bracket': { pos:'50% 30%', clips:[{ src:'banner-bottom-bracket.mp4', poster:'banner-bottom-bracket-poster.jpg' }] },
   'Brake Sets': { pos:'50% 55%', clips:[
     { src:'banner-brake-sets-1.mp4', poster:'banner-brake-sets-1-poster.jpg' },
-    { src:'banner-brake-sets-2.mp4', poster:'banner-brake-sets-2-poster.jpg' }
+    { src:'banner-brake-sets-2.mp4', poster:'banner-brake-sets-2-poster.jpg', pos:'50% 6%' }
   ] }
 };
 
