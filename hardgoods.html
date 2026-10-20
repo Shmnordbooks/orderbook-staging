@@ -517,6 +517,19 @@
     letter-spacing:.08em;line-height:1;
     white-space:nowrap;
   }
+  /* ═══ CATEGORY VIDEO STRIP — short looping clip under the sign ═══ */
+  .cg-video{
+    width:100%;height:170px;position:relative;overflow:hidden;
+    border-radius:10px;background:#050d18;
+    margin:-8px 0 18px 0;
+    box-shadow:0 10px 30px -14px rgba(0,0,0,.6);
+  }
+  .cg-video video{width:100%;height:100%;object-fit:cover;display:block}
+  .cg-video::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(7,35,66,.35),transparent 35%,rgba(0,0,0,.25))}
+  @media(max-width:900px){ .cg-video{height:110px;margin:-4px 0 14px 0;border-radius:8px} }
+  @media(prefers-reduced-motion:reduce){ .cg-video{display:none !important} }
+
   @media(max-width:900px){
     .cg-banner{height:72px;margin:0 0 14px 0;border-radius:8px}
     .cg-banner .cg-plate{padding:9px 20px}
@@ -2432,6 +2445,9 @@ html.light .sidebar a:hover {
             <div class="cg-title" id="categoryBannerTitle" lang="en"></div>
           </div>
         </div>
+      </div>
+      <div class="cg-video" id="categoryVideo" style="display:none">
+        <video id="categoryVideoEl" muted loop playsinline preload="none" poster="banner-test-poster.jpg"></video>
       </div>
       <div class="results-info" id="resultsInfo"></div>
       <div id="tableContainer"></div>
@@ -38627,14 +38643,28 @@ function updateCategoryBanner() {
   var banner = document.getElementById('categoryBanner');
   var title = document.getElementById('categoryBannerTitle');
   if (!banner || !title) return;
+  var vbox = document.getElementById('categoryVideo');
+  var vid = document.getElementById('categoryVideoEl');
   if (currentCat === 'all' || searchQuery) {
     banner.style.display = 'none';
+    if (vbox) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} }
     return;
   }
   var label = CATEGORY_LABELS[currentCat] || currentCat;
   title.textContent = String(label).toLocaleUpperCase('en-US');
   banner.style.display = '';
+  // Short looping clip under the sign. Per-category clips can be added to CATEGORY_VIDEOS; otherwise the default is used.
+  if (vbox && vid) {
+    var src = (window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat]) || 'banner-test.mp4';
+    if (vid.getAttribute('data-src') !== src) {
+      vid.setAttribute('data-src', src);
+      vid.src = src;
+    }
+    vbox.style.display = '';
+    var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
+  }
 }
+window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {};
 
 
 
