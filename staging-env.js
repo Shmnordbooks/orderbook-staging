@@ -17,7 +17,7 @@
     if (document.getElementById('stg-bar')) return;
     var b = document.createElement('div');
     b.id = 'stg-bar';
-    b.textContent = 'TEST ENVIRONMENT — not the live dealer portal · build 27.10-1420';
+    b.textContent = 'TEST ENVIRONMENT — not the live dealer portal · build 27.10-1515';
     b.setAttribute('style', 'position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:2147483647;' +
       'background:#d00;color:#fff;font:700 12px/1 Arial,sans-serif;letter-spacing:.08em;' +
       'padding:6px 14px;border-radius:6px 6px 0 0;pointer-events:none;opacity:.92');
