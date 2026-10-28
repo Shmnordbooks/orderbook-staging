@@ -517,6 +517,19 @@
     letter-spacing:.08em;line-height:1;
     white-space:nowrap;
   }
+  /* ═══ CATEGORY VIDEO STRIP — short looping clip under the sign ═══ */
+  .cg-video{
+    width:100%;height:200px;position:relative;overflow:hidden;
+    border-radius:10px;background:#050d18;
+    margin:-8px 0 18px 0;
+    box-shadow:0 10px 30px -14px rgba(0,0,0,.6);
+  }
+  .cg-video video{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+  .cg-video::after{content:"";position:absolute;inset:0;pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(125,220,255,.18);border-radius:inherit}
+  @media(max-width:900px){ .cg-video{height:120px;margin:-4px 0 14px 0;border-radius:8px} }
+  @media(prefers-reduced-motion:reduce){ .cg-video{display:none !important} }
+
   @media(max-width:900px){
     .cg-banner{height:72px;margin:0 0 14px 0;border-radius:8px}
     .cg-banner .cg-plate{padding:9px 20px}
@@ -2432,6 +2445,9 @@ html.light .sidebar a:hover {
             <div class="cg-title" id="categoryBannerTitle" lang="en"></div>
           </div>
         </div>
+      </div>
+      <div class="cg-video" id="categoryVideo" style="display:none">
+        <video id="categoryVideoEl" muted loop playsinline preload="none"></video>
       </div>
       <div class="results-info" id="resultsInfo"></div>
       <div id="tableContainer"></div>
@@ -38523,14 +38539,90 @@ function updateCategoryBanner() {
   var banner = document.getElementById('categoryBanner');
   var title = document.getElementById('categoryBannerTitle');
   if (!banner || !title) return;
+  var vbox = document.getElementById('categoryVideo');
+  var vid = document.getElementById('categoryVideoEl');
   if (currentCat === 'all' || searchQuery) {
     banner.style.display = 'none';
+    if (vbox) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} }
     return;
   }
   var label = CATEGORY_LABELS[currentCat] || currentCat;
   title.textContent = String(label).toLocaleUpperCase('en-US');
   banner.style.display = '';
+  // Short clip(s) under the sign — shown only for categories that have an entry in CATEGORY_VIDEOS.
+  // One clip loops; several clips play one after another and cycle.
+  if (vbox && vid) {
+    var cv = window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat];
+    if (!cv) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} vid.removeAttribute('data-cat'); return; }
+    if (vid.getAttribute('data-cat') !== currentCat) {
+      vid.setAttribute('data-cat', currentCat);
+      var clips = cv.clips;
+      var idx = 0;
+      vid.loop = clips.length === 1;
+      vid.onended = null;
+      function loadClip() {
+        vid.style.objectPosition = clips[idx].pos || cv.pos || '50% 30%';
+        vid.poster = clips[idx].poster || '';
+        vid.src = clips[idx].src;
+        var p2 = vid.play(); if (p2 && p2.catch) p2.catch(function(){});
+      }
+      if (clips.length > 1) vid.onended = function(){ idx = (idx + 1) % clips.length; loadClip(); };
+      vid.style.objectPosition = clips[0].pos || cv.pos || '50% 30%';
+      vid.poster = clips[0].poster || '';
+      vid.src = clips[0].src;
+    }
+    vbox.style.display = '';
+    var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
+  }
 }
+window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
+  'Bottom Bracket': { pos:'50% 30%', clips:[{ src:'banner-bottom-bracket.mp4', poster:'banner-bottom-bracket-poster.jpg' }] },
+  'SHIMANO TOOLS': { pos:'50% 26%', clips:[{ src:'banner-tools.mp4', poster:'banner-tools-poster.jpg' }] },
+  'Wheels': { pos:'50% 36%', clips:[{ src:'banner-wheels.mp4', poster:'banner-wheels-poster.jpg' }] },
+  'STI Shifters Sets': { pos:'50% 28%', clips:[
+    { src:'banner-sti-sets-1.mp4', poster:'banner-sti-sets-1-poster.jpg' },
+    { src:'banner-sti-sets-2.mp4', poster:'banner-sti-sets-2-poster.jpg', pos:'50% 3%' }
+  ] },
+  'Rotors': { pos:'50% 50%', clips:[{ src:'banner-rotors.mp4', poster:'banner-rotors-poster.jpg' }] },
+  'HUBS': { pos:'50% 50%', clips:[
+    { src:'banner-hubs-1.mp4', poster:'banner-hubs-1-poster.jpg', pos:'50% 48%' },
+    { src:'banner-hubs-2.mp4', poster:'banner-hubs-2-poster.jpg', pos:'50% 56%' }
+  ] },
+  'DI2': { pos:'50% 42%', clips:[
+    { src:'banner-di2-1.mp4', poster:'banner-di2-1-poster.jpg', pos:'50% 26%' },
+    { src:'banner-di2-2.mp4', poster:'banner-di2-2-poster.jpg', pos:'50% 42%' }
+  ] },
+  'DiscBreakPads': { pos:'50% 44%', clips:[{ src:'banner-disc-brake-pads.mp4', poster:'banner-disc-brake-pads-poster.jpg' }] },
+  'Dreailleur': { pos:'50% 45%', clips:[
+    { src:'banner-derailleur-1.mp4', poster:'banner-derailleur-1-poster.jpg' },
+    { src:'banner-derailleur-2.mp4', poster:'banner-derailleur-2-poster.jpg', pos:'50% 28%' }
+  ] },
+  'Crankset': { pos:'50% 52%', clips:[
+    { src:'banner-crankset-1.mp4', poster:'banner-crankset-1-poster.jpg' },
+    { src:'banner-crankset-2.mp4', poster:'banner-crankset-2-poster.jpg' },
+    { src:'banner-crankset-3.mp4', poster:'banner-crankset-3-poster.jpg' }
+  ] },
+  'Cassettes': { pos:'50% 50%', clips:[
+    { src:'banner-cassettes-1.mp4', poster:'banner-cassettes-1-poster.jpg' },
+    { src:'banner-cassettes-2.mp4', poster:'banner-cassettes-2-poster.jpg' },
+    { src:'banner-cassettes-3.mp4', poster:'banner-cassettes-3-poster.jpg' }
+  ] },
+  'Chain': { pos:'50% 50%', clips:[
+    { src:'banner-chain-1.mp4', poster:'banner-chain-1-poster.jpg' },
+    { src:'banner-chain-2.mp4', poster:'banner-chain-2-poster.jpg', pos:'50% 62%' }
+  ] },
+  'Battery Charger': { pos:'50% 22%', clips:[{ src:'banner-battery-charger.mp4', poster:'banner-battery-charger-poster.jpg' }] },
+  'Cables': { pos:'50% 46%', clips:[
+    { src:'banner-cables-1.mp4', poster:'banner-cables-1-poster.jpg' },
+    { src:'banner-cables-2.mp4', poster:'banner-cables-2-poster.jpg' },
+    { src:'banner-cables-3.mp4', poster:'banner-cables-3-poster.jpg' }
+  ] },
+  'Brake Shoes': { pos:'50% 45%', clips:[{ src:'banner-brake-shoes.mp4', poster:'banner-brake-shoes-poster.jpg' }] },
+  'Brake Sets': { pos:'50% 55%', clips:[
+    { src:'banner-brake-sets-1.mp4', poster:'banner-brake-sets-1-poster.jpg' },
+    { src:'banner-brake-sets-2.mp4', poster:'banner-brake-sets-2-poster.jpg', pos:'50% 6%' }
+  ] }
+};
 
 
 
