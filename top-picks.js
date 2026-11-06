@@ -32,41 +32,49 @@
       title: 'Top Picks',
       sub: 'Most requested bottom brackets',
       picks: [
-        { code: 'ISMBBR60B',  model: 'SM-BBR60', tag: 'Road',        spec: 'Ultegra · BSA 68mm · Hollowtech II 24mm' },
-        { code: 'IBBMT801B',  model: 'BB-MT801', tag: 'MTB',         spec: 'BSA 68/73mm · Hollowtech II 24mm' },
-        { code: 'EBBMT501B',  model: 'BB-MT501', tag: 'MTB',         spec: 'BSA 68/73mm · Hollowtech II 24mm' },
-        { code: 'EBBRS501B',  model: 'BB-RS501', tag: 'Road + MTB',  spec: 'BSA threaded · Hollowtech II 24mm' },
+        { code: 'ISMBBR60B',    model: 'SM-BBR60', tag: 'Road',            spec: 'Ultegra · BSA 68mm · Hollowtech II' },
+        { code: 'IBBR9100I',    model: 'BB-R9100', tag: 'Road',            spec: 'Dura-Ace · Italian 70mm' },
+        { code: 'EBBRS501B',    model: 'BB-RS501', tag: 'Road + MTB',      spec: 'BSA threaded · Hollowtech II' },
+        { code: 'EBBRS500PB',   model: 'BB-RS500', tag: 'Road',            spec: 'Press-fit · Hollowtech II' },
+        { code: 'IBBMT801B',    model: 'BB-MT801', tag: 'MTB',             spec: 'BSA 68/73mm · Hollowtech II' },
+        { code: 'EBBMT501B',    model: 'BB-MT501', tag: 'MTB',             spec: 'BSA 68/73mm · Hollowtech II' },
+        { code: 'EBBMT500PA',   model: 'BB-MT500', tag: 'MTB',             spec: 'Press-fit · Hollowtech II' },
+        { code: 'ISMBB93B',     model: 'SM-BB93',  tag: 'MTB · XTR',       spec: 'BSA 68mm · Hollowtech II' },
         { code: 'EBBUN300B23X', model: 'BB-UN300', tag: 'City / Trekking', spec: 'BSA 122.5/68mm · Square taper' },
-        { code: 'EBBES300B13', model: 'BB-ES300', tag: 'Octalink',   spec: 'BSA 68/113mm · Octalink' }
+        { code: 'EBBES300B13',  model: 'BB-ES300', tag: 'Octalink',        spec: 'BSA 68/113mm · Octalink' }
       ]
     }
   };
 
   var css =
-    '.tp-wrap{margin:-6px 0 18px 0}' +
-    '.tp-head{display:flex;align-items:baseline;gap:10px;margin:0 0 8px 2px}' +
-    '.tp-title{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--text,#fff)}' +
+    '.tp-wrap{margin:-6px 0 14px 0}' +
+    '.tp-head{display:flex;align-items:baseline;gap:10px;margin:0 0 6px 2px}' +
+    '.tp-title{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--text,#fff)}' +
     '.tp-title i{font-style:normal;color:#0082CA}' +
-    '.tp-sub{font-size:12px;color:var(--text2,#9aa);letter-spacing:.03em}' +
-    '.tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}' +
-    '.tp-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 12px 10px;' +
-      'background:var(--surface,#111118);border:1px solid var(--border,#1e1e2e);border-radius:10px;' +
+    '.tp-sub{font-size:11px;color:var(--text2,#9aa);letter-spacing:.03em}' +
+    '.tp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}' +
+    '.tp-card{display:flex;flex-direction:column;gap:3px;padding:8px 9px 7px;min-width:0;' +
+      'background:var(--surface,#111118);border:1px solid var(--border,#1e1e2e);border-radius:8px;' +
       'box-shadow:inset 0 2px 0 #0082CA}' +
-    '.tp-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0082CA}' +
-    '.tp-model{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:20px;line-height:1.05;color:var(--text,#fff)}' +
-    '.tp-spec{font-size:12px;line-height:1.35;color:var(--text2,#9aa);min-height:32px}' +
-    '.tp-code{font-size:11px;color:var(--text3,#6b7280);letter-spacing:.04em}' +
-    '.tp-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:4px}' +
-    '.tp-st{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}' +
+    '.tp-tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0082CA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.tp-model{align-self:flex-start;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:17px;line-height:1.05;color:var(--text,#fff)}' +
+    '.tp-model.tp-ph{cursor:zoom-in;border-bottom:1px dotted #0082CA}' +
+    '.tp-code{font-size:10px;color:var(--text3,#6b7280);letter-spacing:.04em}' +
+    '.tp-spec{font-size:11px;line-height:1.3;color:var(--text2,#9aa);min-height:28px}' +
+    '.tp-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:3px}' +
+    '.tp-st{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}' +
     '.tp-st.av{color:#00c896}.tp-st.etd{color:#f5a623}' +
-    '.tp-add{display:flex;align-items:center;gap:6px}' +
-    '.tp-qty{width:52px;padding:6px 4px;text-align:center;background:var(--surface,#111118);color:var(--text,#fff);' +
-      'border:1px solid var(--border,#1e1e2e);border-radius:6px;font-family:"Barlow Condensed",sans-serif;font-size:14px;font-weight:600}' +
-    '.tp-btn{padding:7px 12px;border:0;border-radius:6px;background:#0082CA;color:#fff;cursor:pointer;' +
-      'font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}' +
+    '.tp-add{display:flex;align-items:center;gap:4px}' +
+    '.tp-qty{width:38px;padding:4px 2px;text-align:center;background:var(--surface,#111118);color:var(--text,#fff);' +
+      'border:1px solid var(--border,#1e1e2e);border-radius:5px;font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:600}' +
+    '.tp-btn{padding:5px 9px;border:0;border-radius:5px;background:#0082CA;color:#fff;cursor:pointer;' +
+      'font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase}' +
     '.tp-btn:hover{background:#0a94e0}' +
-    '@media(max-width:900px){.tp-grid{grid-template-columns:repeat(2,1fr);gap:8px}.tp-model{font-size:18px}.tp-spec{min-height:0}' +
-      '.tp-foot{flex-wrap:wrap}.tp-sub{display:none}}';
+    '#tpPhoto{position:fixed;z-index:99999;display:none;width:240px;height:240px;padding:6px;box-sizing:border-box;' +
+      'background:#fff;border:1px solid rgba(0,130,202,.6);border-radius:10px;box-shadow:0 14px 40px rgba(0,0,0,.55);pointer-events:none}' +
+    '#tpPhoto img{width:100%;height:100%;object-fit:contain;display:block}' +
+    '@media(max-width:1200px){.tp-grid{grid-template-columns:repeat(4,1fr)}}' +
+    '@media(max-width:900px){.tp-grid{grid-template-columns:repeat(2,1fr);gap:6px}.tp-sub{display:none}.tp-spec{min-height:0}}';
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -102,6 +110,53 @@
     return '<span class="tp-st etd">ETD' + (it.etd ? ' ' + esc(it.etd) : '') + '</span>';
   }
 
+  /* Photo on hover: reuses the page's product-photo map (pvHas / pvUrls). On touch screens a tap toggles it. */
+  function hasPhoto(code) { return typeof window.pvHas === 'function' && window.pvHas(code); }
+  var pop = null, popImg = null;
+  function getPop() {
+    if (pop) return pop;
+    pop = document.createElement('div'); pop.id = 'tpPhoto';
+    popImg = document.createElement('img'); popImg.alt = '';
+    pop.appendChild(popImg); document.body.appendChild(pop);
+    return pop;
+  }
+  function showPhoto(el) {
+    var code = el.getAttribute('data-code');
+    var urls = (typeof window.pvUrls === 'function') ? window.pvUrls(code) : [];
+    if (!urls.length) return;
+    var p = getPop(), url = urls[0];
+    popImg.onerror = function () {
+      if (popImg.getAttribute('data-step') !== '1') {
+        popImg.setAttribute('data-step', '1');
+        popImg.src = 'https://wsrv.nl/?url=' + encodeURIComponent(url.replace(/^https:/, 'http:')) + '&w=500&we&output=jpg';
+      } else { p.style.display = 'none'; }
+    };
+    popImg.setAttribute('data-step', '0');
+    popImg.src = url;
+    var r = el.getBoundingClientRect(), W = 240, H = 240;
+    var left = Math.max(8, Math.min(r.left, window.innerWidth - W - 8));
+    var top = r.bottom + 8;
+    if (top + H > window.innerHeight - 8) top = Math.max(8, r.top - H - 8);
+    p.style.left = left + 'px'; p.style.top = top + 'px'; p.style.display = 'block';
+  }
+  function hidePhoto() { if (pop) pop.style.display = 'none'; }
+
+  document.addEventListener('mouseover', function (e) {
+    var m = e.target && e.target.closest ? e.target.closest('.tp-model.tp-ph') : null;
+    if (m) showPhoto(m);
+  });
+  document.addEventListener('mouseout', function (e) {
+    var m = e.target && e.target.closest ? e.target.closest('.tp-model.tp-ph') : null;
+    if (m) hidePhoto();
+  });
+  document.addEventListener('click', function (e) {
+    var m = e.target && e.target.closest ? e.target.closest('.tp-model.tp-ph') : null;
+    if (m && window.matchMedia && window.matchMedia('(hover: none)').matches) {
+      if (pop && pop.style.display === 'block') hidePhoto(); else showPhoto(m);
+    } else if (!m) hidePhoto();
+  });
+  window.addEventListener('scroll', hidePhoto, true);
+
   function render() {
     var host = ensureHost();
     if (!host) return;
@@ -109,7 +164,7 @@
     try {
       cfg = (typeof currentCat !== 'undefined' && !searchQuery) ? window.TOP_PICKS[currentCat] : null;
     } catch (e) { cfg = null; }
-    if (!cfg) { host.style.display = 'none'; host.innerHTML = ''; return; }
+    if (!cfg) { hidePhoto(); host.style.display = 'none'; host.innerHTML = ''; return; }
 
     var cards = [];
     cfg.picks.forEach(function (p) {
@@ -118,7 +173,7 @@
       cards.push(
         '<div class="tp-card">' +
           '<div class="tp-tag">' + esc(p.tag) + '</div>' +
-          '<div class="tp-model">' + esc(p.model || it.desc2 || it.desc1) + '</div>' +
+          '<div class="tp-model' + (hasPhoto(it.code) ? ' tp-ph' : '') + '" data-code="' + esc(it.code) + '">' + esc(p.model || it.desc2 || it.desc1) + '</div>' +
           '<div class="tp-spec">' + esc(p.spec || it.desc1) + '</div>' +
           '<div class="tp-code">' + esc(it.code) + '</div>' +
           '<div class="tp-foot">' + stBadge(it) +
