@@ -326,6 +326,8 @@
     '.tp-tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0082CA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
     '.tp-model{align-self:flex-start;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:17px;line-height:1.05;color:var(--text,#fff)}' +
     '.tp-model.tp-ph{cursor:zoom-in;border-bottom:1px dotted #0082CA}' +
+    '.tp-model.tp-ph::after{content:"";display:inline-block;width:13px;height:13px;margin-left:5px;vertical-align:-1px;opacity:.85;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%230082CA%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z%27/%3E%3Ccircle cx=%2712%27 cy=%2713%27 r=%274%27/%3E%3C/svg%3E") center/contain no-repeat}' +
+    '.tp-model.tp-ph:hover::after{opacity:1}' +
     '.tp-code{font-size:10px;color:var(--text3,#6b7280);letter-spacing:.04em}' +
     '.tp-spec{font-size:11px;line-height:1.3;color:var(--text2,#9aa);min-height:28px}' +
     '.tp-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:3px}' +
