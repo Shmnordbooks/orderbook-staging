@@ -43,7 +43,56 @@
         { code: 'EBBUN300B23X', model: 'BB-UN300', tag: 'City / Trekking', spec: 'BSA 122.5/68mm · Square taper' },
         { code: 'EBBES300B13',  model: 'BB-ES300', tag: 'Octalink',        spec: 'BSA 68/113mm · Octalink' }
       ]
+    },
+    'Chain': {
+      title: 'Top Picks',
+      sub: 'Most requested chains',
+      picks: [
+        { code: 'ICNM8100126Q', model: 'CN-M8100', tag: 'MTB · Deore XT', spec: '12-speed · 126 links · Quick Link' },
+        { code: 'ICNM6100126Q', model: 'CN-M6100', tag: 'MTB · Deore', spec: '12-speed · 126 links · Quick Link' },
+        { code: 'ICNHG60111116Q', model: 'CN-HG601', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
+        { code: 'ICNHG70111116Q', model: 'CN-HG701', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
+        { code: 'ICNLG500116Q', model: 'CN-LG500', tag: 'Linkglide', spec: '9/10/11-speed · 116 links · Quick Link' },
+        { code: 'ICNHG95116I', model: 'CN-HG95', tag: '10-speed', spec: '10-speed · 116 links' },
+        { code: 'ICNHG54116I', model: 'CN-HG54', tag: '10-speed', spec: '10-speed · 116 links' },
+        { code: 'ECNHG53C116I', model: 'CN-HG53', tag: '9-speed', spec: '9-speed · 116 links' },
+        { code: 'ECNHG71C116I', model: 'CN-HG71', tag: '6/7/8-speed', spec: '6/7/8-speed · 116 links' },
+        { code: 'ECNHG40116Q', model: 'CN-HG40', tag: 'Entry · 6/7/8-speed', spec: '6/7/8-speed · 116 links' }
+      ]
+    },
+    'Cassettes': {
+      title: 'Top Picks',
+      sub: 'Most requested cassettes',
+      picks: [
+        { code: 'ICSHG70011134', model: 'CS-HG700', tag: 'Road · 105', spec: '11-speed · 11-34T' },
+        { code: 'ICSR710112134', model: 'CS-R7101', tag: 'Road · 105', spec: '12-speed · 11-34T' },
+        { code: 'ICSR810112134', model: 'CS-R8101', tag: 'Road · Ultegra', spec: '12-speed · 11-34T' },
+        { code: 'ICSHG8001111134', model: 'CS-HG800', tag: 'Road · Ultegra', spec: '11-speed · 11-34T' },
+        { code: 'ICSM7100045', model: 'CS-M7100', tag: 'MTB · SLX', spec: '12-speed · 10-45T · Hyperglide+' },
+        { code: 'ICSM8100051', model: 'CS-M8100', tag: 'MTB · Deore XT', spec: '12-speed · 10-51T · Hyperglide+' },
+        { code: 'ICSM510011142', model: 'CS-M5100', tag: 'MTB · Deore', spec: '11-speed · 11-42T' },
+        { code: 'ICSHG50010134', model: 'CS-HG500', tag: 'Road + MTB · Tiagra', spec: '10-speed · 11-34T' },
+        { code: 'ICSHG5010136', model: 'CS-HG50', tag: 'MTB · Deore', spec: '10-speed · 11-36T' },
+        { code: 'ICSHG4009134', model: 'CS-HG400', tag: '9-speed · Alivio', spec: '9-speed · 11-34T' }
+      ]
+    },
+    'Crankset': {
+      title: 'Top Picks',
+      sub: 'Most requested cranksets',
+      picks: [
+        { code: 'IFCR7100CX04', model: 'FC-R7100', tag: 'Road · 105', spec: '2x12 · 50/34T · 170mm' },
+        { code: 'IFCR8100CX26', model: 'FC-R8100', tag: 'Road · Ultegra', spec: '2x12 · 52/36T · 170mm' },
+        { code: 'EFCRS510DX66X', model: 'FC-RS510', tag: 'Road · 105', spec: '2x11 · 46/36T · 172.5mm' },
+        { code: 'EFCRS520CX04', model: 'FC-RS520', tag: 'Road', spec: '2x12 · 50/34T · 170mm' },
+        { code: 'EFCRX600112CX60', model: 'FC-RX600', tag: 'Gravel · GRX', spec: '2x11 · 46/30T · 170mm' },
+        { code: 'EFCM61001EXA2', model: 'FC-M6100-1', tag: 'MTB · Deore', spec: '1x12 · 32T · 175mm' },
+        { code: 'EFCMT5101CXA2L', model: 'FC-MT510-1', tag: 'MTB · Deore', spec: '1x12 · 32T · 170mm' },
+        { code: 'EFCM51001CXA0', model: 'FC-M5100-1', tag: 'MTB · Deore', spec: '1x10/11 · 30T · 170mm' },
+        { code: 'EFCM371C422CL', model: 'FC-M371', tag: 'Trekking · Altus', spec: '9-speed · 44/32/22T · 170mm' },
+        { code: 'EFCM361C888CL', model: 'FC-M361', tag: 'Entry · Acera', spec: '8-speed · 48/38/28T · 170mm' }
+      ]
     }
+
   };
 
   var css =
