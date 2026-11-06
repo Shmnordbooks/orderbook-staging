@@ -91,6 +91,166 @@
         { code: 'EFCM371C422CL', model: 'FC-M371', tag: 'Trekking · Altus', spec: '9-speed · 44/32/22T · 170mm' },
         { code: 'EFCM361C888CL', model: 'FC-M361', tag: 'Entry · Acera', spec: '8-speed · 48/38/28T · 170mm' }
       ]
+    },
+    'Rotors': {
+      title: 'Top Picks',
+      sub: 'Most requested rotors',
+      picks: [
+        { code: 'ESMRT64SI3C', model: 'SM-RT64 · 160mm', tag: 'MTB · Deore', spec: 'Center Lock · internal lockring' },
+        { code: 'ESMRT64MI3C', model: 'SM-RT64 · 180mm', tag: 'MTB · Deore', spec: 'Center Lock · internal lockring' },
+        { code: 'ESMRT64SEC', model: 'SM-RT64 · 160mm', tag: 'MTB · Deore', spec: 'Center Lock · external lockring' },
+        { code: 'ESMRT10S2', model: 'SM-RT10 · 160mm', tag: 'Entry', spec: 'Center Lock · with lockring' },
+        { code: 'ESMRT86S2', model: 'SM-RT86 · 160mm', tag: 'MTB · XT', spec: '6-bolt' },
+        { code: 'ESMRT86M2', model: 'SM-RT86 · 180mm', tag: 'MTB · XT', spec: '6-bolt' },
+        { code: 'IRTCL800SI', model: 'RT-CL800 · 160mm', tag: 'Gravel · GRX', spec: 'Center Lock · internal lockring' },
+        { code: 'IRTCL800SE', model: 'RT-CL800 · 160mm', tag: 'Gravel · GRX', spec: 'Center Lock · external lockring' },
+        { code: 'IRTCL800MI', model: 'RT-CL800 · 180mm', tag: 'Gravel · GRX', spec: 'Center Lock · internal lockring' },
+        { code: 'IRTCL900SI', model: 'RT-CL900 · 160mm', tag: 'Road', spec: 'Center Lock · internal lockring' }
+      ]
+    },
+    'DiscBreakPads': {
+      title: 'Top Picks',
+      sub: 'Most requested disc brake pads',
+      picks: [
+        { code: 'EBPB05SRXA', model: 'B05S', tag: 'Resin · MTB', spec: '1 pair · for BR-MT200 / MT400 / MT500' },
+        { code: 'EBPL05ARFA', model: 'L05A', tag: 'Resin · Road', spec: '1 pair · 105 / Ultegra / Dura-Ace disc' },
+        { code: 'EBPD03SRXA', model: 'D03S', tag: 'Resin', spec: '1 pair' },
+        { code: 'EBPJ05ARFA', model: 'J05A', tag: 'Resin', spec: '1 pair' },
+        { code: 'EBPG05ARXA', model: 'G05A', tag: 'Resin', spec: '1 pair' },
+        { code: 'EBPH03ARFA', model: 'H03A', tag: 'Resin', spec: '1 pair' },
+        { code: 'IBPJ04CMFA', model: 'J04C', tag: 'Metal', spec: '1 pair · XTR / XT / SLX / Deore 2-piston' },
+        { code: 'IBPN04CMFA', model: 'N04C', tag: 'Metal', spec: '1 pair · XTR / XT / SLX 4-piston' },
+        { code: 'IBPL04CMFA', model: 'L04C', tag: 'Metal', spec: '1 pair' },
+        { code: 'IBPG04SMXA', model: 'G04S', tag: 'Metal', spec: '1 pair' }
+      ]
+    },
+    'Dreailleur': {
+      title: 'Top Picks',
+      sub: 'Most requested rear derailleurs',
+      picks: [
+        { code: 'IRDM8100GS', model: 'RD-M8100', tag: 'MTB · Deore XT', spec: '12-speed · GS' },
+        { code: 'IRDM5100SGS', model: 'RD-M5100', tag: 'MTB · Deore', spec: '11-speed · SGS' },
+        { code: 'ERDM3100SGS', model: 'RD-M3100', tag: 'MTB · Alivio', spec: '9-speed · SGS' },
+        { code: 'ERDM370SGSL', model: 'RD-M370', tag: 'MTB · Altus', spec: '9-speed · SGS' },
+        { code: 'ERDM310DL', model: 'RD-M310', tag: 'MTB · Altus', spec: '7/8-speed' },
+        { code: 'ERDTY300D', model: 'RD-TY300', tag: 'Tourney', spec: '6/7-speed' },
+        { code: 'IRDR8000GS', model: 'RD-R8000', tag: 'Road · Ultegra', spec: '11-speed · GS' },
+        { code: 'IRDR7000GSL', model: 'RD-R7000', tag: 'Road · 105', spec: '11-speed · GS' },
+        { code: 'IRD4700GS', model: 'RD-4700', tag: 'Road · Tiagra', spec: '10-speed · GS' },
+        { code: 'ERDR2000GS', model: 'RD-R2000', tag: 'Road · Claris', spec: '8-speed · GS' }
+      ]
+    },
+    'STI Shifters Sets': {
+      title: 'Top Picks',
+      sub: 'Most requested shift / brake levers',
+      picks: [
+        { code: 'ISTR7000DPAL', model: 'ST-R7000 · set', tag: 'Road · 105', spec: 'Left + right · 2x11-speed' },
+        { code: 'IST4700PAC2', model: 'ST-4700 · set', tag: 'Road · Tiagra', spec: 'Left + right · 2x10-speed' },
+        { code: 'ISTR8000RI', model: 'ST-R8000 · right', tag: 'Road · Ultegra', spec: 'Right lever · 11-speed' },
+        { code: 'ISTR7020RIL', model: 'ST-R7020 · right', tag: 'Road · 105', spec: 'Right lever · 11-speed' },
+        { code: 'ISTR7120RBI', model: 'ST-R7120 · right', tag: 'Road · 105', spec: 'Right lever · 12-speed' },
+        { code: 'ISTRX600RBI', model: 'ST-RX600 · right', tag: 'Gravel · GRX', spec: 'Right lever · 11-speed' },
+        { code: 'ISTR8020RI', model: 'ST-R8020 · right', tag: 'Road · Ultegra', spec: 'Right lever · 11-speed · disc' },
+        { code: 'ESTEF5004PV8A3', model: 'ST-EF500 · set', tag: 'MTB / Trekking', spec: 'Left + right · 3x8-speed' },
+        { code: 'ESTEF5002RV8AL', model: 'ST-EF500 · right', tag: 'MTB / Trekking', spec: 'Right lever · 8-speed' },
+        { code: 'ESTEF41R7AL', model: 'ST-EF41 · right', tag: 'Entry', spec: 'Right lever · 7-speed' }
+      ]
+    },
+    'HUBS': {
+      title: 'Top Picks',
+      sub: 'Most requested hubs',
+      picks: [
+        { code: 'EHBTC50015B', model: 'HB-TC500-15', tag: 'Front · Trekking / MTB', spec: 'Thru axle · Center Lock' },
+        { code: 'EFHTC500HMB', model: 'FH-TC500-HM', tag: 'Rear · 8/11-speed', spec: 'Thru axle · Center Lock' },
+        { code: 'EFHTC500HMBC', model: 'FH-TC500-HM-B', tag: 'Rear · 8/11-speed', spec: 'Thru axle · Center Lock' },
+        { code: 'EFHTC500MSA', model: 'FH-TC500-MS', tag: 'Rear · 12-speed', spec: 'Thru axle · Center Lock' },
+        { code: 'EHBM8110BX', model: 'HB-M8110', tag: 'Front · Deore XT', spec: 'Thru axle · Center Lock' },
+        { code: 'EFHM8110B', model: 'FH-M8110', tag: 'Rear · Deore XT', spec: '12-speed · Center Lock' },
+        { code: 'EFHM8110BB', model: 'FH-M8110-B', tag: 'Rear · Deore XT', spec: '12-speed · Center Lock' },
+        { code: 'EHBM5100B', model: 'HB-M5100', tag: 'Front · Deore', spec: 'Center Lock' },
+        { code: 'EFHM5100BZBL', model: 'FH-M5100', tag: 'Rear · Deore', spec: 'Center Lock' },
+        { code: 'EFHQC500MSBB41B', model: 'FH-QC500-MS-B', tag: 'Rear · 12-speed', spec: 'Center Lock' }
+      ]
+    },
+    'Wheels': {
+      title: 'Top Picks',
+      sub: 'Most requested wheels',
+      picks: [
+        { code: 'EWHRS171FED70B', model: 'WH-RS171 · front', tag: 'Road · disc', spec: 'Clincher · thru axle' },
+        { code: 'EWHRS171RED70B', model: 'WH-RS171 · rear', tag: 'Road · disc', spec: 'Clincher · thru axle' },
+        { code: 'EWHRS100FB', model: 'WH-RS100 · front', tag: 'Road · rim brake', spec: 'Clincher' },
+        { code: 'EWHRS100RCB', model: 'WH-RS100 · rear', tag: 'Road · rim brake', spec: 'Clincher' },
+        { code: 'EWHR501PCBY', model: 'WH-R501 · set', tag: 'Road · rim brake', spec: 'Clincher' },
+        { code: 'EWHRS370LFEDB', model: 'WH-RS370 · front', tag: 'Road · disc', spec: 'Tubeless · thru axle' },
+        { code: 'EWHRS370LREDB', model: 'WH-RS370 · rear', tag: 'Road · disc', spec: 'Tubeless · thru axle' },
+        { code: 'EWHRX570LFERED70', model: 'WH-RX570 · set', tag: 'Gravel · GRX', spec: '700C · tubeless' },
+        { code: 'EWHMT500RD9C', model: 'WH-MT500 · rear', tag: 'MTB', spec: 'Clincher' },
+        { code: 'EWHMT500R12D9', model: 'WH-MT500 · rear', tag: 'MTB', spec: 'Clincher · 12-speed' }
+      ]
+    },
+    'Cables': {
+      title: 'Top Picks',
+      sub: 'Most requested cables, housing and hoses',
+      picks: [
+        { code: 'IOTSP41SET04', model: 'SP-41 · road set', tag: 'Shift cable set', spec: 'Stainless' },
+        { code: 'IOTSP41SET03', model: 'SP-41 · MTB set', tag: 'Shift cable set', spec: 'Stainless' },
+        { code: 'IOTSP41SET02', model: 'SP-41 · MTB set', tag: 'Shift cable set', spec: 'Polymer coated' },
+        { code: 'IOTRS900SET01', model: 'OT-RS900 · road set', tag: 'Shift cable set', spec: 'Polymer coated' },
+        { code: 'IBC9000SET01', model: 'BC-9000 · road set', tag: 'Brake cable set', spec: 'Polymer coated' },
+        { code: 'IBCROADSET02', model: 'Road set', tag: 'Brake cable set', spec: 'Black' },
+        { code: 'Y80098561', model: 'Road inner cable', tag: 'Brake cable', spec: 'Box' },
+        { code: 'IOT41SP50ML', model: 'SP-41 outer', tag: 'Shift housing', spec: '50m' },
+        { code: 'ESMBH90SSL170', model: 'SM-BH90-SS', tag: 'Disc brake hose', spec: '1700mm' },
+        { code: 'ISMBH59SBL170', model: 'SM-BH59-SB', tag: 'Disc brake hose', spec: '1700mm' }
+      ]
+    },
+    'Brake Sets': {
+      title: 'Top Picks',
+      sub: 'Most requested disc brake sets',
+      picks: [
+        { code: 'EMT201KRRXRA170', model: 'BR-MT200 · rear', tag: 'MTB · Altus', spec: 'Rear set' },
+        { code: 'EMT201KLFPRA100', model: 'BR-MT200 · front', tag: 'MTB · Altus', spec: 'Front set' },
+        { code: 'EMT4101JRRXRA170', model: 'BR-MT410 · rear', tag: 'MTB', spec: 'Rear set' },
+        { code: 'EMT4101JLFPRA100', model: 'BR-MT410 · front', tag: 'MTB', spec: 'Front set' },
+        { code: 'EM61001JRRXRA170', model: 'BR-M6100 · rear', tag: 'MTB · Deore', spec: 'Rear set' },
+        { code: 'IM7100JLFPRA100', model: 'BR-M7100 · front', tag: 'MTB · SLX', spec: 'Front set' },
+        { code: 'IM8100JLFPRA100', model: 'BR-M8100 · front', tag: 'MTB · Deore XT', spec: 'Front set' },
+        { code: 'EBRM6100MPRX', model: 'BR-M6100', tag: 'MTB · Deore', spec: 'Caliper only' },
+        { code: 'EBRMT410MPRXL', model: 'BR-MT410', tag: 'MTB', spec: 'Caliper only' },
+        { code: 'EBRM375MPRL', model: 'BR-M375', tag: 'Entry', spec: 'Caliper only' }
+      ]
+    },
+    'Brake Shoes': {
+      title: 'Top Picks',
+      sub: 'Featured brake shoes',
+      picks: [
+        { code: 'Y8L298050', model: 'Dura-Ace', tag: 'Road', spec: 'BR-9000' },
+        { code: 'Y8LA98030', model: 'Ultegra', tag: 'Road', spec: 'BR-6800' },
+        { code: 'Y2J398010', model: 'Ultegra', tag: 'Road', spec: 'BR-R8100' },
+        { code: 'Y88T98020', model: '105', tag: 'Road', spec: 'BR-5800' },
+        { code: 'Y8ZJ98010', model: '105', tag: 'Road', spec: 'BR-R7000' },
+        { code: 'Y8LJ98010', model: '105', tag: 'Road', spec: 'BR-7010' },
+        { code: 'Y8MG98090', model: 'Tiagra', tag: 'Road', spec: 'BR-4700 · 5 pairs' },
+        { code: 'Y8JY98070', model: 'Tiagra', tag: 'Road', spec: 'BR-4600' },
+        { code: 'Y2J498010', model: 'Ultegra', tag: 'Road', spec: 'BR-R8110' },
+        { code: 'Y8BM9803A', model: 'Deore', tag: 'V-brake', spec: 'BR-MX70' }
+      ]
+    },
+    'DI2': {
+      title: 'Top Picks',
+      sub: 'Most requested Di2 wires and junctions',
+      picks: [
+        { code: 'IEWSD300L030', model: 'EW-SD300 · 300mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L050', model: 'EW-SD300 · 500mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L060', model: 'EW-SD300 · 600mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L080', model: 'EW-SD300 · 800mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L100', model: 'EW-SD300 · 1000mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L120', model: 'EW-SD300 · 1200mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD50L50', model: 'EW-SD50 · 500mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD50L100', model: 'EW-SD50 · 1000mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWJC304', model: 'EW-JC304', tag: 'Junction', spec: '4 ports' },
+        { code: 'IEWJC302', model: 'EW-JC302', tag: 'Junction', spec: '2 ports' }
+      ]
     }
 
   };
