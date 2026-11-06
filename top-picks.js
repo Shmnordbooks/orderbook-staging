@@ -251,6 +251,64 @@
         { code: 'IEWJC304', model: 'EW-JC304', tag: 'Junction', spec: '4 ports' },
         { code: 'IEWJC302', model: 'EW-JC302', tag: 'Junction', spec: '2 ports' }
       ]
+    },
+    'Battery Charger': {
+      title: 'Top Picks',
+      sub: 'Battery chargers',
+      picks: [
+        { code: 'ISMBCR2', model: 'SM-BCR2', tag: 'Charger', spec: 'For SM-BTR2' },
+        { code: 'IECDN100A', model: 'EC-DN100', tag: 'Charger', spec: 'Di2 / STEPS' },
+        { code: 'IECE6002D', model: 'EC-E8004-1', tag: 'Charger', spec: 'STEPS' },
+        { code: 'IECE80041A', model: 'EC-E6002', tag: 'Charger', spec: 'STEPS' }
+      ]
+    },
+    'SHIMANO TOOLS': {
+      title: 'Top Picks',
+      sub: 'Most requested workshop tools',
+      picks: [
+        { code: 'Y13098550', model: 'TL-CN34', tag: 'Pro chain tool', spec: '11-speed' },
+        { code: 'Y13098700', model: 'TL-CN29', tag: 'Chain tool', spec: '12-speed' },
+        { code: 'Y12160000', model: 'TL-CN42', tag: 'Chain wear indicator', spec: 'Quick check' },
+        { code: 'Y13009220', model: 'TL-FC16', tag: 'Crank arm tool', spec: 'Hollowtech II' },
+        { code: 'Y13009210', model: 'TL-FC32', tag: 'BB adapter tool', spec: 'Hollowtech II BB' },
+        { code: 'Y12009220', model: 'TL-LR10', tag: 'Lock ring tool', spec: 'Center Lock' },
+        { code: 'Y13009073', model: 'TL-UN74-S', tag: 'Cartridge BB tool', spec: 'Square taper BB' },
+        { code: 'Y13098730', model: 'TL-SR24', tag: 'Sprocket removal tool', spec: '10-12 speed' },
+        { code: 'Y13098570', model: 'TL-BH62', tag: 'Hose cut & set tool', spec: 'Disc brake hose' },
+        { code: 'Y13098630', model: 'TL-BR', tag: 'Disc brake bleed kit', spec: 'Professional' }
+      ]
+    },
+    'Parktool': {
+      title: 'Top Picks',
+      sub: 'Featured ParkTool workshop essentials',
+      picks: [
+        { code: 'PTCC32C', model: 'CC-3.2', tag: 'Chain checker', spec: 'Wear gauge' },
+        { code: 'PTCT33', model: 'CT-3.3', tag: 'Chain tool', spec: 'Workshop' },
+        { code: 'PT0MLP1', model: 'MLP-1.2', tag: 'Master link pliers', spec: 'Quick link' },
+        { code: 'PT101154', model: 'TL-5', tag: 'Tire levers', spec: 'Heavy duty steel' },
+        { code: 'PT100053', model: 'AWS-10', tag: 'Hex wrench set', spec: 'Fold-up' },
+        { code: 'PTFR52', model: 'FR-5.2', tag: 'Cassette lockring tool', spec: 'Shimano / SRAM' },
+        { code: 'PTSR182', model: 'SR-18.2', tag: 'Chain whip', spec: 'Sprocket remover' },
+        { code: 'PTBBT22', model: 'BBT-22', tag: 'BB tool', spec: '20 spline' },
+        { code: 'PTTW52', model: 'TW-5.2', tag: 'Torque wrench', spec: 'Ratcheting click-type' },
+        { code: 'PT100782', model: 'PW-4', tag: 'Pedal wrench', spec: 'Professional' }
+      ]
+    },
+    'Vittoria': {
+      title: 'Top Picks',
+      sub: 'Featured Vittoria tires and tubes',
+      picks: [
+        { code: '11A00400', model: 'Corsa N.EXT', tag: 'Road · 700x28c', spec: 'Folding · tubeless ready' },
+        { code: '11A01158', model: 'Corsa Pro', tag: 'Road · 700x28c', spec: 'Folding · tubeless ready' },
+        { code: '11A00600', model: 'Rubino V', tag: 'Road · 700x28c', spec: 'Folding' },
+        { code: '11A00590', model: 'Rubino V', tag: 'Road · 700x28c', spec: 'Tubeless ready' },
+        { code: '11A00937', model: 'Zaffiro Evo', tag: 'Road · 700x28c', spec: 'Folding' },
+        { code: '11A00806', model: 'Terreno T30', tag: 'Gravel · 700x40c', spec: 'Tubeless ready' },
+        { code: '11A00711', model: 'Mezcal XC Race', tag: 'MTB · 29x2.4', spec: 'Tubeless ready' },
+        { code: '11A00772', model: 'Barzo Trail', tag: 'MTB · 29x2.4', spec: 'Tubeless ready' },
+        { code: '1TA00010', model: 'Standard inner tube', tag: '700x20/28c', spec: 'Presta 48mm' },
+        { code: '1AA00541', model: 'Airliner Light Road', tag: 'Tire insert', spec: '700x28-30' }
+      ]
     }
 
   };
