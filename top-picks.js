@@ -325,6 +325,97 @@
         { code: 'Y0RM98010', model: 'ST-R7170', tag: 'Bracket cover pair', spec: '105 Di2' },
         { code: 'Y0F398010', model: 'ST-R7020', tag: 'Bracket cover pair', spec: '105' }
       ]
+    },
+    'Spokes': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'EWHSPOKEY000B', model: '300mm spoke', tag: 'Spoke set', spec: 'WH-M9200-TL-R12-B-29' },
+        { code: 'EWHSPOKEY0005', model: '298mm spoke', tag: 'Spoke set', spec: 'WH-M8200-TL-F15-B-29' },
+        { code: 'EWHSPOKEY0007', model: '278mm spoke', tag: 'Spoke set', spec: 'WH-M8200-TL-R12-B-29' },
+        { code: 'EWHSPOKEY000C', model: '299mm spoke', tag: 'Spoke set', spec: 'WH-M9220-TL-R12-B-29' },
+        { code: 'EWHSPOKEY000A', model: '299mm spoke', tag: 'Spoke set', spec: 'WH-M9220-TL-F15-B-29' },
+        { code: 'Y0KLS1000', model: '273mm spoke', tag: 'Spoke', spec: 'WH-MT620-TL-F15-B-275' },
+        { code: 'Y0TX98010', model: '298mm spoke', tag: 'Spoke R.H.', spec: 'WH-M9200-TL-R12-B-29' },
+        { code: 'Y0H7S1000', model: '290mm spoke', tag: 'Spoke', spec: 'WH-RS171-CL-F12-700C' },
+        { code: 'Y0LSS1000', model: '290mm spoke', tag: 'Spoke', spec: 'WH-MT601-TL-F15-29' },
+        { code: 'Y0D1S1000', model: '280.5mm spoke', tag: 'Spoke', spec: 'WH-RS700-C30-TL-F' }
+      ]
+    },
+    'Chainring': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'Y0MZ98030', model: '54T-NJ', tag: 'Chainring', spec: 'Dura-Ace · FC-R9200' },
+        { code: 'Y0MZ40000', model: '40T-NJ', tag: 'Chainring', spec: 'Dura-Ace · FC-R9200' },
+        { code: 'Y1W898040', model: '53T-MW', tag: 'Chainring', spec: 'Ultegra · FC-R8000 for 53-39T' },
+        { code: 'Y0MZ98020', model: '52T-NH', tag: 'Chainring', spec: 'Dura-Ace · FC-R9200' },
+        { code: 'Y0NG98020', model: '52T-NH', tag: 'Chainring', spec: 'Ultegra · FC-R8100' },
+        { code: 'Y1WV98050', model: '53T-MW', tag: 'Chainring', spec: '105 · FC-R7000 for 53-39T Black' },
+        { code: 'Y1VP98040', model: '54T-MX', tag: 'Chainring', spec: 'Dura-Ace · FC-R9100 for 54-42T' },
+        { code: 'Y1WV98030', model: '52T-MT', tag: 'Chainring', spec: '105 · FC-R7000 for 52-36T Black' },
+        { code: 'Y0RS98070', model: '52T-NH', tag: 'Chainring', spec: '105 · FC-R7100' },
+        { code: 'Y1W839000', model: '39T-MW', tag: 'Chainring', spec: 'Ultegra · FC-R8000 for 53-39T' }
+      ]
+    },
+    'Pulley': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'Y3J198010', model: 'RD-R8150', tag: 'Pulley set', spec: '' },
+        { code: 'Y3GK98010', model: 'RD-R9250', tag: 'Pulley set', spec: '' },
+        { code: 'Y3FW98010', model: 'RD-M8100', tag: 'Pulley set', spec: '' },
+        { code: 'Y3F398010', model: 'RD-R7000', tag: 'Pulley set', spec: '' },
+        { code: 'Y3FY98010', model: 'RD-M7100', tag: 'Pulley set', spec: '' },
+        { code: 'Y3HY98010', model: 'RD-R7150', tag: 'Pulley set', spec: '' },
+        { code: 'Y3JE98010', model: 'RD-U8020', tag: 'Pulley set', spec: '' },
+        { code: 'Y5ZR98010', model: 'RD-R9100', tag: 'Pulley set', spec: '' },
+        { code: 'Y5YE98090', model: 'RD-5800', tag: 'Pulley set', spec: '' },
+        { code: 'Y3E998010', model: 'RD-R8000', tag: 'Pulley set', spec: '' }
+      ]
+    },
+    'Switch': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'ISWR9160', model: 'SW-R9160', tag: 'Shift Switch R & L Di2', spec: 'for TT-Handle' },
+        { code: 'ISWRS801S', model: 'SW-RS801', tag: 'Shift Switch Set', spec: '(100mm)' },
+        { code: 'ISWR9150', model: 'SW-R9150', tag: 'Shift Switch R & L', spec: '' },
+        { code: 'ISWRS801T', model: 'SW-RS801', tag: 'Shift Switch Set', spec: '(260mm)' },
+        { code: 'ISWR610', model: 'SW-R610', tag: 'Shift Switch Set', spec: 'Sprint for 9070/6870' },
+        { code: 'ISWRS801E', model: 'SW-RS801', tag: 'Shift Switch Set', spec: '(740mm)' },
+        { code: 'ISWM8250RB', model: 'SW-M8250-R', tag: 'Shift Switch Right', spec: 'Deore XT' },
+        { code: 'ISWM8250IRB', model: 'SW-M8250-IR', tag: 'Shift Switch Right', spec: 'Deore XT' },
+        { code: 'ISWM6250IRA', model: 'SW-M6250-IR', tag: 'Shift Switch Right', spec: 'Deore' },
+        { code: 'ISWE7000L400', model: 'SW-E7000-L', tag: 'Switch Left E-Bike', spec: 'Fitted Type (400mm)' }
+      ]
+    },
+    'Shifters': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'ESLU600010RAP', model: 'SL-U6000-10R', tag: 'Shift Lever Right 10-speed', spec: 'Cues Black' },
+        { code: 'ESLM3158RA', model: 'SL-M315-8R', tag: 'Shift Lever Right 8-speed', spec: '' },
+        { code: 'ESLR2000DPA', model: 'SL-R2000', tag: 'Shift Lever Set 2x8-speed', spec: 'Claris' },
+        { code: 'ESLU40009RAP', model: 'SL-U4000-9R', tag: 'Shift Lever Rear 9-speed', spec: '' },
+        { code: 'ESLM3152LB', model: 'SL-M315-2L', tag: 'Shift Lever Left 2-speed', spec: '' },
+        { code: 'ESLR3000LB', model: 'SL-R3000', tag: 'Shift Lever Left 2-speed', spec: 'Sora' },
+        { code: 'ESLU40509RAP', model: 'SL-U4050-9R', tag: 'Shift Lever Right 9-speed', spec: 'Cues Black' },
+        { code: 'ESLR3000RA', model: 'SL-R3000', tag: 'Shift Lever Right 9-speed', spec: 'Sora' },
+        { code: 'ESLRV4008RA', model: 'SL-RV400-8R', tag: 'Shift Lever Right 8-speed', spec: '' },
+        { code: 'ESLM3100RA', model: 'SL-M3100-R', tag: 'Shift Lever Right 9-speed', spec: '' }
+      ]
+    },
+    'Freewheel': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'EMFTZ5007428', model: 'MF-TZ500', tag: 'Freewheel 7-speed', spec: '14-16-18-20-22-24-34T' },
+        { code: 'EMFTZ5006428', model: 'MF-TZ510', tag: 'Freewheel 6-speed', spec: '14-16-18-21-24-28T' },
+        { code: 'EMFTZ5107428', model: 'MF-TZ500', tag: 'Freewheel 7-speed', spec: '14-16-18-20-22-24-28T' },
+        { code: 'EMFTZ5106428', model: 'MF-TZ510', tag: 'Freewheel 7-speed', spec: '14-16-18-20-22-24-34T' },
+        { code: 'EMFTZ5107434', model: 'MF-TZ510', tag: 'Freewheel 7-speed', spec: '14-16-18-20-22-24-28T' }
+      ]
     }
   };
 
