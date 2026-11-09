@@ -38793,7 +38793,16 @@ function getFiltered() {
     if (currentCat !== 'all') items = items.filter(i => i.cat === currentCat);
     if (currentStatus !== 'all') items = items.filter(i => i.status === currentStatus);
   }
-  if (sortCol) {
+  if (sortCol === 'price') {
+    // Price (dealer net EUR); items without a price always go last
+    const pr = i => { try { const p = window.ShimanoPricing && window.ShimanoPricing.info(i.code, i.status); return p ? p.net : null; } catch(e) { return null; } };
+    items = items.map(i => ({ i, p: pr(i) })).sort((a, b) => {
+      if (a.p === null && b.p === null) return 0;
+      if (a.p === null) return 1;
+      if (b.p === null) return -1;
+      return (a.p - b.p) * sortDir;
+    }).map(x => x.i);
+  } else if (sortCol) {
     items = [...items].sort((a,b) => {
       let va = a[sortCol]||'', vb = b[sortCol]||'';
       return va.localeCompare(vb) * sortDir;
@@ -38808,9 +38817,11 @@ function badgeHtml(status, etd) {
   return '<span class="badge unavail"><span class="badge-dot"></span>N/A</span>';
 }
 
+window.PRICE_SORT = true;
 function sortBy(col) {
   if (sortCol === col) sortDir *= -1;
-  else { sortCol = col; sortDir = 1; }
+  else { sortCol = col; sortDir = (col === 'price') ? -1 : 1; }  // price: first click = high → low
+  currentPage = 1;
   render();
 }
 
@@ -40164,7 +40175,7 @@ document.addEventListener('click', e => {
 })();
 </script>
 <script src="prices-data.js"></script>
-<script src="pricing.js?v=20261013f"></script>
+<script src="pricing.js?v=20261109a"></script>
 <script src="order-export.js?v=20261013f"></script>
 <script src="shared-cart.js"></script>
 <script src="top-picks.js?v=20261109e"></script>

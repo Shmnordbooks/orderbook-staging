@@ -215,6 +215,13 @@
     th.className = 'pp-th';
     th.textContent = 'Price (EUR)';
     th.style.textAlign = 'right';
+    if (window.PRICE_SORT && typeof window.sortBy === 'function') {
+      var on = (typeof sortCol !== 'undefined' && sortCol === 'price');
+      th.innerHTML = 'Price (EUR) <span class="sort-arrow' + (on ? ' active' : '') + '">' + (!on ? '↕' : (sortDir === 1 ? '↑' : '↓')) + '</span>';
+      th.style.cursor = 'pointer';
+      th.title = 'Sort by price';
+      th.addEventListener('click', function () { window.sortBy('price'); });
+    }
     hr.insertBefore(th, ths[ths.length - 1]);
   }
 
