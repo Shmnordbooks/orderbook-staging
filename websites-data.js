@@ -10,6 +10,20 @@
    ═══════════════════════════════════════════════════════════════ */
 const SHIMANO_WEBSITES = [
   {
+    group: "Training - Online Training",
+    blurb: "Online product and technical training for your workshop and sales team.",
+    color: "#22c55e",
+    items: [
+      {
+        title: "Shimano Tec - Online Training",
+        desc: "Shimano's online training site for workshop and sales staff. Open it to browse and take the available courses.",
+        url: "https://www.shimano-tec.com/",
+        host: "shimano-tec.com",
+        tag: "TRAINING"
+      }
+    ]
+  },
+  {
     group: "Technical documents & service",
     blurb: "Manuals, parts diagrams, error codes and compatibility — the pages a workshop uses every day.",
     color: "#0ea5e9",
