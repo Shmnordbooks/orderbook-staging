@@ -309,6 +309,22 @@
         { code: '11A00527', model: 'Road Ride Armor II FBlk', tag: 'Tire', spec: '28-622/700x28c TLR G2' },
         { code: '11A00563', model: 'Pista Oro Tan/Blk/Blk', tag: 'Tire', spec: '23x28" Tubular TPU G2' }
       ]
+    },
+    'Spare Parts': {
+      title: 'Top Picks',
+      sub: 'Best sellers · 2026',
+      picks: [
+        { code: 'Y8JA98020', model: 'SM-BH90', tag: 'Olive + connecting insert', spec: '1 pc · brake hose' },
+        { code: 'Y8H298040', model: 'SM-BH59', tag: 'Olive + connecting insert', spec: '1 pc · brake hose' },
+        { code: 'ISMCN91012A', model: 'SM-CN910-12', tag: 'Chain quick link', spec: '12-speed · 2 pcs · CN-M9100' },
+        { code: 'Y8K198010', model: 'SM-RT81', tag: 'Lock ring + washer', spec: 'Center Lock rotor' },
+        { code: 'Y0MX98010', model: 'ST-R9270', tag: 'Bracket cover pair', spec: 'Dura-Ace' },
+        { code: 'Y8JA98026', model: 'SM-BH90', tag: 'Connecting insert', spec: '100 pcs' },
+        { code: 'Y0DK98010', model: 'ST-R8000', tag: 'Bracket cover pair', spec: 'Ultegra' },
+        { code: 'Y0CA98010', model: 'ST-R9170', tag: 'Bracket cover pair', spec: 'Dura-Ace' },
+        { code: 'Y0RM98010', model: 'ST-R7170', tag: 'Bracket cover pair', spec: '105 Di2' },
+        { code: 'Y0F398010', model: 'ST-R7020', tag: 'Bracket cover pair', spec: '105' }
+      ]
     }
   };
 
