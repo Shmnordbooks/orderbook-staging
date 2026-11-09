@@ -524,7 +524,8 @@
     margin:-8px 0 18px 0;
     box-shadow:0 10px 30px -14px rgba(0,0,0,.6);
   }
-  .cg-video video{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+  .cg-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+  .cg-video video.cv-off{opacity:0;pointer-events:none}
   .cg-video::after{content:"";position:absolute;inset:0;pointer-events:none;
     box-shadow:inset 0 0 0 1px rgba(125,220,255,.18);border-radius:inherit}
   @media(max-width:900px){ .cg-video{height:120px;margin:-4px 0 14px 0;border-radius:8px} }
@@ -2448,6 +2449,7 @@ html.light .sidebar a:hover {
       </div>
       <div class="cg-video" id="categoryVideo" style="display:none">
         <video id="categoryVideoEl" muted loop playsinline preload="none"></video>
+        <video id="categoryVideoEl2" class="cv-off" muted playsinline preload="none"></video>
       </div>
       <div class="results-info" id="resultsInfo"></div>
       <div id="tableContainer"></div>
@@ -38543,7 +38545,7 @@ function updateCategoryBanner() {
   var vid = document.getElementById('categoryVideoEl');
   if (currentCat === 'all' || searchQuery) {
     banner.style.display = 'none';
-    if (vbox) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} }
+    if (vbox) { vbox.style.display = 'none'; try { vbox.querySelectorAll('video').forEach(function(v){ v.pause(); }); } catch(e){} }
     return;
   }
   var label = CATEGORY_LABELS[currentCat] || currentCat;
@@ -38553,26 +38555,46 @@ function updateCategoryBanner() {
   // One clip loops; several clips play one after another and cycle.
   if (vbox && vid) {
     var cv = window.CATEGORY_VIDEOS && window.CATEGORY_VIDEOS[currentCat];
-    if (!cv) { vbox.style.display = 'none'; try { vid.pause(); } catch(e){} vid.removeAttribute('data-cat'); return; }
+    if (!cv) { vbox.style.display = 'none'; try { vbox.querySelectorAll('video').forEach(function(v){ v.pause(); }); } catch(e){} vid.removeAttribute('data-cat'); return; }
     if (vid.getAttribute('data-cat') !== currentCat) {
       vid.setAttribute('data-cat', currentCat);
       var clips = cv.clips;
       var idx = 0;
-      vid.loop = clips.length === 1;
-      vid.onended = null;
-      function loadClip() {
-        vid.style.objectPosition = clips[idx].pos || cv.pos || '50% 30%';
-        vid.poster = clips[idx].poster || '';
-        vid.src = clips[idx].src;
-        var p2 = vid.play(); if (p2 && p2.catch) p2.catch(function(){});
+      var vid2 = document.getElementById('categoryVideoEl2');
+      var cur = vid, nxt = vid2;
+      function setup(el, i) {
+        el.style.objectPosition = clips[i].pos || cv.pos || '50% 30%';
+        el.poster = clips[i].poster || '';
+        el.src = clips[i].src;
       }
-      if (clips.length > 1) vid.onended = function(){ idx = (idx + 1) % clips.length; loadClip(); };
-      vid.style.objectPosition = clips[0].pos || cv.pos || '50% 30%';
-      vid.poster = clips[0].poster || '';
-      vid.src = clips[0].src;
+      // Several clips: the next one is preloaded in the hidden second <video> and swapped in
+      // the moment the current one ends, so no poster/black frame shows between clips.
+      var multi = clips.length > 1 && !!vid2;
+      vid.onended = null;
+      if (vid2) { vid2.onended = null; vid2.pause(); vid2.removeAttribute('src'); vid2.load(); vid2.classList.add('cv-off'); }
+      vid.classList.remove('cv-off');
+      vid.loop = !multi;
+      setup(vid, 0);
+      if (multi) {
+        var arm = function () {
+          var ni = (idx + 1) % clips.length, mine = cur, other = nxt;
+          setup(other, ni); other.preload = 'auto'; other.load();
+          mine.onended = function () {
+            mine.onended = null;
+            var show = function () {
+              other.classList.remove('cv-off'); mine.classList.add('cv-off');
+              idx = ni; cur = other; nxt = mine; arm();
+            };
+            other.addEventListener('playing', show, { once: true });
+            var pp = other.play(); if (pp && pp.catch) pp.catch(function(){});
+          };
+        };
+        arm();
+      }
     }
     vbox.style.display = '';
-    var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
+    var act = vbox.querySelector('video:not(.cv-off)') || vid;
+    var pr = act.play(); if (pr && pr.catch) pr.catch(function(){});
   }
 }
 window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
@@ -38602,7 +38624,10 @@ window.CATEGORY_VIDEOS = window.CATEGORY_VIDEOS || {
   'STI Shifters Sets': { pos:'50% 46%', clips:[
     { src:'banner-sti-sets-1.mp4', poster:'banner-sti-sets-1-poster.jpg', pos:'50% 46%' }
   ] },
-  'Rotors': { pos:'50% 50%', clips:[{ src:'banner-rotors-1.mp4', poster:'banner-rotors-1-poster.jpg', pos:'50% 50%' }] },
+  'Rotors': { pos:'50% 50%', clips:[
+    { src:'banner-rotors-1.mp4', poster:'banner-rotors-1-poster.jpg', pos:'50% 50%' },
+    { src:'banner-rotors-2.mp4', poster:'banner-rotors-2-poster.jpg', pos:'50% 50%' }
+  ] },
   'HUBS': { pos:'50% 50%', clips:[
     { src:'banner-hubs-1.mp4', poster:'banner-hubs-1-poster.jpg', pos:'50% 50%' },
     { src:'banner-hubs-2.mp4', poster:'banner-hubs-2-poster.jpg', pos:'50% 52%' }
