@@ -435,6 +435,11 @@
     '.tp-model.tp-ph::after{content:"";display:inline-block;width:13px;height:13px;margin-left:5px;vertical-align:-1px;opacity:.85;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%230082CA%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z%27/%3E%3Ccircle cx=%2712%27 cy=%2713%27 r=%274%27/%3E%3C/svg%3E") center/contain no-repeat}' +
     '.tp-model.tp-ph:hover::after{opacity:1}' +
     '.tp-code{font-size:10px;color:var(--text3,#6b7280);letter-spacing:.04em}' +
+    '.tp-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px;line-height:1.1}' +
+    '.tp-net{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:700;font-size:15px;color:var(--text,#fff)}' +
+    '.tp-net.tp-deal{color:#22c55e}' +
+    '.tp-old{font-size:11px;color:var(--text3,#6b7280);text-decoration:line-through}' +
+    '.tp-srp{font-size:10px;color:var(--text3,#6b7280);letter-spacing:.03em}' +
     '.tp-spec{font-size:11px;line-height:1.3;color:var(--text2,#9aa);min-height:28px}' +
     '.tp-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:3px}' +
     '.tp-st{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}' +
@@ -478,6 +483,18 @@
     if (typeof allItems === 'undefined') return null;
     for (var i = 0; i < allItems.length; i++) if (allItems[i].code === code) return allItems[i];
     return null;
+  }
+
+  function priceHTML(it) {
+    try {
+      var P = window.ShimanoPricing, p = P && P.info(it.code, it.status);
+      if (!p) return '';
+      var h = '<div class="tp-price">';
+      if (p.campaign) h += '<span class="tp-old">' + P.eur(p.list) + '</span><span class="tp-net tp-deal">' + P.eur(p.net) + '</span>';
+      else h += '<span class="tp-net">' + P.eur(p.list) + '</span>';
+      if (p.srp) h += '<span class="tp-srp">SRP ' + P.eur(p.srp) + '</span>';
+      return h + '</div>';
+    } catch (e) { return ''; }
   }
 
   function stBadge(it) {
@@ -550,7 +567,7 @@
           '<div class="tp-tag">' + esc(p.tag) + '</div>' +
           '<div class="tp-model' + (hasPhoto(it.code) ? ' tp-ph' : '') + '" data-code="' + esc(it.code) + '">' + esc(p.model || it.desc2 || it.desc1) + '</div>' +
           '<div class="tp-spec">' + esc(p.spec || it.desc1) + '</div>' +
-          '<div class="tp-code">' + esc(it.code) + '</div>' +
+          '<div class="tp-code">' + esc(it.code) + '</div>' + priceHTML(it) +
           '<div class="tp-foot">' + stBadge(it) +
             '<span class="tp-add"><input class="tp-qty" type="number" min="1" value="1" aria-label="Quantity">' +
             '<button class="tp-btn" type="button" data-code="' + esc(it.code) + '">Add</button></span>' +
