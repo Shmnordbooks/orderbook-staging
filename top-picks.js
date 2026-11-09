@@ -24,142 +24,144 @@
 
   var MIN_PICKS = 3;
 
-  /* Picks chosen from public best-seller rankings and reviews
-     (Galaxus, Bikable, eBay, buyer guides; checked 6 Nov 2026),
-     limited to items that exist in this catalog. */
+  /* Picks ranked by 2026 units (invoiced + open) from the TUG sales
+     report (9 Nov 2026), limited to items that exist in this catalog
+     and are available / ETD. Update yearly from a new report. */
   window.TOP_PICKS = window.TOP_PICKS || {
     'Bottom Bracket': {
       title: 'Top Picks',
-      sub: 'Most requested bottom brackets',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'ISMBBR60B',    model: 'SM-BBR60', tag: 'Road',            spec: 'Ultegra · BSA 68mm · Hollowtech II' },
-        { code: 'IBBR9100I',    model: 'BB-R9100', tag: 'Road',            spec: 'Dura-Ace · Italian 70mm' },
-        { code: 'EBBRS501B',    model: 'BB-RS501', tag: 'Road + MTB',      spec: 'BSA threaded · Hollowtech II' },
-        { code: 'EBBRS500PB',   model: 'BB-RS500', tag: 'Road',            spec: 'Press-fit · Hollowtech II' },
-        { code: 'IBBMT801B',    model: 'BB-MT801', tag: 'MTB',             spec: 'BSA 68/73mm · Hollowtech II' },
-        { code: 'EBBMT501B',    model: 'BB-MT501', tag: 'MTB',             spec: 'BSA 68/73mm · Hollowtech II' },
-        { code: 'EBBMT500PA',   model: 'BB-MT500', tag: 'MTB',             spec: 'Press-fit · Hollowtech II' },
-        { code: 'ISMBB93B',     model: 'SM-BB93',  tag: 'MTB · XTR',       spec: 'BSA 68mm · Hollowtech II' },
-        { code: 'EBBUN300B23X', model: 'BB-UN300', tag: 'City / Trekking', spec: 'BSA 122.5/68mm · Square taper' },
-        { code: 'EBBES300B13',  model: 'BB-ES300', tag: 'Octalink',        spec: 'BSA 68/113mm · Octalink' }
+        { code: 'ISMBB9241B', model: 'SM-BB92', tag: 'Bottom bracket', spec: 'PrFit 86.5mm · Road' },
+        { code: 'ISMBB7241B', model: 'SM-BB72', tag: 'Bottom bracket', spec: 'PrFit 86.5mm · Road' },
+        { code: 'ISMBBR60B', model: 'SM-BBR60', tag: 'Road', spec: 'Ultegra · BSA 68mm · Hollowtech II' },
+        { code: 'IBBR9100B', model: 'BB-R9100', tag: 'Bottom bracket', spec: 'BSA' },
+        { code: 'EBBRS501B', model: 'BB-RS501', tag: 'Road + MTB', spec: 'BSA threaded · Hollowtech II' },
+        { code: 'ISMBB7141B', model: 'SM-BB71', tag: 'Bottom bracket', spec: 'PrFit 86.5mm · Road' },
+        { code: 'IBBR9100I', model: 'BB-R9100', tag: 'Road', spec: 'Dura-Ace · Italian 70mm' },
+        { code: 'ISMBB93B', model: 'SM-BB93', tag: 'MTB · XTR', spec: 'BSA 68mm · Hollowtech II' },
+        { code: 'EBBUN300C18X', model: 'BB-UN300', tag: 'Bottom bracket', spec: 'BSA 118/73mm · Square' },
+        { code: 'EBBRS500PB', model: 'BB-RS500', tag: 'Road', spec: 'Press-fit · Hollowtech II' }
       ]
     },
     'Chain': {
       title: 'Top Picks',
-      sub: 'Most requested chains',
+      sub: 'Best sellers · 2026',
       picks: [
         { code: 'ICNM8100126Q', model: 'CN-M8100', tag: 'MTB · Deore XT', spec: '12-speed · 126 links · Quick Link' },
-        { code: 'ICNM6100126Q', model: 'CN-M6100', tag: 'MTB · Deore', spec: '12-speed · 126 links · Quick Link' },
-        { code: 'ICNHG60111116Q', model: 'CN-HG601', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
-        { code: 'ICNHG70111116Q', model: 'CN-HG701', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
-        { code: 'ICNLG500116Q', model: 'CN-LG500', tag: 'Linkglide', spec: '9/10/11-speed · 116 links · Quick Link' },
-        { code: 'ICNHG95116I', model: 'CN-HG95', tag: '10-speed', spec: '10-speed · 116 links' },
-        { code: 'ICNHG54116I', model: 'CN-HG54', tag: '10-speed', spec: '10-speed · 116 links' },
-        { code: 'ECNHG53C116I', model: 'CN-HG53', tag: '9-speed', spec: '9-speed · 116 links' },
+        { code: 'ICNM9100126Q', model: 'CN-M9100', tag: 'Chain', spec: '126 Links · 11/12-speed' },
+        { code: 'ECNHG40116Q', model: 'CN-HG40', tag: 'Entry · 6/7/8-speed', spec: '6/7/8-speed · 116 links' },
         { code: 'ECNHG71C116I', model: 'CN-HG71', tag: '6/7/8-speed', spec: '6/7/8-speed · 116 links' },
-        { code: 'ECNHG40116Q', model: 'CN-HG40', tag: 'Entry · 6/7/8-speed', spec: '6/7/8-speed · 116 links' }
+        { code: 'ICNHG60111116Q', model: 'CN-HG601', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
+        { code: 'ICNM7100126Q', model: 'CN-M7100', tag: 'Chain', spec: '126 Links · SLX 12-speed' },
+        { code: 'ICNHG70111116Q', model: 'CN-HG701', tag: 'Road + MTB', spec: '11-speed · 116 links · Quick Link' },
+        { code: 'ICNHG70111126Q', model: 'CN-HG701', tag: 'Chain', spec: '126 Links · 11-speed' },
+        { code: 'ICNHG90111116Q', model: 'CN-HG901', tag: 'Chain', spec: '116 Links · 11-speed' },
+        { code: 'ICNM6100126Q', model: 'CN-M6100', tag: 'MTB · Deore', spec: '12-speed · 126 links · Quick Link' }
       ]
     },
     'Cassettes': {
       title: 'Top Picks',
-      sub: 'Most requested cassettes',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'ICSHG70011134', model: 'CS-HG700', tag: 'Road · 105', spec: '11-speed · 11-34T' },
         { code: 'ICSR710112134', model: 'CS-R7101', tag: 'Road · 105', spec: '12-speed · 11-34T' },
+        { code: 'ICSR810112130', model: 'CS-R8101', tag: 'Cassette', spec: '12-speed 11-30T · Ultegra' },
         { code: 'ICSR810112134', model: 'CS-R8101', tag: 'Road · Ultegra', spec: '12-speed · 11-34T' },
-        { code: 'ICSHG8001111134', model: 'CS-HG800', tag: 'Road · Ultegra', spec: '11-speed · 11-34T' },
-        { code: 'ICSM7100045', model: 'CS-M7100', tag: 'MTB · SLX', spec: '12-speed · 10-45T · Hyperglide+' },
-        { code: 'ICSM8100051', model: 'CS-M8100', tag: 'MTB · Deore XT', spec: '12-speed · 10-51T · Hyperglide+' },
-        { code: 'ICSM510011142', model: 'CS-M5100', tag: 'MTB · Deore', spec: '11-speed · 11-42T' },
-        { code: 'ICSHG50010134', model: 'CS-HG500', tag: 'Road + MTB · Tiagra', spec: '10-speed · 11-34T' },
-        { code: 'ICSHG5010136', model: 'CS-HG50', tag: 'MTB · Deore', spec: '10-speed · 11-36T' },
-        { code: 'ICSHG4009134', model: 'CS-HG400', tag: '9-speed · Alivio', spec: '9-speed · 11-34T' }
+        { code: 'ICSR920012130', model: 'CS-R9200', tag: 'Cassette', spec: '12-speed 11-30T · Dura-Ace' },
+        { code: 'ECSHG318134', model: 'CS-HG31', tag: 'Cassette', spec: '8-speed 11-34T · Altus' },
+        { code: 'ICSR700011132', model: 'CS-R7000', tag: 'Cassette', spec: '11-speed 11-32T · 105' },
+        { code: 'ICSHG508225', model: 'CS-HG50', tag: 'Cassette', spec: '8-speed 12-25T · Claris' },
+        { code: 'ICSR920012134', model: 'CS-R9200', tag: 'Cassette', spec: '12-speed 11-34T · Dura-Ace' },
+        { code: 'ICSR800011132', model: 'CS-R8000', tag: 'Cassette', spec: '11-speed 11-32T · Ultegra' },
+        { code: 'ICSR700011130', model: 'CS-R7000', tag: 'Cassette', spec: '11-speed 11-30T · 105' }
       ]
     },
     'Crankset': {
       title: 'Top Picks',
-      sub: 'Most requested cranksets',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'IFCR7100CX04', model: 'FC-R7100', tag: 'Road · 105', spec: '2x12 · 50/34T · 170mm' },
+        { code: 'IFCR8100AX26', model: 'FC-R8100', tag: 'Crankset', spec: '12-speed · 52/36T 165mm' },
+        { code: 'IFCR9200AX26', model: 'FC-R9200', tag: 'Crankset', spec: '12-speed · 52/36T 165mm' },
         { code: 'IFCR8100CX26', model: 'FC-R8100', tag: 'Road · Ultegra', spec: '2x12 · 52/36T · 170mm' },
-        { code: 'EFCRS510DX66X', model: 'FC-RS510', tag: 'Road · 105', spec: '2x11 · 46/36T · 172.5mm' },
-        { code: 'EFCRS520CX04', model: 'FC-RS520', tag: 'Road', spec: '2x12 · 50/34T · 170mm' },
-        { code: 'EFCRX600112CX60', model: 'FC-RX600', tag: 'Gravel · GRX', spec: '2x11 · 46/30T · 170mm' },
-        { code: 'EFCM61001EXA2', model: 'FC-M6100-1', tag: 'MTB · Deore', spec: '1x12 · 32T · 175mm' },
-        { code: 'EFCMT5101CXA2L', model: 'FC-MT510-1', tag: 'MTB · Deore', spec: '1x12 · 32T · 170mm' },
-        { code: 'EFCM51001CXA0', model: 'FC-M5100-1', tag: 'MTB · Deore', spec: '1x10/11 · 30T · 170mm' },
-        { code: 'EFCM371C422CL', model: 'FC-M371', tag: 'Trekking · Altus', spec: '9-speed · 44/32/22T · 170mm' },
-        { code: 'EFCM361C888CL', model: 'FC-M361', tag: 'Entry · Acera', spec: '8-speed · 48/38/28T · 170mm' }
+        { code: 'EFCTY5012C60XLB', model: 'FC-TY501-2', tag: 'Crankset', spec: '7/8-speed · 46/30T 170mm' },
+        { code: 'IFCR7100AX26', model: 'FC-R7100', tag: 'Crankset', spec: '12-speed Black · 52/36T 165mm' },
+        { code: 'EFCR2000CX04X', model: 'FC-R2000', tag: 'Crankset', spec: '8-speed · 50/34T 170mm' },
+        { code: 'IFCR9200PAXXF', model: 'FC-R9200', tag: 'Crankset', spec: '12-speed · 165mm w/o CR' },
+        { code: 'IFCR7100CX04', model: 'FC-R7100', tag: 'Road · 105', spec: '2x12 · 50/34T · 170mm' },
+        { code: 'IFCR9200CX40', model: 'FC-R9200', tag: 'Crankset', spec: '12-speed · 54/40T 170mm' },
+        { code: 'IFCR9200MX40', model: 'FC-R9200', tag: 'Crankset', spec: '12-speed · 54/40T 160mm w/o CG' }
       ]
     },
     'Rotors': {
       title: 'Top Picks',
-      sub: 'Most requested rotors',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'ESMRT64SI3C', model: 'SM-RT64 · 160mm', tag: 'MTB · Deore', spec: 'Center Lock · internal lockring' },
-        { code: 'ESMRT64MI3C', model: 'SM-RT64 · 180mm', tag: 'MTB · Deore', spec: 'Center Lock · internal lockring' },
-        { code: 'ESMRT64SEC', model: 'SM-RT64 · 160mm', tag: 'MTB · Deore', spec: 'Center Lock · external lockring' },
-        { code: 'ESMRT10S2', model: 'SM-RT10 · 160mm', tag: 'Entry', spec: 'Center Lock · with lockring' },
-        { code: 'ESMRT86S2', model: 'SM-RT86 · 160mm', tag: 'MTB · XT', spec: '6-bolt' },
-        { code: 'ESMRT86M2', model: 'SM-RT86 · 180mm', tag: 'MTB · XT', spec: '6-bolt' },
+        { code: 'IRTCL900SI', model: 'RT-CL900 · 160mm', tag: 'Road', spec: 'Center Lock · internal lockring' },
         { code: 'IRTCL800SI', model: 'RT-CL800 · 160mm', tag: 'Gravel · GRX', spec: 'Center Lock · internal lockring' },
+        { code: 'IRTCL800SSI', model: 'RT-CL800', tag: 'Disc rotor', spec: '140mm Lock Int. · w/LRing' },
+        { code: 'IRTCL900SSI', model: 'RT-CL900', tag: 'Disc rotor', spec: '140mm Lock Int. · w/LRing' },
         { code: 'IRTCL800SE', model: 'RT-CL800 · 160mm', tag: 'Gravel · GRX', spec: 'Center Lock · external lockring' },
-        { code: 'IRTCL800MI', model: 'RT-CL800 · 180mm', tag: 'Gravel · GRX', spec: 'Center Lock · internal lockring' },
-        { code: 'IRTCL900SI', model: 'RT-CL900 · 160mm', tag: 'Road', spec: 'Center Lock · internal lockring' }
+        { code: 'IRTCL800SSE', model: 'RT-CL800', tag: 'Disc rotor', spec: '140mm Lock Ext. · w/LRing' },
+        { code: 'ESMRT66SP', model: 'SM-RT66', tag: 'Disc rotor', spec: '160mm 6-Bolt' },
+        { code: 'ESMRT64SSI3C', model: 'SM-RT64', tag: 'Disc rotor', spec: '140mm Lock Int. · w/LRing Black' },
+        { code: 'IRTCL900SE', model: 'RT-CL900', tag: 'Disc rotor', spec: '160mm Lock Ext. · w/LRing' },
+        { code: 'ESMRT64SEC', model: 'SM-RT64 · 160mm', tag: 'MTB · Deore', spec: 'Center Lock · external lockring' }
       ]
     },
     'DiscBreakPads': {
       title: 'Top Picks',
-      sub: 'Most requested disc brake pads',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'EBPB05SRXA', model: 'B05S', tag: 'Resin · MTB', spec: '1 pair · for BR-MT200 / MT400 / MT500' },
         { code: 'EBPL05ARFA', model: 'L05A', tag: 'Resin · Road', spec: '1 pair · 105 / Ultegra / Dura-Ace disc' },
-        { code: 'EBPD03SRXA', model: 'D03S', tag: 'Resin', spec: '1 pair' },
-        { code: 'EBPJ05ARFA', model: 'J05A', tag: 'Resin', spec: '1 pair' },
-        { code: 'EBPG05ARXA', model: 'G05A', tag: 'Resin', spec: '1 pair' },
-        { code: 'EBPH03ARFA', model: 'H03A', tag: 'Resin', spec: '1 pair' },
-        { code: 'IBPJ04CMFA', model: 'J04C', tag: 'Metal', spec: '1 pair · XTR / XT / SLX / Deore 2-piston' },
-        { code: 'IBPN04CMFA', model: 'N04C', tag: 'Metal', spec: '1 pair · XTR / XT / SLX 4-piston' },
+        { code: 'EBPB05SRXA', model: 'B05S', tag: 'Resin · MTB', spec: '1 pair · for BR-MT200 / MT400 / MT500' },
+        { code: 'EBPK05SRXA', model: 'K05S', tag: 'Resin pads', spec: '1 pair' },
         { code: 'IBPL04CMFA', model: 'L04C', tag: 'Metal', spec: '1 pair' },
-        { code: 'IBPG04SMXA', model: 'G04S', tag: 'Metal', spec: '1 pair' }
+        { code: 'EBPJ05ARFA', model: 'J05A', tag: 'Resin', spec: '1 pair' },
+        { code: 'EBPD03SRXA', model: 'D03S', tag: 'Resin', spec: '1 pair' },
+        { code: 'IBPK05TIRXA', model: 'K05T', tag: 'Resin pads', spec: '1 pair' },
+        { code: 'EBPG05SRXA', model: 'G05S', tag: 'Resin pads', spec: '1 pair' },
+        { code: 'IBPJ04CMFA', model: 'J04C', tag: 'Metal', spec: '1 pair · XTR / XT / SLX / Deore 2-piston' },
+        { code: 'IBPM05RXA', model: 'M05R', tag: 'Resin pads', spec: '1 pair' }
       ]
     },
     'Dreailleur': {
       title: 'Top Picks',
-      sub: 'Most requested rear derailleurs',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'IRDM8100GS', model: 'RD-M8100', tag: 'MTB · Deore XT', spec: '12-speed · GS' },
-        { code: 'IRDM5100SGS', model: 'RD-M5100', tag: 'MTB · Deore', spec: '11-speed · SGS' },
-        { code: 'ERDM3100SGS', model: 'RD-M3100', tag: 'MTB · Alivio', spec: '9-speed · SGS' },
-        { code: 'ERDM370SGSL', model: 'RD-M370', tag: 'MTB · Altus', spec: '9-speed · SGS' },
-        { code: 'ERDM310DL', model: 'RD-M310', tag: 'MTB · Altus', spec: '7/8-speed' },
         { code: 'ERDTY300D', model: 'RD-TY300', tag: 'Tourney', spec: '6/7-speed' },
-        { code: 'IRDR8000GS', model: 'RD-R8000', tag: 'Road · Ultegra', spec: '11-speed · GS' },
-        { code: 'IRDR7000GSL', model: 'RD-R7000', tag: 'Road · 105', spec: '11-speed · GS' },
-        { code: 'IRD4700GS', model: 'RD-4700', tag: 'Road · Tiagra', spec: '10-speed · GS' },
-        { code: 'ERDR2000GS', model: 'RD-R2000', tag: 'Road · Claris', spec: '8-speed · GS' }
+        { code: 'ERDM310DL', model: 'RD-M310', tag: 'MTB · Altus', spec: '7/8-speed' },
+        { code: 'ERDTX800SGSL', model: 'RD-TX800', tag: 'Rear derailleur', spec: '7/8-speed Black · Tourney TX' },
+        { code: 'ERDU4000GS', model: 'RD-U4000', tag: 'Rear derailleur', spec: '9-speed SGS · Cues' },
+        { code: 'ERDU6000GS', model: 'RD-U6000', tag: 'Rear derailleur', spec: '10/11-speed GS · Cues' },
+        { code: 'ERDM310DS', model: 'RD-M310', tag: 'Rear derailleur', spec: '7/8-speed Slvr SGS · Altus' },
+        { code: 'ERDR2000GS', model: 'RD-R2000', tag: 'Road · Claris', spec: '8-speed · GS' },
+        { code: 'IRDR9250F', model: 'RD-R9250', tag: 'Rear derailleur', spec: '12-speed Di2 · Dura-Ace' },
+        { code: 'IRDR7150E', model: 'RD-R7150', tag: 'Rear derailleur', spec: '12-speed Di2 · 105' },
+        { code: 'IRDR8150F', model: 'RD-R8150', tag: 'Rear derailleur', spec: '12-speed Di2 · Ultegra' }
       ]
     },
     'STI Shifters Sets': {
       title: 'Top Picks',
-      sub: 'Most requested shift / brake levers',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'ISTR7000DPAL', model: 'ST-R7000 · set', tag: 'Road · 105', spec: 'Left + right · 2x11-speed' },
-        { code: 'IST4700PAC2', model: 'ST-4700 · set', tag: 'Road · Tiagra', spec: 'Left + right · 2x10-speed' },
-        { code: 'ISTR8000RI', model: 'ST-R8000 · right', tag: 'Road · Ultegra', spec: 'Right lever · 11-speed' },
-        { code: 'ISTR7020RIL', model: 'ST-R7020 · right', tag: 'Road · 105', spec: 'Right lever · 11-speed' },
-        { code: 'ISTR7120RBI', model: 'ST-R7120 · right', tag: 'Road · 105', spec: 'Right lever · 12-speed' },
-        { code: 'ISTRX600RBI', model: 'ST-RX600 · right', tag: 'Gravel · GRX', spec: 'Right lever · 11-speed' },
-        { code: 'ISTR8020RI', model: 'ST-R8020 · right', tag: 'Road · Ultegra', spec: 'Right lever · 11-speed · disc' },
         { code: 'ESTEF5004PV8A3', model: 'ST-EF500 · set', tag: 'MTB / Trekking', spec: 'Left + right · 3x8-speed' },
-        { code: 'ESTEF5002RV8AL', model: 'ST-EF500 · right', tag: 'MTB / Trekking', spec: 'Right lever · 8-speed' },
-        { code: 'ESTEF41R7AL', model: 'ST-EF41 · right', tag: 'Entry', spec: 'Right lever · 7-speed' }
+        { code: 'ISTR8170LF', model: 'ST-R8170', tag: 'STI lever · left', spec: '2-speed Di2 · Ultegra' },
+        { code: 'ESTR2000RIA', model: 'ST-R2000-R', tag: 'STI lever · right', spec: '8-speed · Claris' },
+        { code: 'ESTR2000LIA', model: 'ST-R2000-L', tag: 'STI lever · left', spec: '2-speed · Claris' },
+        { code: 'ESTEF41R7AL', model: 'ST-EF41 · right', tag: 'Entry', spec: 'Right lever · 7-speed' },
+        { code: 'ESTEF41LBL', model: 'ST-EF41-L', tag: 'STI lever · left', spec: '3-speed · EZ-Fire' },
+        { code: 'ISTR9180R', model: 'ST-R9180', tag: 'STI lever · right', spec: '11-speed Di2 · Dura-Ace TT' },
+        { code: 'ESTR3000RIA', model: 'ST-R3000', tag: 'STI lever · right', spec: '9-speed · Sora' },
+        { code: 'ESTR3000LIA', model: 'ST-R3000', tag: 'STI lever · left', spec: '2-speed · Sora' },
+        { code: 'ISTR9180L', model: 'ST-R9180', tag: 'STI lever · left', spec: '2-speed Di2 · Dura-Ace TT/Tri' }
       ]
     },
     'HUBS': {
       title: 'Top Picks',
-      sub: 'Most requested hubs',
+      sub: 'Best sellers and featured hubs',
       picks: [
+        { code: 'EFHQC300HMBZBP', model: 'FH-QC300-HM', tag: 'Rear hub', spec: '8/11-speed 135/32 Black · Disc Brake CL' },
+        { code: 'EHBQC300BALP', model: 'HB-QC300', tag: 'Front hub', spec: '100/32 Black · Disc Brake CL' },
         { code: 'EHBTC50015B', model: 'HB-TC500-15', tag: 'Front · Trekking / MTB', spec: 'Thru axle · Center Lock' },
         { code: 'EFHTC500HMB', model: 'FH-TC500-HM', tag: 'Rear · 8/11-speed', spec: 'Thru axle · Center Lock' },
         { code: 'EFHTC500HMBC', model: 'FH-TC500-HM-B', tag: 'Rear · 8/11-speed', spec: 'Thru axle · Center Lock' },
@@ -167,94 +169,92 @@
         { code: 'EHBM8110BX', model: 'HB-M8110', tag: 'Front · Deore XT', spec: 'Thru axle · Center Lock' },
         { code: 'EFHM8110B', model: 'FH-M8110', tag: 'Rear · Deore XT', spec: '12-speed · Center Lock' },
         { code: 'EFHM8110BB', model: 'FH-M8110-B', tag: 'Rear · Deore XT', spec: '12-speed · Center Lock' },
-        { code: 'EHBM5100B', model: 'HB-M5100', tag: 'Front · Deore', spec: 'Center Lock' },
-        { code: 'EFHM5100BZBL', model: 'FH-M5100', tag: 'Rear · Deore', spec: 'Center Lock' },
-        { code: 'EFHQC500MSBB41B', model: 'FH-QC500-MS-B', tag: 'Rear · 12-speed', spec: 'Center Lock' }
+        { code: 'EHBM5100B', model: 'HB-M5100', tag: 'Front · Deore', spec: 'Center Lock' }
       ]
     },
     'Wheels': {
       title: 'Top Picks',
-      sub: 'Most requested wheels',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'EWHRS171FED70B', model: 'WH-RS171 · front', tag: 'Road · disc', spec: 'Clincher · thru axle' },
-        { code: 'EWHRS171RED70B', model: 'WH-RS171 · rear', tag: 'Road · disc', spec: 'Clincher · thru axle' },
-        { code: 'EWHRS100FB', model: 'WH-RS100 · front', tag: 'Road · rim brake', spec: 'Clincher' },
-        { code: 'EWHRS100RCB', model: 'WH-RS100 · rear', tag: 'Road · rim brake', spec: 'Clincher' },
-        { code: 'EWHR501PCBY', model: 'WH-R501 · set', tag: 'Road · rim brake', spec: 'Clincher' },
-        { code: 'EWHRS370LFEDB', model: 'WH-RS370 · front', tag: 'Road · disc', spec: 'Tubeless · thru axle' },
-        { code: 'EWHRS370LREDB', model: 'WH-RS370 · rear', tag: 'Road · disc', spec: 'Tubeless · thru axle' },
-        { code: 'EWHRX570LFERED70', model: 'WH-RX570 · set', tag: 'Gravel · GRX', spec: '700C · tubeless' },
-        { code: 'EWHMT500RD9C', model: 'WH-MT500 · rear', tag: 'MTB', spec: 'Clincher' },
-        { code: 'EWHMT500R12D9', model: 'WH-MT500 · rear', tag: 'MTB', spec: 'Clincher · 12-speed' }
+        { code: 'EWHRS370LREDB', model: 'WH-RS370 · rear', tag: 'Wheel', spec: 'Tubeless Disc Brake E-thru' },
+        { code: 'EWHRS370LFEDB', model: 'WH-RS370 · front', tag: 'Wheel', spec: 'Tubeless Disc Brake E-thru' },
+        { code: 'EWHRS100RCB', model: 'WH-RS100 · rear', tag: 'Wheel', spec: 'Clincher Rim Brake QR' },
+        { code: 'EWHRS100FB', model: 'WH-RS100 · front', tag: 'Wheel', spec: 'Clincher Rim Brake QR' },
+        { code: 'EWHR9270C60LREDX', model: 'WH-R9270-C60 · rear', tag: 'Wheel', spec: 'Carbon Tubeless Disc brake E-thru' },
+        { code: 'EWHR9270C60LFEDX', model: 'WH-R9270-C60 · front', tag: 'Wheel', spec: 'Carbon Tubeless Disc brake E-thru' },
+        { code: 'EWHR8170C60LRED', model: 'WH-R8170-C60 · rear', tag: 'Wheel', spec: 'Tubeless Disc Brake E-thru' },
+        { code: 'EWHR8170C60LFED', model: 'WH-R8170-C60 · front', tag: 'Wheel', spec: 'Tubeless Disc Brake E-thru' },
+        { code: 'EWHR9270C50LREDX', model: 'WH-R9270-C50 · rear', tag: 'Wheel', spec: 'Carbon Tubeless Disc brake E-thru' },
+        { code: 'EWHR9270C50LFEDX', model: 'WH-R9270-C50 · front', tag: 'Wheel', spec: 'Carbon Tubeless Disc brake E-thru' }
       ]
     },
     'Cables': {
       title: 'Top Picks',
-      sub: 'Most requested cables, housing and hoses',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'IOTSP41SET04', model: 'SP-41 · road set', tag: 'Shift cable set', spec: 'Stainless' },
-        { code: 'IOTSP41SET03', model: 'SP-41 · MTB set', tag: 'Shift cable set', spec: 'Stainless' },
-        { code: 'IOTSP41SET02', model: 'SP-41 · MTB set', tag: 'Shift cable set', spec: 'Polymer coated' },
-        { code: 'IOTRS900SET01', model: 'OT-RS900 · road set', tag: 'Shift cable set', spec: 'Polymer coated' },
-        { code: 'IBC9000SET01', model: 'BC-9000 · road set', tag: 'Brake cable set', spec: 'Polymer coated' },
-        { code: 'IBCROADSET02', model: 'Road set', tag: 'Brake cable set', spec: 'Black' },
-        { code: 'Y80098561', model: 'Road inner cable', tag: 'Brake cable', spec: 'Box' },
-        { code: 'IOT41SP50ML', model: 'SP-41 outer', tag: 'Shift housing', spec: '50m' },
-        { code: 'ESMBH90SSL170', model: 'SM-BH90-SS', tag: 'Disc brake hose', spec: '1700mm' },
-        { code: 'ISMBH59SBL170', model: 'SM-BH59-SB', tag: 'Disc brake hose', spec: '1700mm' }
+        { code: 'ISMBH90JKSSL170', model: 'SM-BH90-JK-SSR', tag: 'Brake hose', spec: '1700mm Black' },
+        { code: 'Y63Z27000', model: 'ST-9000', tag: 'Cable cap', spec: 'w/ Short Nose' },
+        { code: 'ISMBH90JKSSL100', model: 'SM-BH90-JK-SSR', tag: 'Brake hose', spec: '1000mm Black' },
+        { code: 'ISMBH90SBL170', model: 'SM-BH90-SB', tag: 'Brake hose', spec: '1700mm Black' },
+        { code: 'ISMBH59SBL170', model: 'SM-BH59-SB', tag: 'Disc brake hose', spec: '1700mm' },
+        { code: 'ESMBH59JKL100', model: 'SM-BH59', tag: 'Brake hose', spec: '1000mm Black' },
+        { code: 'ISMBH90BOX01', model: 'SM-BH90', tag: 'Brake hose', spec: '30m · Black' },
+        { code: 'ISMBH90SBL100', model: 'SM-BH90-SB', tag: 'Brake hose', spec: '1000mm Black' },
+        { code: 'ISMBH90SBSL170', model: 'SM-BH90-SBS', tag: 'Brake hose', spec: '1700mm Black · ZEE' },
+        { code: 'ISMBH90SBLSL200', model: 'SM-BH90-SBLS', tag: 'Brake hose', spec: '2000mm Black · Saint' }
       ]
     },
     'Brake Sets': {
       title: 'Top Picks',
-      sub: 'Most requested disc brake sets',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'EMT201KRRXRA170', model: 'BR-MT200 · rear', tag: 'MTB · Altus', spec: 'Rear set' },
+        { code: 'ESMRTAD05', model: 'SM-RTAD05', tag: 'Rotor adapter', spec: 'for 6 Bolt Disc' },
         { code: 'EMT201KLFPRA100', model: 'BR-MT200 · front', tag: 'MTB · Altus', spec: 'Front set' },
-        { code: 'EMT4101JRRXRA170', model: 'BR-MT410 · rear', tag: 'MTB', spec: 'Rear set' },
-        { code: 'EMT4101JLFPRA100', model: 'BR-MT410 · front', tag: 'MTB', spec: 'Front set' },
-        { code: 'EM61001JRRXRA170', model: 'BR-M6100 · rear', tag: 'MTB · Deore', spec: 'Rear set' },
-        { code: 'IM7100JLFPRA100', model: 'BR-M7100 · front', tag: 'MTB · SLX', spec: 'Front set' },
-        { code: 'IM8100JLFPRA100', model: 'BR-M8100 · front', tag: 'MTB · Deore XT', spec: 'Front set' },
-        { code: 'EBRM6100MPRX', model: 'BR-M6100', tag: 'MTB · Deore', spec: 'Caliper only' },
-        { code: 'EBRMT410MPRXL', model: 'BR-MT410', tag: 'MTB', spec: 'Caliper only' },
-        { code: 'EBRM375MPRL', model: 'BR-M375', tag: 'Entry', spec: 'Caliper only' }
+        { code: 'EMT201KRRXRA170', model: 'BR-MT200 · rear', tag: 'MTB · Altus', spec: 'Rear set' },
+        { code: 'EBLMT200RL', model: 'BL-MT200', tag: 'Brake lever · right', spec: '3-fgr Black · Altus Disc Brake' },
+        { code: 'IR8170DRRDSC170F', model: 'BR-R8170 · rear', tag: 'Disc brake set', spec: 'ST-R8170 lever set' },
+        { code: 'IR8170DLF6SC100F', model: 'BR-R8170 · front', tag: 'Disc brake set', spec: 'ST-R8170 lever set' },
+        { code: 'IR7170DRRDSC170E', model: 'BR-7170 · rear', tag: 'Disc brake set', spec: 'ST-R7170 lever set' },
+        { code: 'IR7170DLF6SC100E', model: 'BR-7170 · front', tag: 'Disc brake set', spec: 'ST-R7170 lever set' },
+        { code: 'IR9270DRRDSC170F', model: 'BR-R9270 · rear', tag: 'Disc brake set', spec: 'ST-R9270 lever set' },
+        { code: 'EBLMT200LL', model: 'BL-MT200', tag: 'Brake lever · left', spec: '3-fgr Black · Altus Disc Brake' }
       ]
     },
     'Brake Shoes': {
       title: 'Top Picks',
-      sub: 'Featured brake shoes',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'Y8L298050', model: 'Dura-Ace', tag: 'Road', spec: 'BR-9000' },
-        { code: 'Y8LA98030', model: 'Ultegra', tag: 'Road', spec: 'BR-6800' },
-        { code: 'Y2J398010', model: 'Ultegra', tag: 'Road', spec: 'BR-R8100' },
-        { code: 'Y88T98020', model: '105', tag: 'Road', spec: 'BR-5800' },
-        { code: 'Y8ZJ98010', model: '105', tag: 'Road', spec: 'BR-R7000' },
-        { code: 'Y8LJ98010', model: '105', tag: 'Road', spec: 'BR-7010' },
-        { code: 'Y8MG98090', model: 'Tiagra', tag: 'Road', spec: 'BR-4700 · 5 pairs' },
-        { code: 'Y8JY98070', model: 'Tiagra', tag: 'Road', spec: 'BR-4600' },
-        { code: 'Y2J498010', model: 'Ultegra', tag: 'Road', spec: 'BR-R8110' },
-        { code: 'Y8BM9803A', model: 'Deore', tag: 'V-brake', spec: 'BR-MX70' }
+        { code: 'Y8BM9810A', model: 'BR-MX70', tag: 'Brake shoes', spec: 'M70T3 · Deore 1 pair' },
+        { code: 'Y8BM9803A', model: 'BR-MX70', tag: 'Brake shoes', spec: 'M70T4 · Deore 1 pair' },
+        { code: 'Y8PP98060', model: 'BR-R9100', tag: 'Brake Shoes R55C4 Carbon', spec: 'Dura-Ace 1 pair' },
+        { code: 'Y8L298070', model: 'BR-9000', tag: 'Brake Shoes R55C4 Carbon', spec: '/7900 Dura-Ace 1 pair' },
+        { code: 'Y8L298062', model: 'BR-9000', tag: 'Brake Shoes R55C4 Cart-t', spec: '/7900 Dura-Ace 2 pairs' },
+        { code: 'Y2J398010', model: 'BR-R8100', tag: 'Brake shoes', spec: 'R55C4 · Ultegra 1 pair' },
+        { code: 'Y88T98020', model: 'BR-5800', tag: 'Brake shoes', spec: 'Set R55C4 Cart-type · Black 105 1 pair' },
+        { code: 'Y8L298050', model: 'BR-9000', tag: 'Brake shoes', spec: 'Set R55C4 Cart-type · Dura-Ace 1 pair' },
+        { code: 'Y2J498010', model: 'BR-R8110', tag: 'Brake shoes', spec: 'R55C4 · Ultegra 1 pair' },
+        { code: 'Y8GP9810A', model: 'BR-M420', tag: 'Brake shoes', spec: 'S65T · 10 pairs' }
       ]
     },
     'DI2': {
       title: 'Top Picks',
-      sub: 'Most requested Di2 wires and junctions',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'IEWSD300L030', model: 'EW-SD300 · 300mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD300L050', model: 'EW-SD300 · 500mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD300L060', model: 'EW-SD300 · 600mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD300L080', model: 'EW-SD300 · 800mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD300L100', model: 'EW-SD300 · 1000mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWEC300A', model: 'EW-EC300', tag: 'Charging cable', spec: '1500mm' },
         { code: 'IEWSD300L120', model: 'EW-SD300 · 1200mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD50L50', model: 'EW-SD50 · 500mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWSD50L100', model: 'EW-SD50 · 1000mm', tag: 'Di2 wire', spec: 'External routing' },
-        { code: 'IEWJC304', model: 'EW-JC304', tag: 'Junction', spec: '4 ports' },
-        { code: 'IEWJC302', model: 'EW-JC302', tag: 'Junction', spec: '2 ports' }
+        { code: 'IEWSD300L140', model: 'EW-SD300', tag: 'Di2 wire', spec: '1400mm Black · External Routing' },
+        { code: 'IEWSD300L160', model: 'EW-SD300', tag: 'Di2 wire', spec: '1600mm Black · External Routing' },
+        { code: 'IEWSD300L100', model: 'EW-SD300 · 1000mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L090', model: 'EW-SD300', tag: 'Di2 wire', spec: '900mm Black · External Routing' },
+        { code: 'IEWSD300L080', model: 'EW-SD300 · 800mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWAD305', model: 'EW-AD305', tag: 'Adapter', spec: '' },
+        { code: 'IEWSD300L060', model: 'EW-SD300 · 600mm', tag: 'Di2 wire', spec: 'External routing' },
+        { code: 'IEWSD300L050', model: 'EW-SD300 · 500mm', tag: 'Di2 wire', spec: 'External routing' }
       ]
     },
     'Battery Charger': {
       title: 'Top Picks',
-      sub: 'Battery chargers',
+      sub: 'Best sellers · 2026',
       picks: [
         { code: 'ISMBCR2', model: 'SM-BCR2', tag: 'Charger', spec: 'For SM-BTR2' },
         { code: 'IECDN100A', model: 'EC-DN100', tag: 'Charger', spec: 'Di2 / STEPS' },
@@ -264,53 +264,52 @@
     },
     'SHIMANO TOOLS': {
       title: 'Top Picks',
-      sub: 'Most requested workshop tools',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'Y13098550', model: 'TL-CN34', tag: 'Pro chain tool', spec: '11-speed' },
-        { code: 'Y13098700', model: 'TL-CN29', tag: 'Chain tool', spec: '12-speed' },
-        { code: 'Y12160000', model: 'TL-CN42', tag: 'Chain wear indicator', spec: 'Quick check' },
-        { code: 'Y13009220', model: 'TL-FC16', tag: 'Crank arm tool', spec: 'Hollowtech II' },
-        { code: 'Y13009210', model: 'TL-FC32', tag: 'BB adapter tool', spec: 'Hollowtech II BB' },
-        { code: 'Y12009220', model: 'TL-LR10', tag: 'Lock ring tool', spec: 'Center Lock' },
-        { code: 'Y13009073', model: 'TL-UN74-S', tag: 'Cartridge BB tool', spec: 'Square taper BB' },
-        { code: 'Y13098730', model: 'TL-SR24', tag: 'Sprocket removal tool', spec: '10-12 speed' },
-        { code: 'Y13098570', model: 'TL-BH62', tag: 'Hose cut & set tool', spec: 'Disc brake hose' },
-        { code: 'Y13098630', model: 'TL-BR', tag: 'Disc brake bleed kit', spec: 'Professional' }
+        { code: 'Y12009230', model: 'TL-LR15', tag: 'Lock Ring Tool w/ Guide Pin', spec: 'for SM-RT96/RT77' },
+        { code: 'Y13098630', model: 'TL-BR', tag: 'Disc Brake Bleed Kit Prof', spec: '' },
+        { code: 'Y13098570', model: 'TL-BH62', tag: 'Disc Brake Hose Cut & Set Tool', spec: '' },
+        { code: 'Y6RT68000', model: 'Tool A', tag: 'E-Ring Removal Tool for ST', spec: '' },
+        { code: 'Y6RT66000', model: 'Tool B', tag: 'E-Ring Removal Tool for ST', spec: '' },
+        { code: 'Y46098630', model: 'TL-PD63', tag: 'Pedal Cone Adjusting Tool', spec: '' },
+        { code: 'Y40098020', model: 'TL-PD400', tag: 'Cone Adjusting Tool Set', spec: '' },
+        { code: 'Y25U15000', model: 'TL-LR20', tag: 'Lock Ring Tool', spec: 'for SM-RT80' },
+        { code: 'Y13000090', model: 'TL-BR002', tag: 'Funnel Unit', spec: 'for Shift Brake Lever' },
+        { code: 'Y0T498030', model: 'TL-LR21', tag: 'Lock Ring Tool', spec: '' }
       ]
     },
     'Parktool': {
       title: 'Top Picks',
-      sub: 'Featured ParkTool workshop essentials',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: 'PTCC32C', model: 'CC-3.2', tag: 'Chain checker', spec: 'Wear gauge' },
-        { code: 'PTCT33', model: 'CT-3.3', tag: 'Chain tool', spec: 'Workshop' },
-        { code: 'PT0MLP1', model: 'MLP-1.2', tag: 'Master link pliers', spec: 'Quick link' },
-        { code: 'PT101154', model: 'TL-5', tag: 'Tire levers', spec: 'Heavy duty steel' },
-        { code: 'PT100053', model: 'AWS-10', tag: 'Hex wrench set', spec: 'Fold-up' },
-        { code: 'PTFR52', model: 'FR-5.2', tag: 'Cassette lockring tool', spec: 'Shimano / SRAM' },
-        { code: 'PTSR182', model: 'SR-18.2', tag: 'Chain whip', spec: 'Sprocket remover' },
-        { code: 'PTBBT22', model: 'BBT-22', tag: 'BB tool', spec: '20 spline' },
-        { code: 'PTTW52', model: 'TW-5.2', tag: 'Torque wrench', spec: 'Ratcheting click-type' },
-        { code: 'PT100782', model: 'PW-4', tag: 'Pedal wrench', spec: 'Professional' }
+        { code: 'PT100523', model: 'GP-2C', tag: 'Super Patch Kit', spec: 'Pre-Glued' },
+        { code: 'PTRC1', model: 'RC-1', tag: 'Press Fit Retain Comp', spec: 'Bottle 100ml' },
+        { code: 'PTFR52GT', model: 'FR-5.2GT', tag: 'Cassette LockringTool', spec: 'with 12mm Guide Pin' },
+        { code: 'PT1960', model: '1960', tag: 'Replacement JawCovers', spec: 'Set of 2' },
+        { code: 'PT1586K', model: '1586K', tag: 'Head Seal Kit', spec: 'for INF Shop Inflators' },
+        { code: 'PTBKM12', model: 'BKM-1.2', tag: 'Hydraul BrakeBleedKit', spec: 'Mineral' },
+        { code: 'PTBCB42', model: 'BCB-4.2', tag: 'Bike Cleaning Set', spec: 'Brush' },
+        { code: 'PTTW52', model: 'TW-5.2', tag: 'Torque Wrench', spec: 'Ratcheting Click-Type' },
+        { code: 'PT100053', model: 'AWS-10', tag: 'Hex Wrench Set', spec: 'Fold-Up' },
+        { code: 'PT0MLP1', model: 'MLP-1.2', tag: 'Pliers', spec: 'Master Link' }
       ]
     },
     'Vittoria': {
       title: 'Top Picks',
-      sub: 'Featured Vittoria tires and tubes',
+      sub: 'Best sellers · 2026',
       picks: [
-        { code: '11A00400', model: 'Corsa N.EXT', tag: 'Road · 700x28c', spec: 'Folding · tubeless ready' },
-        { code: '11A01158', model: 'Corsa Pro', tag: 'Road · 700x28c', spec: 'Folding · tubeless ready' },
-        { code: '11A00600', model: 'Rubino V', tag: 'Road · 700x28c', spec: 'Folding' },
-        { code: '11A00590', model: 'Rubino V', tag: 'Road · 700x28c', spec: 'Tubeless ready' },
-        { code: '11A00937', model: 'Zaffiro Evo', tag: 'Road · 700x28c', spec: 'Folding' },
-        { code: '11A00806', model: 'Terreno T30', tag: 'Gravel · 700x40c', spec: 'Tubeless ready' },
-        { code: '11A00711', model: 'Mezcal XC Race', tag: 'MTB · 29x2.4', spec: 'Tubeless ready' },
-        { code: '11A00772', model: 'Barzo Trail', tag: 'MTB · 29x2.4', spec: 'Tubeless ready' },
-        { code: '1TA00010', model: 'Standard inner tube', tag: '700x20/28c', spec: 'Presta 48mm' },
-        { code: '1AA00541', model: 'Airliner Light Road', tag: 'Tire insert', spec: '700x28-30' }
+        { code: '1TA00012', model: '700x20/28c', tag: 'Standard inner tube', spec: 'Presta 80mm' },
+        { code: '1TA00011', model: '700x20/28c', tag: 'Standard inner tube', spec: 'Presta 60mm RVC' },
+        { code: '1TA00010', model: '700x20/28c', tag: 'Standard inner tube', spec: 'Presta 48mm RVC' },
+        { code: '1TA00038', model: '29x1.95/2.50', tag: 'Standard inner tube', spec: 'Presta 48mm' },
+        { code: '1TA00002', model: '700x25/28c', tag: 'Competition Latex inner tube', spec: 'Presta 48mm RVC' },
+        { code: '1TA00075', model: '700x28/42c', tag: 'Standard inner tube', spec: 'Presta 48mm RVC' },
+        { code: '1TA00032', model: '27.5x1.95/2.5', tag: 'Standard inner tube', spec: 'Presta 48mm' },
+        { code: '1TA00028', model: '26x1.95/2.50', tag: 'Standard inner tube', spec: 'Presta 48mm' },
+        { code: '1TA00018', model: '20x1.95/2.125', tag: 'Standard inner tube', spec: 'Presta 48mm' },
+        { code: '1AA00093', model: 'Valve Alloy Blk', tag: 'Tubeless valve', spec: '80mm (2pcs)' }
       ]
     }
-
   };
 
   var css =
