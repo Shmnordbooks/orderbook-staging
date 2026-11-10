@@ -177,7 +177,7 @@
     }
     var ob = orderBy(o);
     if (ob) html += '<span class="ev-by" title="Order in-stock items by this date to receive them before the event"><span class="ev-bl">ORDER </span>BY ' + ob.getDate() + ' ' + MONTHS[ob.getMonth()] + '</span>';
-    html += '</div><div class="ev-stock"><span class="ev-sl">ALSO</span>' +
+    html += '</div><div class="ev-stock">' +
       '<span class="ev-go pg" role="link" tabindex="0" data-href="shoes.html" title="Open the Shoes order book">SHOES →</span>' +
       '<span class="ev-go pg" role="link" tabindex="0" data-href="pedals.html" title="Open the Pedals order book">PEDALS →</span>' +
       '<span class="ev-go pg" role="link" tabindex="0" data-href="lazer.html" title="Open the Lazer helmets order book">HELMETS →</span>';
