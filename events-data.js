@@ -52,15 +52,16 @@ window.SHIMANO_EVENTS_UPDATED = "2026-10-26";
 /* ------------------------------------------------------------
    STOCK UP — which product groups to suggest for each event
    Group names must match the order book groups exactly:
-   Wheels, DI2, Chain, Cassettes, Rotors, DiscBreakPads, Cables,
+   Wheels, STI Shifters Sets, Chain, Cassettes, Rotors, DiscBreakPads, Cables,
    Crankset, Dreailleur, HUBS, Brake Sets, Bottom Bracket ...
    "byLabel" wins over "byType". Max 2 groups per event.
+   Every event also gets Shoes / Pedals / Helmets links (panel code).
    LEAD_DAYS = days dealers need to receive in-stock goods; the
    "ORDER BY" date on each card is event start minus this number.
    ------------------------------------------------------------ */
 window.SHIMANO_EVENTS_LEAD_DAYS = 21;
 window.SHIMANO_EVENT_STOCK = {
-  byType:  { pro: ['Chain', 'Cassettes'], triathlon: ['Wheels', 'DI2'], community: ['Chain', 'Cassettes'], local: ['Chain', 'Cassettes'] },
+  byType:  { pro: ['Chain', 'Cassettes'], triathlon: ['Wheels', 'STI Shifters Sets'], community: ['Chain', 'Cassettes'], local: ['Chain', 'Cassettes'] },
   byLabel: { 'MTB': ['Rotors', 'DiscBreakPads'], 'Mountain Ride': ['Rotors', 'DiscBreakPads'], 'Ultra Ride': ['Chain', 'DiscBreakPads'] }
 };
 
