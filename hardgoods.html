@@ -38732,6 +38732,19 @@ function setCatFilter(cat, btn) {
   render();
 }
 
+/* Deep link from the Upcoming Events panel: hardgoods.html?cat=Wheels opens that product group */
+window.addEventListener('load', function () {
+  try {
+    var want = new URLSearchParams(window.location.search).get('cat');
+    if (!want || !CATALOG[want]) return;
+    var label = CATEGORY_LABELS[want] || want;
+    var chip = Array.prototype.filter.call(document.querySelectorAll('#catFilters .cat-chip'), function (b) {
+      return b.dataset.pg === '1' && b.textContent.trim() === label;
+    })[0];
+    if (chip) setCatFilter(want, chip);
+  } catch (e) {}
+});
+
 function setStatusFilter(status) {
   if (activeGsKey !== null) {
     document.querySelector('.main').style.display = 'block';

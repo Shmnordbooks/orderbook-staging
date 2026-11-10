@@ -75,6 +75,11 @@
     '#evPanel .ev-tag.triathlon{color:#c49bff;background:rgba(150,90,255,.12);border:1px solid rgba(150,90,255,.35);}',
     '#evPanel .ev-tag.local{color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);}',
     '#evPanel .ev-tbc{font-size:8.5px;font-weight:700;letter-spacing:.12em;color:#ff9500;}',
+    '#evPanel .ev-stock{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px;margin-top:-3px;font-size:9.5px;font-weight:700;letter-spacing:.12em;white-space:nowrap;}',
+    '#evPanel .ev-stock .ev-sl{color:rgba(255,255,255,.4);}',
+    '#evPanel .ev-go{cursor:pointer;color:#00c896;border:1px solid rgba(0,200,150,.4);background:rgba(0,200,150,.08);border-radius:2px;padding:1px 5px;transition:background .15s,color .15s;}',
+    '#evPanel .ev-go:hover,#evPanel .ev-go:focus{background:#00c896;color:#04101f;outline:none;}',
+    '#evPanel .ev-by{margin-left:auto;color:#ff9f43;}',
     '#evPanel .ev-count{font-size:9.5px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.55);white-space:nowrap;}',
     '#evPanel .ev-count.live{color:#00c896;}',
     '#evPanel .ev-foot{display:flex;align-items:center;justify-content:space-between;padding:7px 14px 9px;',
@@ -120,7 +125,7 @@
     '#evModal.sent form,#evModal.sent .evm-intro{display:none;}',
     '#evModal.sent .evm-done{display:block;}',
     '@media (max-width:520px){#evModal form{grid-template-columns:1fr;}}',
-    '@media (max-width:1500px){#evPanel{right:24px;width:290px;}#evPanel .ev-name{font-size:14px;}}',
+    '@media (max-width:1500px){#evPanel{right:24px;width:290px;}#evPanel .ev-name{font-size:14px;}#evPanel .ev-stock .ev-sl,#evPanel .ev-stock .ev-bl{display:none;}#evPanel .ev-stock{gap:4px 5px;letter-spacing:.08em;}}',
     '@media (max-width:768px){#evPanel{left:16px;right:16px;width:auto;bottom:62px;}',
     '#evPanel a.ev-row:nth-child(n+2){display:none;}#evPanel .ev-foot{display:none;}#evPanel .ev-months{display:none;}}',
     '#evPanel.compact a.ev-row{padding:5px 14px;}#evPanel.compact .ev-head{padding:8px 14px 6px;}#evPanel.compact .ev-foot{padding:5px 14px 7px;}#evPanel.compact .ev-months{padding:5px 10px;}',
@@ -145,6 +150,33 @@
     if (d <= 120) return '<span class="ev-count">IN ' + d + ' DAYS</span>';
     return '<span class="ev-count">' + s.getFullYear() + '</span>';
   }
+  /* ---------- STOCK UP: suggested groups + order-by date ---------- */
+  var STOCK = window.SHIMANO_EVENT_STOCK || null;
+  var LEAD = +window.SHIMANO_EVENTS_LEAD_DAYS || 0;
+  var GROUP_NAMES = { 'DI2': 'DI2', 'HUBS': 'Hubs', 'Chain': 'Chains', 'Rotors': 'Rotors', 'Wheels': 'Wheels', 'Cables': 'Cables',
+    'Cassettes': 'Cassettes', 'Crankset': 'Cranksets', 'Dreailleur': 'Derailleurs', 'Brake Sets': 'Brake Sets', 'DiscBreakPads': 'Brake Pads', 'Bottom Bracket': 'Bottom Brackets' };
+  function stockGroups(e) {
+    if (!STOCK) return [];
+    var g = (STOCK.byLabel && STOCK.byLabel[e.label]) || (STOCK.byType && STOCK.byType[e.type]) || [];
+    return g.slice(0, 2);
+  }
+  function orderBy(o) {
+    if (!LEAD || o.e.tbc) return null;
+    var d = new Date(o.s.getFullYear(), o.s.getMonth(), o.s.getDate() - LEAD);
+    return d >= today ? d : null;                      /* too late for in-stock delivery: show nothing */
+  }
+  function stockLine(o) {
+    var groups = stockGroups(o.e);
+    if (!groups.length) return '';
+    var html = '<div class="ev-stock"><span class="ev-sl">STOCK UP</span>';
+    for (var i = 0; i < groups.length; i++) {
+      html += '<span class="ev-go" role="link" tabindex="0" data-cat="' + esc(groups[i]) + '" title="Open ' + esc(GROUP_NAMES[groups[i]] || groups[i]) + ' in the order book">' +
+        esc(up(GROUP_NAMES[groups[i]] || groups[i])) + ' →</span>';
+    }
+    var ob = orderBy(o);
+    if (ob) html += '<span class="ev-by" title="Order in-stock items by this date to receive them before the event"><span class="ev-bl">ORDER </span>BY ' + ob.getDate() + ' ' + MONTHS[ob.getMonth()] + '</span>';
+    return html + '</div>';
+  }
   function row(o) {
     var e = o.e;
     var type = ({ pro: 1, triathlon: 1, community: 1, local: 1 })[e.type] ? e.type : 'pro';
@@ -157,7 +189,7 @@
       '<div class="ev-side">' +
         (e.label ? '<span class="ev-tag ' + type + '">' + esc(up(e.label)) + '</span>' : '') +
         (e.tbc ? '<span class="ev-tbc">DATES TBC</span>' : countdown(o.s, o.en)) +
-      '</div></a>';
+      '</div>' + stockLine(o) + '</a>';
   }
 
   /* "UPDATED 14 OCT" label — from window.SHIMANO_EVENTS_UPDATED ("YYYY-MM-DD") */
@@ -266,6 +298,24 @@
     var dotEls = pagesEl.children;
     for (var j = 0; j < dotEls.length; j++) dotEls[j].className = 'ev-pg' + (j === page ? ' on' : '');
   }
+
+  /* STOCK UP chips live inside the event link: open the order book instead of the event page */
+  function goStock(t) {
+    var c = t.getAttribute('data-cat');
+    if (c) window.location.href = 'hardgoods.html?skip=true&cat=' + encodeURIComponent(c);
+  }
+  listEl.addEventListener('click', function (ev) {
+    var t = ev.target && ev.target.closest ? ev.target.closest('.ev-go') : null;
+    if (!t) return;
+    ev.preventDefault(); ev.stopPropagation();
+    goStock(t);
+  });
+  listEl.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Enter' && ev.key !== ' ') return;
+    var t = ev.target && ev.target.closest ? ev.target.closest('.ev-go') : null;
+    if (!t) return;
+    ev.preventDefault(); goStock(t);
+  });
 
   var paused = false;
   var timer = null;
