@@ -79,8 +79,6 @@
     '#evPanel .ev-stock .ev-sl{color:rgba(255,255,255,.4);}',
     '#evPanel .ev-go{cursor:pointer;color:#00c896;border:1px solid rgba(0,200,150,.4);background:rgba(0,200,150,.08);border-radius:2px;padding:1px 5px;transition:background .15s,color .15s;}',
     '#evPanel .ev-go:hover,#evPanel .ev-go:focus{background:#00c896;color:#04101f;outline:none;}',
-    '#evPanel .ev-go.pg{color:#4db4ff;border-color:rgba(0,130,202,.45);background:rgba(0,130,202,.1);}',
-    '#evPanel .ev-go.pg:hover,#evPanel .ev-go.pg:focus{background:#0082CA;color:#fff;}',
     '#evPanel .ev-by{margin-left:auto;color:#ff9f43;}',
     '#evPanel .ev-count{font-size:9.5px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.55);white-space:nowrap;}',
     '#evPanel .ev-count.live{color:#00c896;}',
@@ -155,7 +153,7 @@
   /* ---------- STOCK UP: suggested groups + order-by date ---------- */
   var STOCK = window.SHIMANO_EVENT_STOCK || null;
   var LEAD = +window.SHIMANO_EVENTS_LEAD_DAYS || 0;
-  var GROUP_NAMES = { 'DI2': 'DI2', 'STI Shifters Sets': 'STI Levers', 'HUBS': 'Hubs', 'Chain': 'Chains', 'Rotors': 'Rotors', 'Wheels': 'Wheels', 'Cables': 'Cables',
+  var GROUP_NAMES = { 'DI2': 'DI2', 'HUBS': 'Hubs', 'Chain': 'Chains', 'Rotors': 'Rotors', 'Wheels': 'Wheels', 'Cables': 'Cables',
     'Cassettes': 'Cassettes', 'Crankset': 'Cranksets', 'Dreailleur': 'Derailleurs', 'Brake Sets': 'Brake Sets', 'DiscBreakPads': 'Brake Pads', 'Bottom Bracket': 'Bottom Brackets' };
   function stockGroups(e) {
     if (!STOCK) return [];
@@ -177,10 +175,6 @@
     }
     var ob = orderBy(o);
     if (ob) html += '<span class="ev-by" title="Order in-stock items by this date to receive them before the event"><span class="ev-bl">ORDER </span>BY ' + ob.getDate() + ' ' + MONTHS[ob.getMonth()] + '</span>';
-    html += '</div><div class="ev-stock"><span class="ev-sl">ALSO</span>' +
-      '<span class="ev-go pg" role="link" tabindex="0" data-href="shoes.html" title="Open the Shoes order book">SHOES →</span>' +
-      '<span class="ev-go pg" role="link" tabindex="0" data-href="pedals.html" title="Open the Pedals order book">PEDALS →</span>' +
-      '<span class="ev-go pg" role="link" tabindex="0" data-href="lazer.html" title="Open the Lazer helmets order book">HELMETS →</span>';
     return html + '</div>';
   }
   function row(o) {
@@ -307,8 +301,6 @@
 
   /* STOCK UP chips live inside the event link: open the order book instead of the event page */
   function goStock(t) {
-    var h = t.getAttribute('data-href');
-    if (h) { window.location.href = h; return; }
     var c = t.getAttribute('data-cat');
     if (c) window.location.href = 'hardgoods.html?skip=true&cat=' + encodeURIComponent(c);
   }
