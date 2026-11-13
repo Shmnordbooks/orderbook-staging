@@ -826,9 +826,11 @@ html.light .sidebar a:hover {
    status: 'available' | 'etd' (etd = free text, e.g. "Early 2027") | 'request'
    Source: BFC offer 23.10.2026 + BFC product details sheet. */
 const BFC_IMG = 'https://bikefitting.com/storage/app/media/';
+const BFC_SHOP = 'https://www.shimanoshop-eu.com/Shop/Artikel_KenmerkOptie/';
 const BFC_DATA = [
   { group: 'SHOE CLEAT ADJUSTER', cat: 'STATIC', svc: 'Shoe Cleat Adjustment', page: 'shoe-cleat-adjustment',
     img: null,
+    shop: ["20251010_BFSHOECLEATADJNEW.jpg", "BFSHOECLEATADJNEW.JPG", "BFSHOECLEATADJNEW_04.JPG", "BFSHOECLEATADJNEW_07.JPG"],
     web: ['SCA/ShoeCleatAdjuster1.png', 'SCA/SCA_1.jpg', 'SCA/SCA_5.jpg', 'SCA/SCAdisplay_1.jpg'],
     software: false, license: false,
     manual: 'bikefitting/manuals/BFSHOECLEATADJNEW_Shoe_Cleat_Adjuster_Usage.pdf',
@@ -839,6 +841,7 @@ const BFC_DATA = [
 
   { group: 'SADDLE SELECTOR', cat: 'STATIC', svc: 'Saddle Selection', page: 'saddle-selection',
     img: 'images/bikefitting/BFSS01.jpg',
+    shop: ["20251010_BFSS01.jpg", "BFSS01.JPG", "BFSS01 SADDLE SELECTOR - SIDE.JPG"],
     web: ['SS/SaddleSelector2.png', 'SS/SaddleSelector_Top_1.png', 'SS/SaddleSelector_FlexibilityTest.png', 'Intake/Flexibility_Seated.jpg'],
     software: true, license: true,
     manual: 'bikefitting/manuals/BFSS01_Saddle_Selector_User_Manual.pdf',
@@ -849,6 +852,7 @@ const BFC_DATA = [
 
   { group: '2D BODY ANALYZER', cat: 'STATIC', svc: 'Static Fit', page: 'static-fit',
     img: 'images/bikefitting/BFSJ01.jpg',
+    shop: ["20251010_BFSJ01.jpg", "BFSJ01.JPG"],
     web: ['Static%20Fit/2DBA%20Height_2.jpg', 'Static%20Fit/2DBA%20Arm_5.jpg', 'Static%20Fit/2DBA%20Feet_6.jpg', 'Static%20Fit/BFC%20Portal%20report.png'],
     software: true, license: true,
     manual: 'bikefitting/manuals/BFSJ01_2D_Body_Analyzer_Usage.pdf',
@@ -859,6 +863,7 @@ const BFC_DATA = [
 
   { group: 'FIT BIKE', cat: 'DYNAMIC', svc: 'Dynamic Fit', page: 'fit-bike',
     img: 'images/bikefitting/BFFITBIKEMOT01.jpg',
+    shop: ["20251010_BFFITBIKEMOT01_01.JPG", "BFFITBIKEMOT01_01.JPG", "BFFITBIKEMOT01_02.JPG"],
     web: ['Fit%20Bike/Fit%20Bike%20set%20up_1.jpg', 'Fit%20Bike/Fit%20Bike%20set%20up_3.jpg', 'Fit%20Bike/Fit%20Bike%20detail_1.jpg', 'Fit%20Bike/Fit%20Bike%20detail_2.jpg', 'Fit%20Bike/Fit%20Bike%20detail_3.jpg'],
     software: true, license: true,
     manual: 'bikefitting/manuals/BFFITBIKEMOT01_Fit_Bike_Service_Manual.pdf',
@@ -875,6 +880,7 @@ const BFC_DATA = [
 
   { group: '3D MOTION ANALYZER', cat: 'DYNAMIC', svc: 'Dynamic Fit', page: 'motion-analysis',
     img: null,
+    shop: ["20190908_BFMA02 3D Light Motion Analyzer.jpg", "BFMA02 3D LIGHT MOTION ANALYZER.JPG"],
     web: ['Motion%20Analysis/bfma02-1.jpg', 'Motion%20Analysis/MA_Knee.jpg', 'Motion%20Analysis/MA_Hip.jpg', 'Motion%20Analysis/Motion%20Analysis%20LEDs.png', 'Motion%20Analysis/Dynamic%20Fit%20screenshot_1.jpg'],
     software: true, license: true,
     manual: 'bikefitting/manuals/BFMA02_3D_Motion_Analyzer_Manual.pdf',
@@ -885,6 +891,7 @@ const BFC_DATA = [
 
   { group: 'BIKE ADJUSTER', cat: 'ADJUST', svc: 'Bike Adjustment', page: 'bike-adjustment',
     img: 'images/bikefitting/BFXY01ST.jpg',
+    shop: ["20251010_BFXY01ST.JPG", "BFXY01ST.JPG"],
     web: ['Bike%20Adjustment/Bike%20Adjuster_Gravel_BB.jpg', 'Bike%20Adjustment/Bike%20Adjuster_Gravel_BB_screen.jpg', 'Bike%20Adjustment/Bike%20Adjuster_Gravel_Handlebar_screen.jpg', 'Bike%20Adjustment/Bike%20Adjustment_1.png'],
     software: false, license: false,
     manual: 'bikefitting/manuals/BFXY01ST_Bike_Adjuster_Manual.pdf',
@@ -895,6 +902,7 @@ const BFC_DATA = [
 
   { group: 'UCI JIG', cat: 'ADJUST', svc: 'Bike Adjustment', page: 'bike-adjustment',
     img: 'images/bikefitting/BFXY01UCI.jpg',
+    shop: ["20220513_BFXY01UCI_1.jpg", "BFXY01UCI_1.JPG"],
     web: ['Bike%20Adjustment/UCI_2.png'],
     software: false, license: false,
     manual: 'bikefitting/manuals/BFXY01UCI_UCI_Jig_Assembly_and_Usage.pdf',
@@ -985,6 +993,7 @@ function renderCatalog() {
   });
   container.innerHTML = html;
   updateStats();
+  setTimeout(dedupeAll, 50);
 }
 
 function webSrc(path) { return BFC_IMG + path; }
@@ -994,18 +1003,68 @@ function imgFallback(el) {
   else { const t = el.closest('.bf-thumb'); if (t) t.remove(); }
 }
 
-function galleryFor(m) { return [m.img].concat((m.web || []).map(webSrc)).filter(Boolean); }
+// Order: Shimano shop product shots → bikefitting.com photos. The cropped local
+// picture (m.img) is only used if every remote picture fails.
+function galleryFor(m) {
+  const shop = (m.shop || []).map(f => BFC_SHOP + encodeURIComponent(f));
+  const out = shop.concat((m.web || []).map(webSrc));
+  return out.length ? out : [m.img].filter(Boolean);
+}
 function mainFallback(el, id) {
   // 1st failure → wsrv.nl proxy, 2nd failure → next thumbnail that loaded, else hide
   if (!el.dataset.f) { el.dataset.f = '1'; el.src = 'https://wsrv.nl/?url=' + encodeURIComponent(el.src.replace(/^https?:\/\//, '')) + '&w=1200'; return; }
   const ok = Array.from(document.querySelectorAll('#gal-thumbs-' + id + ' .bf-thumb img')).find(i => i.complete && i.naturalWidth > 0 && i.src !== el.src);
-  if (ok) { el.dataset.f = ''; el.src = ok.src; } else { el.closest('.bf-gallery-main').style.display = 'none'; }
+  if (ok) { el.dataset.f = ''; el.src = ok.src; }
+  else { const m = BFC_DATA.find(x => slug(x.group) === id); if (m && m.img && !el.dataset.local) { el.dataset.local = '1'; el.src = m.img; } else el.closest('.bf-gallery-main').style.display = 'none'; }
 }
+
+/* ── Duplicate-photo filter ──
+   The same picture is often uploaded twice under different names (e.g. "20251010_X.jpg"
+   and "X.JPG"). Each thumbnail is fetched as a tiny 16×16 grey copy via wsrv.nl (CORS-enabled),
+   turned into a 256-bit fingerprint, and any thumbnail that looks the same as an earlier one is removed. */
+const _fpCache = {};
+function fingerprint(url) {
+  if (_fpCache[url]) return _fpCache[url];
+  _fpCache[url] = new Promise(res => {
+    const im = new Image();
+    im.crossOrigin = 'anonymous';
+    im.onload = () => {
+      try {
+        const c = document.createElement('canvas'); c.width = 16; c.height = 16;
+        const x = c.getContext('2d'); x.drawImage(im, 0, 0, 16, 16);
+        const d = x.getImageData(0, 0, 16, 16).data, g = [];
+        for (let i = 0; i < d.length; i += 4) g.push(d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11);
+        const avg = g.reduce((a, b) => a + b, 0) / g.length;
+        res(g.map(v => v > avg ? 1 : 0));
+      } catch (e) { res(null); }
+    };
+    im.onerror = () => res(null);
+    const bare = url.replace(/^https?:\/\//, '').replace(/^www\.shimanoshop-eu\.com/, 'http://www.shimanoshop-eu.com');
+    im.src = 'https://wsrv.nl/?url=' + encodeURIComponent(bare) + '&w=16&h=16&fit=fill&output=png';
+  });
+  return _fpCache[url];
+}
+async function dedupeGallery(id) {
+  const thumbs = Array.from(document.querySelectorAll('#gal-thumbs-' + id + ' .bf-thumb'));
+  const fps = await Promise.all(thumbs.map(t => fingerprint(t.dataset.src)));
+  const kept = [];
+  thumbs.forEach((t, i) => {
+    const fp = fps[i];
+    if (!fp) return;
+    const dup = kept.some(k => k.reduce((n, b, j) => n + (b !== fp[j] ? 1 : 0), 0) <= 12);
+    if (dup) {
+      const main = document.getElementById('gal-mainimg-' + id);
+      t.remove();
+      if (main && main.dataset.cur == t.dataset.i) setGalImg(id, +thumbs[0].dataset.i);
+    } else kept.push(fp);
+  });
+}
+function dedupeAll() { BFC_DATA.forEach(m => dedupeGallery(slug(m.group))); }
 
 function renderModelCard(m) {
   const id = slug(m.group);
   const imgs = galleryFor(m);
-  const thumbs = imgs.map((src, i) => `<div class="bf-thumb ${i === 0 ? 'active' : ''}" data-i="${i}" onclick="setGalImg('${id}',${i})"><img src="${src}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div>`).join('');
+  const thumbs = imgs.map((src, i) => `<div class="bf-thumb ${i === 0 ? 'active' : ''}" data-i="${i}" data-src="${src}" onclick="setGalImg('${id}',${i})"><img src="${src}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div>`).join('');
   const flag = (lbl, on) => `<span class="bf-flag ${on ? 'yes' : 'no'}">${lbl} <b>${on ? 'Yes' : 'No'}</b></span>`;
   const feats = m.feats.map(f => `<li>${f}</li>`).join('');
   const dl = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>';
@@ -1078,7 +1137,7 @@ function setGalImg(id, i) {
   const thumbs = document.querySelectorAll('#gal-thumbs-' + id + ' .bf-thumb');
   let src = null;
   thumbs.forEach(t => { const on = +t.dataset.i === i; t.classList.toggle('active', on); if (on) src = t.querySelector('img').src; });
-  if (src) document.getElementById('gal-mainimg-' + id).src = src;
+  if (src) { const mi = document.getElementById('gal-mainimg-' + id); mi.dataset.f = ''; mi.src = src; mi.dataset.cur = i; }
 }
 function openLightbox(id) {
   lbImages = currentImgs(id);
