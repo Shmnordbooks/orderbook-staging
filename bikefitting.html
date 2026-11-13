@@ -828,7 +828,7 @@ html.light .sidebar a:hover {
 const BFC_IMG = 'https://bikefitting.com/storage/app/media/';
 const BFC_DATA = [
   { group: 'SHOE CLEAT ADJUSTER', cat: 'STATIC', svc: 'Shoe Cleat Adjustment', page: 'shoe-cleat-adjustment',
-    img: 'images/bikefitting/BFSHOECLEATADJNEW.jpg',
+    img: null,
     web: ['SCA/ShoeCleatAdjuster1.png', 'SCA/SCA_1.jpg', 'SCA/SCA_5.jpg', 'SCA/SCAdisplay_1.jpg'],
     software: false, license: false,
     manual: 'bikefitting/manuals/BFSHOECLEATADJNEW_Shoe_Cleat_Adjuster_Usage.pdf',
@@ -874,7 +874,7 @@ const BFC_DATA = [
     ] },
 
   { group: '3D MOTION ANALYZER', cat: 'DYNAMIC', svc: 'Dynamic Fit', page: 'motion-analysis',
-    img: 'images/bikefitting/BFMA02.jpg',
+    img: null,
     web: ['Motion%20Analysis/bfma02-1.jpg', 'Motion%20Analysis/MA_Knee.jpg', 'Motion%20Analysis/MA_Hip.jpg', 'Motion%20Analysis/Motion%20Analysis%20LEDs.png', 'Motion%20Analysis/Dynamic%20Fit%20screenshot_1.jpg'],
     software: true, license: true,
     manual: 'bikefitting/manuals/BFMA02_3D_Motion_Analyzer_Manual.pdf',
@@ -994,7 +994,13 @@ function imgFallback(el) {
   else { const t = el.closest('.bf-thumb'); if (t) t.remove(); }
 }
 
-function galleryFor(m) { return [m.img].concat((m.web || []).map(webSrc)); }
+function galleryFor(m) { return [m.img].concat((m.web || []).map(webSrc)).filter(Boolean); }
+function mainFallback(el, id) {
+  // 1st failure → wsrv.nl proxy, 2nd failure → next thumbnail that loaded, else hide
+  if (!el.dataset.f) { el.dataset.f = '1'; el.src = 'https://wsrv.nl/?url=' + encodeURIComponent(el.src.replace(/^https?:\/\//, '')) + '&w=1200'; return; }
+  const ok = Array.from(document.querySelectorAll('#gal-thumbs-' + id + ' .bf-thumb img')).find(i => i.complete && i.naturalWidth > 0 && i.src !== el.src);
+  if (ok) { el.dataset.f = ''; el.src = ok.src; } else { el.closest('.bf-gallery-main').style.display = 'none'; }
+}
 
 function renderModelCard(m) {
   const id = slug(m.group);
@@ -1017,7 +1023,7 @@ function renderModelCard(m) {
     <div class="model-items">
       <div class="bf-body">
         <div>
-          <div class="bf-gallery-main" onclick="openLightbox('${id}')"><img id="gal-mainimg-${id}" src="${imgs[0]}" alt="${escHtml(m.group)}" referrerpolicy="no-referrer"></div>
+          <div class="bf-gallery-main" onclick="openLightbox('${id}')"><img id="gal-mainimg-${id}" src="${imgs[0]}" alt="${escHtml(m.group)}" referrerpolicy="no-referrer" onerror="mainFallback(this,'${id}')"></div>
           <div class="bf-thumbs" id="gal-thumbs-${id}">${thumbs}</div>
         </div>
         <div class="bf-info">
