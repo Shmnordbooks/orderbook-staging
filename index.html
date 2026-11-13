@@ -1636,6 +1636,10 @@
 
 /* BIKEFITTING.COM on the cover — scales with screen width so it never runs under the events panel */
 #coverPage .cover-bfc { font-size: 1em; } /* trial: same size as the other titles */
+@media (max-width: 600px) {
+  #coverPage .cover-left .cover-title { font-size: clamp(24px, 8.4vw, 48px) !important; }
+  #coverPage div[style*="grid-template-columns:auto auto"] { column-gap: 18px !important; }
+}
 /* Laptop screens: let HARDGOODS span both columns so PRO / LAZER / BIKEFITTING.COM
    line up closer to EYEWEAR and stay clear of the Upcoming Events panel */
 @media (max-width: 1700px) {
@@ -1666,6 +1670,7 @@
   </div>
   <div class="cover-body">
     <div class="cover-left">
+      <div class="cover-block" style="display:inline-block;vertical-align:top;">
       <div class="cover-blue-line" style="width:120px;height:2px;background:#0082CA;margin-bottom:24px;"></div>
       <div style="display:grid;grid-template-columns:auto auto;column-gap:48px;row-gap:8px;justify-content:start;align-items:start;">
         <div class="cover-title" style="grid-column:1;grid-row:1;color:#0082CA;opacity:0.6;cursor:pointer;transition:opacity 0.2s;margin:0;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" onclick="location.href='hardgoods.html'">HARDGOODS</div>
@@ -1676,8 +1681,10 @@
         <a href="lazer.html" class="cover-title" style="grid-column:2;grid-row:3;color:#ffffff;text-decoration:none;cursor:pointer;opacity:0.6;transition:opacity 0.2s;margin:0;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">LAZER</a>
         <a href="bikefitting.html" class="cover-title" style="grid-column:2;grid-row:4;color:#0082CA;text-decoration:none;cursor:pointer;opacity:0.6;transition:opacity 0.2s;margin:0;white-space:nowrap;align-self:end;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'"><span class="cover-bfc" style="color:inherit;">BIKEFITTING.COM</span></a>
       </div>
-      <div class="cover-subtitle" id="coverSubtitle" style="margin-top:16px;margin-left:90px;">Order Book — March 2026</div>
-      <div class="cover-select-label" style="margin-left:90px;">SELECT ORDER BOOK</div>
+      <div class="cover-blue-line cover-blue-line-end" style="width:120px;height:2px;background:#0082CA;margin:14px 0 0 auto;"></div>
+      <div class="cover-subtitle" id="coverSubtitle" style="margin-top:10px;max-width:none;text-align:center;">Order Book — March 2026</div>
+      <div class="cover-select-label" style="max-width:none;text-align:center;">SELECT ORDER BOOK</div>
+      </div>
 
     </div>
 
