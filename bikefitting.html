@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<script src="staging-env.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (function(){
+    if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+      window.location.replace('login.html');
+    }
+  })();
+</script>
+<title>Bikefitting.com — B2B Dealer Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;background:#0a0a0f;color:#e8e8ee;font-family:'Barlow',sans-serif;}
+  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;}
+  .bar{width:120px;height:2px;background:#0082CA;margin-bottom:28px;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(44px,8vw,96px);line-height:.95;margin:0;color:#0082CA;letter-spacing:-0.01em;}
+  p{font-family:'Barlow Condensed',sans-serif;letter-spacing:.2em;color:#8a8a99;font-size:16px;margin:22px 0 36px;}
+  a.back{font-family:'Barlow Condensed',sans-serif;letter-spacing:.18em;font-size:14px;color:#e8e8ee;text-decoration:none;border:1px solid #2a2a36;padding:10px 22px;border-radius:6px;}
+  a.back:hover{border-color:#0082CA;color:#0082CA;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="bar"></div>
+    <h1>BIKEFITTING.COM</h1>
+    <p>ORDER BOOK — COMING SOON</p>
+    <a class="back" href="index.html?skip=true">&larr; MAIN PAGE</a>
+  </div>
+</body>
+</html>
