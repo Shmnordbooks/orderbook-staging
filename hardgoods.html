@@ -38977,8 +38977,8 @@ function exportOrder() {
   }
 
   var EXP_LABELS = { hardgoods:'HARDGOODS', shoes:'SHOES', pedals:'PEDALS',
-                     lazer:'LAZER', eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', catalogues:'CATALOGUES' };
-  var EXP_KNOWN  = ['hardgoods','shoes','pedals','lazer','eyewear','pro','catalogues'];
+                     lazer:'LAZER', eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', bikefitting:'BIKEFITTING.COM', catalogues:'CATALOGUES' };
+  var EXP_KNOWN  = ['hardgoods','shoes','pedals','lazer','eyewear','pro','bikefitting','catalogues'];
   var expOrder   = EXP_KNOWN.slice();
   Object.keys(shared).forEach(function(pg){ if (expOrder.indexOf(pg) === -1) expOrder.push(pg); });
 
@@ -39482,11 +39482,11 @@ function renderSummaryPage() {
   }
 
   var PAGE_LABELS = { hardgoods:'HARDGOODS', shoes:'SHOES', pedals:'PEDALS',
-                      lazer:'LAZER', eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', catalogues:'CATALOGUES' };
+                      lazer:'LAZER', eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', bikefitting:'BIKEFITTING.COM', catalogues:'CATALOGUES' };
   var PAGE_COLORS = { hardgoods:'#0ea5e9', shoes:'#f59e0b', pedals:'#10b981',
-                      lazer:'#ef4444', eyewear:'#06b6d4', pro:'#ff6b35', catalogues:'#8b5cf6' };
+                      lazer:'#ef4444', eyewear:'#06b6d4', pro:'#ff6b35', bikefitting:'#818cf8', catalogues:'#8b5cf6' };
   // Known catalogs first, then ANY other catalog present in the shared cart
-  var KNOWN_ORDER = ['hardgoods','shoes','pedals','lazer','eyewear','pro','catalogues'];
+  var KNOWN_ORDER = ['hardgoods','shoes','pedals','lazer','eyewear','pro','bikefitting','catalogues'];
   var pageOrder = KNOWN_ORDER.slice();
   Object.keys(shared).forEach(function(pg){ if (pageOrder.indexOf(pg) === -1) pageOrder.push(pg); });
   function pgLabelOf(pg){ return PAGE_LABELS[pg] || pg.toUpperCase(); }
@@ -39557,6 +39557,12 @@ function renderSummaryPage() {
             }
           }
         }
+      }
+
+      // BIKEFITTING.COM keeps its own availability in the shared cart
+      if (pg === 'bikefitting' && v.status) {
+        status = (v.status === 'request') ? 'etd' : v.status;
+        etd = (v.status === 'request') ? 'On request' : (v.etd ? 'ETD ' + v.etd : '');
       }
 
       totalSkus++;
@@ -39690,7 +39696,8 @@ function addSummaryChip() {
     { label:'PEDALS',    href:'pedals.html',    color:'#10b981', icon:'<circle cx="12" cy="12" r="3"/><path d="M12 2v7M12 15v7M2 12h7M15 12h7"/>' },
     { label:'EYEWEAR',   href:'eyewear.html',   color:'#06b6d4', icon:'<circle cx="12" cy="12" r="5"/><path d="M2 12h4M18 12h4"/><path d="M12 2v4M12 18v4"/>' },
     { label:'LAZER',     href:'lazer.html',     color:'#ef4444', icon:'<path d="M12 2C8 2 4 5 4 9c0 3 2 5 4 6v1a2 2 0 004 0v-1c2-1 4-3 4-6 0-4-4-7-4-7z"/><path d="M9 21h6"/>' },
-    { label:'PRO',       href:'pro.html',       color:'#ff6b35', icon:'<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>' }
+    { label:'PRO',       href:'pro.html',       color:'#ff6b35', icon:'<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>' },
+    { label:'BIKEFITTING.COM', href:'bikefitting.html', color:'#818cf8', icon:'<circle cx="5.5" cy="17" r="3.5"/><circle cx="18.5" cy="17" r="3.5"/><path d="M5.5 17l4-8h6l3 8M9.5 9l3 8M14 6h3"/>' }
   ];
   // Reference point: insert CATALOGUES + PRODUCTS section after chip
   var navSep = document.createElement('div');

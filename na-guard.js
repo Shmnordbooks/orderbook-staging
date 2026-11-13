@@ -39,6 +39,7 @@
     try { srcs.push(PEDAL_DATA); } catch (e) {}
     try { srcs.push(EYEWEAR_DATA); } catch (e) {}
     try { srcs.push(PRO_DATA); } catch (e) {}
+    try { srcs.push(BFC_DATA); } catch (e) {}
     try { srcs.push(RAW); } catch (e) {}
     try { srcs.push(HARDGOODS_DATA); } catch (e) {}
     for (var i = 0; i < srcs.length; i++) walk(srcs[i], 0);

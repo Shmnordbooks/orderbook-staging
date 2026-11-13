@@ -60,10 +60,10 @@
 
   var SHARED_KEY   = 'shimano_all_orders';
   var PAGE_LABELS  = { hardgoods:'HARDGOODS', shoes:'SHOES', pedals:'PEDALS', lazer:'LAZER',
-                       eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', catalogues:'CATALOGUES' };
+                       eyewear:'EYEWEAR', pro:'PRO BIKEGEAR', bikefitting:'BIKEFITTING.COM', catalogues:'CATALOGUES' };
   var PAGE_COLORS  = { hardgoods:'#0ea5e9', shoes:'#f59e0b', pedals:'#10b981', lazer:'#ff3c00',
-                       eyewear:'#06b6d4', pro:'#ff6b35', catalogues:'#8b5cf6' };
-  var PAGE_ORDER   = ['hardgoods','shoes','pedals','lazer','eyewear','pro','catalogues'];
+                       eyewear:'#06b6d4', pro:'#ff6b35', bikefitting:'#818cf8', catalogues:'#8b5cf6' };
+  var PAGE_ORDER   = ['hardgoods','shoes','pedals','lazer','eyewear','pro','bikefitting','catalogues'];
 
   /* Known catalogs first, then ANY other catalog found in the shared cart,
      so a new page never silently disappears from the panel / export. */
@@ -113,6 +113,16 @@
         var code2 = keys2[j], v2 = window.orderMap[code2];
         if (typeof v2 === 'object' && v2) {
           result[code2] = { qty:v2.qty||0, desc1:v2.desc1||v2.desc||'', desc2:v2.desc2||'', price:v2.price||'' };
+          // Pages that keep status on the item (e.g. bikefitting) pass it on so the
+          // Order Summary can show ETD / on-request correctly.
+          if (getPageId() === 'bikefitting') {
+            var st2 = v2.status, et2 = v2.etd;
+            if (!st2) {
+              var inp2 = document.querySelector('.qty-input[data-code="' + code2 + '"]');
+              if (inp2) { st2 = inp2.dataset.status; et2 = inp2.dataset.etd; }
+            }
+            if (st2) { result[code2].status = st2; result[code2].etd = et2 || ''; }
+          }
         }
       }
     }
