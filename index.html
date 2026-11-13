@@ -1634,18 +1634,18 @@
   }
 
 
-/* BIKEFITTING.COM on the cover — scales with screen width so it never runs under the events panel */
-#coverPage .cover-bfc { font-size: 1em; } /* trial: same size as the other titles */
-@media (max-width: 600px) {
-  #coverPage .cover-left .cover-title { font-size: clamp(24px, 8.4vw, 48px) !important; }
-  #coverPage div[style*="grid-template-columns:auto auto"] { column-gap: 18px !important; }
-}
-/* Laptop screens: let HARDGOODS span both columns so PRO / LAZER / BIKEFITTING.COM
-   line up closer to EYEWEAR and stay clear of the Upcoming Events panel */
-@media (max-width: 1700px) {
-  #coverPage .cover-title[onclick*="hardgoods.html"] { grid-column: 1 / span 2 !important; }
-  #coverPage div[style*="grid-template-columns:auto auto"] { column-gap: 36px !important; }
-}
+/* ── Cover titles: one layout on every screen, scaled to fit ──
+   All sizes inside .cover-block are in em, so the whole block (titles, gaps, blue lines)
+   grows/shrinks together. The script "coverFit" below sets the font-size of .cover-block
+   so the block fits between the left edge and the Upcoming Events panel. */
+#coverPage .cover-block { font-size: 80px; }
+#coverPage .cover-left .cover-title { font-size: 1em !important; }
+#coverPage .cover-bfc { font-size: 1em; }
+#coverPage .cover-block > div[style*="grid-template-columns:auto auto"] { column-gap: 0.6em !important; row-gap: 0.1em !important; }
+#coverPage .cover-block .cover-blue-line { width: 1.5em !important; }
+#coverPage .cover-block > .cover-blue-line:first-child { margin-bottom: 0.3em !important; }
+#coverPage .cover-block .cover-subtitle { font-size: max(12px, 0.225em); }
+#coverPage .cover-block .cover-select-label { font-size: max(11px, 0.2em); }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 </head>
@@ -1731,6 +1731,47 @@
 <script>
 /* Upcoming Events: load with a cache-buster so weekly updates show immediately */
 (function(){var v=Date.now();['events-data.js','events-panel.js'].forEach(function(f){var s=document.createElement('script');s.src=f+'?v='+v;s.async=false;document.body.appendChild(s);});})();
+</script>
+<script>
+/* coverFit — keeps the cover title block in proportion on every screen size.
+   Big screens: unchanged (80px titles, centred). Smaller screens: first slide the block
+   left so it clears the Upcoming Events panel, then scale it down only as much as needed. */
+(function () {
+  var BASE = 80, MIN = 22, PAD = 32;
+  function fit() {
+    var page = document.getElementById('coverPage');
+    var blk = document.querySelector('#coverPage .cover-block');
+    if (!page || !blk || page.offsetParent === null && getComputedStyle(page).display === 'none') return;
+    blk.style.fontSize = BASE + 'px';
+    blk.style.left = '0px';
+    blk.style.position = 'relative';
+    var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+    var panel = document.getElementById('evPanel');
+    var pr = panel ? panel.getBoundingClientRect() : null;
+    // panel sits on the right only on wide screens; on phones it is at the bottom
+    var right = (pr && pr.width && pr.left > vw / 2) ? pr.left - PAD : vw - PAD;
+    var left = vw <= 768 ? 16 : 48;
+    var avail = right - left;
+    var r = blk.getBoundingClientRect();
+    var W = r.width, H = r.height;
+    var scale = Math.min(1, avail / W, (vh * 0.62) / H);
+    var fs = Math.max(MIN, Math.floor(BASE * scale));
+    blk.style.fontSize = fs + 'px';
+    r = blk.getBoundingClientRect();
+    // centred position is fine if it clears the panel; otherwise centre it in the free area
+    if (r.right > right || r.left < left) {
+      var target = left + Math.max(0, (avail - r.width) / 2);
+      blk.style.left = Math.round(target - r.left) + 'px';
+    }
+  }
+  var t;
+  function later() { clearTimeout(t); t = setTimeout(fit, 60); }
+  window.addEventListener('resize', later);
+  window.addEventListener('load', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  setTimeout(fit, 300); setTimeout(fit, 1200);
+  window.coverFit = fit;
+})();
 </script>
 </body>
 </html>
