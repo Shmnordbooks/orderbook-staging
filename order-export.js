@@ -49,6 +49,13 @@
     var blank = function () { var a = []; for (var k = 0; k < NC; k++) a.push(''); return a; };
 
     var t = PR.totals(items), note = PR.minOrderNote(t);
+    if (note.ok && t.next) {   // nudge towards the next volume tier
+      note.text += ' Add ' + PR.eur(t.next.missing) + ' more in available items (at list price) to unlock a ' +
+        PR.pctLabel(t.next.pct) + ' volume discount.';
+    }
+    var tierTxt = (PR.tiers || []).map(function (x, i, a) {
+      return '\u20ac' + Number(x.min).toLocaleString('en-US') + (i === a.length - 1 ? '+' : '') + ' ' + PR.pctLabel(x.pct);
+    }).join(' \u00b7 ');
     var rows = [];
     var r0 = blank(); r0[0] = 'Order:'; r0[1] = orderNo; r0[2] = 'Date:'; r0[3] = dDisp; r0[4] = 'Dealer:'; r0[5] = dealerName;
     rows.push(r0);                                                       // 0
@@ -56,7 +63,7 @@
     var ri = blank(); ri[0] = 'Dealer prices in EUR, FCA Venray (NL). Price list of ' + PR.generated +
       '. Minimum order: \u20ac' +
       Number(PR.minOrder).toLocaleString('en-US') +
-      ' of available items.'; rows.push(ri);                              // 2 info
+      ' of available items.' + (tierTxt ? ' Volume discount on available items: ' + tierTxt + '.' : ''); rows.push(ri);                              // 2 info
     rows.push(blank());                                                  // 3
     rows.push(HEAD.slice());                                             // 4 header
     var first = rows.length, totQty = 0, totKg = 0, anyKg = false;
@@ -98,7 +105,7 @@
     ws['!cols'] = [{ wch: 13 }, { wch: 20 }, { wch: 34 }, { wch: 26 }, { wch: 15 }, { wch: 6 }, { wch: 10 }, { wch: 16 },
       { wch: 10 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 11 }, { wch: 12 }, { wch: 10 }];
     ws['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: NC - 1 } }, { s: { r: 2, c: 0 }, e: { r: 2, c: NC - 1 } }];
-    ws['!rows'] = []; ws['!rows'][1] = { hpt: 30 };
+    ws['!rows'] = []; ws['!rows'][1] = { hpt: 30 }; ws['!rows'][2] = { hpt: 26 };
     if (!ws['!sheetViews']) ws['!sheetViews'] = [{}];
     ws['!sheetViews'][0].showGridLines = false;
 
@@ -116,7 +123,7 @@
           s.fill = { fgColor: { rgb: note.ok ? 'E3F6EE' : 'FFF1C7' } };
           s.alignment = { horizontal: 'left', vertical: 'center', wrapText: true };
         }
-        if (r === 2) s.font = { name: 'Arial', sz: 9, italic: true, color: { rgb: '666666' } };
+        if (r === 2) { s.font = { name: 'Arial', sz: 9, italic: true, color: { rgb: '666666' } }; s.alignment = { horizontal: 'left', vertical: 'center', wrapText: true }; }
         if (r === first - 1) {
           s = { font: { name: 'Arial', bold: true, sz: 10, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '0082CA' } },
             alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border: none };

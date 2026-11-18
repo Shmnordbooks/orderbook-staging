@@ -110,7 +110,7 @@
       (t.volumeSavings > 0 ? '<div class="pp-sum-row pp-save"><span>Volume discount ' + pctLabel(t.tier.pct) + ' (included)</span><b>' + eur(t.volumeSavings) + '</b></div>' : '') +
       '<div class="pp-bar"><i style="width:' + pct.toFixed(1) + '%" class="' + (t.ok ? 'ok' : '') + '"></i></div>' +
       '<div class="pp-note ' + (t.ok ? 'ok' : 'warn') + '">' + n.text + '</div>' +
-      (t.next && t.ok ? '<div class="pp-note pp-tier">Add ' + eur(t.next.missing) + ' more in available items to unlock a ' +
+      (t.next && t.ok ? '<div class="pp-note pp-tier">Add ' + eur(t.next.missing) + ' more in available items (at list price) to unlock a ' +
         pctLabel(t.next.pct) + ' volume discount.</div>' : '') +
       (t.noPrice > 0 ? '<div class="pp-note pp-muted">' + t.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
       '</div>';
