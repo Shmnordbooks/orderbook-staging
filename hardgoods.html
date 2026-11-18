@@ -1127,7 +1127,7 @@
   }
   .os-row {
     display: grid;
-    grid-template-columns: 160px 1fr 180px 130px 90px 80px;
+    grid-template-columns: 160px 1fr 180px 130px 120px 90px 80px;
     align-items: center;
     padding: 12px 18px;
     border-bottom: 1px solid var(--border);
@@ -1135,6 +1135,20 @@
     transition: background 0.1s;
   }
   .os-row:last-child { border-bottom: none; }
+  .os-row-price { text-align: right; font-family: 'Barlow Condensed', sans-serif; line-height: 1.2; }
+  .os-row-price .osp-net { font-size: 14px; font-weight: 700; color: var(--text); }
+  .os-row-price .osp-net.deal { color: #00c896; }
+  .os-row-price .osp-old { font-size: 11px; color: var(--text-muted); text-decoration: line-through; margin-right: 4px; }
+  .os-row-price .osp-tot { font-size: 11px; color: var(--text-muted); }
+  .os-row-price .osp-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .05em; color: #fff; background: #e8003d; border-radius: 3px; padding: 1px 5px; margin-bottom: 2px; }
+  .os-row-price .osp-tag.vol { background: #0082ca; }
+  .os-row-price .osp-na { font-size: 11px; color: var(--text-muted); font-style: italic; }
+  .os-price-sum { max-width: 460px; margin: 0 0 24px auto; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.02); }
+  .os-price-sum .os-tiers { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+  @media (max-width: 900px) {
+    .os-row { grid-template-columns: 1fr 1fr; }
+    .os-price-sum { max-width: none; }
+  }
   .os-row:hover { background: rgba(255,255,255,0.02); }
   .os-row-code {
     font-family: 'Barlow Condensed', sans-serif;
@@ -39515,6 +39529,30 @@ function renderSummaryPage() {
   let totalSkus = 0, totalQty = 0, availCount = 0, etdCount = 0, unavailCount = 0;
   var tableHtml = '<div class="os-table-wrap">';
 
+  // Prices (pricing.js): same totals, volume discount and campaigns as the cart and the Excel export
+  var PR = window.ShimanoPricing, prItems = [], prLines = {}, prT = null;
+  if (PR) {
+    pageOrder.forEach(function(pg) {
+      var its = shared[pg]; if (!its) return;
+      Object.keys(its).forEach(function(c) {
+        prItems.push({ source: pgLabelOf(pg), catalog: pg, code: c, desc1: its[c].desc1 || '', desc2: its[c].desc2 || '', qty: Number(its[c].qty) || 0 });
+      });
+    });
+    prT = PR.totals(prItems);
+    prT.lines.forEach(function(ln) { prLines[ln.item.catalog + '|' + ln.item.code] = ln; });
+  }
+  function priceCell(pg, code) {
+    if (!PR) return '<div></div>';
+    var ln = prLines[pg + '|' + code];
+    if (!ln || !ln.p) return '<div class="os-row-price"><span class="osp-na">Price on request</span></div>';
+    var deal = ln.label && ln.unit < ln.p.list;
+    return '<div class="os-row-price">' +
+      (deal ? '<span class="osp-tag' + (ln.label.indexOf('VOLUME') === 0 ? ' vol' : '') + '">' + ln.label + '</span><br>' : '') +
+      (deal ? '<span class="osp-old">' + PR.eur(ln.p.list) + '</span>' : '') +
+      '<span class="osp-net' + (deal ? ' deal' : '') + '">' + PR.eur(ln.unit) + '</span><br>' +
+      '<span class="osp-tot">' + PR.eur(ln.total) + '</span></div>';
+  }
+
   pageOrder.forEach(function(pg) {
     var items = shared[pg];
     if (!items || Object.keys(items).length === 0) return;
@@ -39591,6 +39629,7 @@ function renderSummaryPage() {
         '<div class="os-row-desc">' + (desc || '—') + '</div>' +
         '<div class="os-row-model">' + (model || '') + '</div>' +
         '<div>' + badge + '</div>' +
+        priceCell(pg, code) +
         qtyCell + removeCell +
       '</div>';
     });
@@ -39618,6 +39657,14 @@ function renderSummaryPage() {
     <div class="os-stat"><div style="display:flex;gap:4px;flex-wrap:wrap;padding-top:4px">${chipHtml}</div><div class="os-stat-label">Catalogs</div></div>
   `;
 
+  if (PR && prT) {
+    var tiers = (PR.tiers || []).map(function(x, i, a) {
+      return '\u20ac' + Number(x.min).toLocaleString('en-US') + (i === a.length - 1 ? '+' : '') + ' ' + PR.pctLabel(x.pct);
+    }).join(' \u00b7 ');
+    tableHtml += '<div class="os-price-sum">' + PR.panelHTML(prItems) +
+      (tiers ? '<div class="os-tiers">Volume discount on available items: ' + tiers + '. Dealer prices in EUR, FCA Venray (NL).</div>' : '') +
+      '</div>';
+  }
   contentEl.innerHTML = tableHtml;
 }
 
