@@ -1127,7 +1127,7 @@
   }
   .os-row {
     display: grid;
-    grid-template-columns: 160px 1fr 180px 130px 120px 90px 80px;
+    grid-template-columns: 150px 1fr 170px 130px 120px 90px 90px 60px;
     align-items: center;
     padding: 12px 18px;
     border-bottom: 1px solid var(--border);
@@ -1143,6 +1143,8 @@
   .os-row-price .osp-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .05em; color: #fff; background: #e8003d; border-radius: 3px; padding: 1px 5px; margin-bottom: 2px; }
   .os-row-price .osp-tag.vol { background: #0082ca; }
   .os-row-price .osp-na { font-size: 11px; color: var(--text-muted); font-style: italic; }
+  .os-row-srp { text-align: right; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; color: var(--text-muted); }
+  .os-row-srp span { display: block; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
   /* Sticky order totals bar (always visible at the bottom of Order Summary) */
   .os-sticky { position: sticky; bottom: 34px; z-index: 40; margin: 0 0 24px; padding: 14px 92px 12px 22px;
     background: var(--surface, #12121a); border: 1px solid var(--border); border-radius: 12px;
@@ -39596,6 +39598,11 @@ function renderSummaryPage() {
     prT = PR.totals(prItems);
     prT.lines.forEach(function(ln) { prLines[ln.item.catalog + '|' + ln.item.code] = ln; });
   }
+  function srpCell(pg, code) {
+    if (!PR) return '<div></div>';
+    var ln = prLines[pg + '|' + code];
+    return '<div class="os-row-srp">' + (ln && ln.p && ln.p.srp ? '<span>SRP</span>' + PR.eur(ln.p.srp) : '\u2014') + '</div>';
+  }
   function priceCell(pg, code) {
     if (!PR) return '<div></div>';
     var ln = prLines[pg + '|' + code];
@@ -39686,7 +39693,7 @@ function renderSummaryPage() {
         '<div class="os-row-model">' + (model || '') + '</div>' +
         '<div>' + badge + '</div>' +
         priceCell(pg, code) +
-        qtyCell + removeCell +
+        qtyCell + srpCell(pg, code) + removeCell +
       '</div>';
     });
   });
