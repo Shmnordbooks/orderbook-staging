@@ -39524,7 +39524,11 @@ function renderSummaryPage() {
   var shared = {};
   try { shared = JSON.parse(localStorage.getItem('shimano_all_orders')) || {}; } catch(e){}
 
-  // Fallback: if hardgoods not yet in shared, use local orderList
+  // This page's own orders are the live source for HARDGOODS (the shared cart copy is synced
+  // only every 400 ms, so reading it right after a change would show stale quantities)
+  if (Object.keys(orderList).length > 0 || osHgTouched) {
+    delete shared.hardgoods;
+  }
   if (!shared.hardgoods && Object.keys(orderList).length > 0) {
     shared.hardgoods = {};
     Object.keys(orderList).forEach(function(code) {
@@ -39546,6 +39550,7 @@ function renderSummaryPage() {
 
   const statsEl = document.getElementById('osSummaryStats');
   const contentEl = document.getElementById('osSummaryContent');
+  var _ae = document.activeElement, _focusKey = _ae && _ae.dataset ? _ae.dataset.osKey : null;
 
   // Count total items across all catalogs
   var allCount = 0;
@@ -39655,11 +39660,11 @@ function renderSummaryPage() {
       // For hardgoods items: editable qty + remove; for other catalogs: read-only display (edit via their own page)
       var qtyCell = '', removeCell = '';
       if (pg === 'hardgoods') {
-        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" oninput="var _v=parseInt(this.value);if(!this.value||_v<=0||isNaN(_v)){this.value=\'\';updateQtyFromSummary(\'' + code + '\',\'\');}else{updateQtyFromSummary(\'' + code + '\',this.value);}"></div>';
+        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="hardgoods|' + code + '" oninput="osQtyInput(\'hardgoods\',\'' + code + '\',this.value)" onchange="osQtyChange(\'hardgoods\',\'' + code + '\',this.value)"></div>';
         removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="removeFromOrder(\'' + code + '\')" title="Remove">✕</button></div>';
       } else {
         var _c = code.replace(/'/g, "\\'");
-        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" onchange="osSetSharedQty(\'' + pg + '\',\'' + _c + '\',this.value)"></div>';
+        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="' + pg + '|' + code + '" oninput="osQtyInput(\'' + pg + '\',\'' + _c + '\',this.value)" onchange="osQtyChange(\'' + pg + '\',\'' + _c + '\',this.value)"></div>';
         removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="osSetSharedQty(\'' + pg + '\',\'' + _c + '\',0)" title="Remove">✕</button></div>';
       }
 
@@ -39726,7 +39731,27 @@ function renderSummaryPage() {
     '</div>';
   }
   contentEl.innerHTML = tableHtml;
+  if (_focusKey) {   // keep the cursor in the quantity box the dealer is editing
+    var _el = contentEl.querySelector('input[data-os-key="' + _focusKey.replace(/"/g, '\\"') + '"]');
+    if (_el) { _el.focus(); try { var _l = String(_el.value).length; _el.type = 'text'; _el.setSelectionRange(_l, _l); _el.type = 'number'; } catch (e) {} }
+  }
   osUpdateScrollHint();
+}
+
+/* Order Summary quantity boxes: live update while typing / using the arrows (only for valid numbers);
+   an empty or 0 value removes the item only when the box is left (change), not while retyping */
+var osHgTouched = false;
+function osQtyInput(pg, code, val) {
+  var v = parseInt(val, 10);
+  if (!v || v <= 0) return;
+  if (pg === 'hardgoods') updateQtyFromSummary(code, String(v));
+  else osSetSharedQty(pg, code, v);
+}
+function osQtyChange(pg, code, val) {
+  var v = parseInt(val, 10);
+  if (v > 0) return osQtyInput(pg, code, val);
+  if (pg === 'hardgoods') removeFromOrder(code);
+  else osSetSharedQty(pg, code, 0);
 }
 
 /* Order Summary: change the quantity of an item from another catalog (shoes, pedals, Lazer, PRO, eyewear…).
@@ -39768,6 +39793,7 @@ window.addEventListener('scroll', function () { if (typeof summaryPageOpen !== '
 window.addEventListener('resize', function () { if (typeof summaryPageOpen !== 'undefined' && summaryPageOpen) osUpdateScrollHint(); });
 
 function updateQtyFromSummary(code, val) {
+  osHgTouched = true;
   const v = parseInt(val);
   if (!val || v <= 0 || isNaN(v)) {
     removeFromOrder(code);
@@ -39783,6 +39809,7 @@ function updateQtyFromSummary(code, val) {
 }
 
 function removeFromOrder(code) {
+  osHgTouched = true;
   delete orderList[code];
   // Clear ALL possible qty inputs that reference this code
   document.querySelectorAll(
