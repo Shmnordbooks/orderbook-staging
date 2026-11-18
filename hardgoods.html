@@ -1163,10 +1163,12 @@
   .os-sticky .oss-num b { font-size: 18px; color: var(--text); font-weight: 700; }
   .os-sticky .oss-num.muted b { color: var(--text-muted); }
   .os-sticky .oss-num.save b { color: #00c896; }
-  .os-sticky .oss-num.grand b { font-size: 26px; }
-  .os-sticky .oss-tiers { margin-top: 8px; font-family: Barlow, Arial, sans-serif; font-size: 11px; color: var(--text-muted); }
+  .os-sticky .oss-num.grand b { font-size: 26px; color: #00c896; }
+  .os-sticky .oss-num.grand span { color: var(--text); font-weight: 700; }
+  .os-sticky .oss-tiers { margin-top: 8px; font-family: Barlow, Arial, sans-serif; font-size: 12px; color: var(--text); font-weight: 600; }
+  .os-sticky .oss-tiers em { color: var(--text); }
   .os-sticky .oss-tiers em { font-style: normal; padding: 1px 6px; border-radius: 4px; }
-  .os-sticky .oss-tiers em.on { background: rgba(0,130,202,.2); color: #5bb4ff; font-weight: 700; }
+  .os-sticky .oss-tiers em.on { background: #0082ca; color: #fff; font-weight: 700; }
   /* "scroll down" hint above the bar */
   .os-scroll-hint { position: absolute; left: 50%; top: -46px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px;
     padding: 7px 14px 7px 10px; border-radius: 20px; border: 1px solid rgba(0,130,202,.5); background: #0082ca; color: #fff; cursor: pointer;
@@ -39707,14 +39709,14 @@ function renderSummaryPage() {
           (T.noPrice > 0 ? '<div class="oss-note muted">' + T.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
         '</div>' +
         '<div class="oss-nums">' +
-          '<div class="oss-num"><span>Available</span><b>' + PR.eur(T.available) + '</b></div>' +
+          '<div class="oss-num"><span>Order total</span><b>' + PR.eur(T.grand) + '</b></div>' +
           (T.etd > 0 ? '<div class="oss-num muted"><span>ETD (backorder)</span><b>' + PR.eur(T.etd) + '</b></div>' : '') +
           (T.campaignSavings > 0 ? '<div class="oss-num save"><span>Campaign savings</span><b>' + PR.eur(T.campaignSavings) + '</b></div>' : '') +
           (T.volumeSavings > 0 ? '<div class="oss-num save"><span>Volume discount ' + PR.pctLabel(T.tier.pct) + '</span><b>' + PR.eur(T.volumeSavings) + '</b></div>' : '') +
-          '<div class="oss-num grand"><span>Order total</span><b>' + PR.eur(T.grand) + '</b></div>' +
+          '<div class="oss-num grand"><span>Shippable amount</span><b>' + PR.eur(T.available) + '</b></div>' +
         '</div>' +
       '</div>' +
-      (tiers ? '<div class="oss-tiers">Volume discount on available items: ' + tiers + ' \u00b7 Dealer prices in EUR, FCA Venray (NL).</div>' : '') +
+      (tiers ? '<div class="oss-tiers">Volume discount on shippable amount: ' + tiers + ' \u00b7 Dealer prices in EUR, FCA Venray (NL).</div>' : '') +
     '</div>';
   }
   contentEl.innerHTML = tableHtml;
