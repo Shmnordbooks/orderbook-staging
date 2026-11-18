@@ -1165,6 +1165,10 @@
   .os-sticky .oss-num.save b { color: #00c896; }
   .os-sticky .oss-num.grand b { font-size: 26px; color: #00c896; }
   .os-sticky .oss-num.grand span { color: var(--text); font-weight: 700; }
+  .os-sticky .oss-export { display: block; margin: 6px 0 0 auto; padding: 8px 16px; border: 0; border-radius: 8px; cursor: pointer;
+    background: #0082ca; color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; box-shadow: 0 4px 14px rgba(0,130,202,.35); white-space: nowrap; }
+  .os-sticky .oss-export:hover { background: #0096e8; }
   .os-sticky .oss-tiers { margin-top: 8px; font-family: Barlow, Arial, sans-serif; font-size: 12px; color: var(--text); font-weight: 600; }
   .os-sticky .oss-tiers em { color: var(--text); }
   .os-sticky .oss-tiers em { font-style: normal; padding: 1px 6px; border-radius: 4px; }
@@ -39654,8 +39658,9 @@ function renderSummaryPage() {
         qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" oninput="var _v=parseInt(this.value);if(!this.value||_v<=0||isNaN(_v)){this.value=\'\';updateQtyFromSummary(\'' + code + '\',\'\');}else{updateQtyFromSummary(\'' + code + '\',this.value);}"></div>';
         removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="removeFromOrder(\'' + code + '\')" title="Remove">✕</button></div>';
       } else {
-        qtyCell = '<div style="text-align:center;font-family:Barlow Condensed,sans-serif;font-weight:700;color:var(--avail);font-size:13px;">×' + qty + '</div>';
-        removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="_aoDeleteItem(\'' + pg + '\',\'' + code.replace(/'/g, "\\'") + '\')" title="Remove">✕</button></div>';
+        var _c = code.replace(/'/g, "\\'");
+        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" onchange="osSetSharedQty(\'' + pg + '\',\'' + _c + '\',this.value)"></div>';
+        removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="osSetSharedQty(\'' + pg + '\',\'' + _c + '\',0)" title="Remove">✕</button></div>';
       }
 
       tableHtml += '<div class="os-row">' +
@@ -39713,7 +39718,8 @@ function renderSummaryPage() {
           (T.etd > 0 ? '<div class="oss-num muted"><span>ETD (backorder)</span><b>' + PR.eur(T.etd) + '</b></div>' : '') +
           (T.campaignSavings > 0 ? '<div class="oss-num save"><span>Campaign savings</span><b>' + PR.eur(T.campaignSavings) + '</b></div>' : '') +
           (T.volumeSavings > 0 ? '<div class="oss-num save"><span>Volume discount ' + PR.pctLabel(T.tier.pct) + '</span><b>' + PR.eur(T.volumeSavings) + '</b></div>' : '') +
-          '<div class="oss-num grand"><span>Shippable amount</span><b>' + PR.eur(T.available) + '</b></div>' +
+          '<div class="oss-num grand"><span>Shippable amount</span><b>' + PR.eur(T.available) + '</b>' +
+            '<button type="button" class="oss-export" onclick="exportOrder()">\u2193 Export Order (Excel)</button></div>' +
         '</div>' +
       '</div>' +
       (tiers ? '<div class="oss-tiers">Volume discount on shippable amount: ' + tiers + ' \u00b7 Dealer prices in EUR, FCA Venray (NL).</div>' : '') +
@@ -39721,6 +39727,30 @@ function renderSummaryPage() {
   }
   contentEl.innerHTML = tableHtml;
   osUpdateScrollHint();
+}
+
+/* Order Summary: change the quantity of an item from another catalog (shoes, pedals, Lazer, PRO, eyewear…).
+   The shared cart is the source those pages restore from; pedals also keeps its own copy. */
+function osSetSharedQty(pg, code, val) {
+  var v = parseInt(val, 10);
+  if (!v || v <= 0) {
+    if (typeof _aoDeleteItem === 'function') _aoDeleteItem(pg, code);
+  } else {
+    var shared = {};
+    try { shared = JSON.parse(localStorage.getItem('shimano_all_orders')) || {}; } catch (e) {}
+    if (shared[pg] && shared[pg][code]) { shared[pg][code].qty = v; localStorage.setItem('shimano_all_orders', JSON.stringify(shared)); }
+  }
+  if (pg === 'pedals') {
+    try {
+      var own = JSON.parse(localStorage.getItem('shimano_pedals_order')) || {};
+      if (!v || v <= 0) delete own[code];
+      else if (own[code]) { if (typeof own[code] === 'object') own[code].qty = v; else own[code] = v; }
+      localStorage.setItem('shimano_pedals_order', JSON.stringify(own));
+    } catch (e) {}
+  }
+  if (typeof updateSummaryChip === 'function') updateSummaryChip();
+  if (typeof _aoRefresh === 'function') _aoRefresh();
+  renderSummaryPage();
 }
 
 /* Order Summary: "scroll down" hint while more rows are below the visible area */
