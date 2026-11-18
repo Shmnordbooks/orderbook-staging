@@ -185,14 +185,93 @@
         for (var j = 0; j < inputs2.length; j++) { inputs2[j].value = ''; inputs2[j].dataset.hasValue = 'false'; }
       }
       _lastHash = ''; // force re-sync
+    } else if (catalog === 'pedals') {
+      try {
+        var own = JSON.parse(localStorage.getItem('shimano_pedals_order')) || {};
+        delete own[code];
+        localStorage.setItem('shimano_pedals_order', JSON.stringify(own));
+      } catch (e) {}
     }
 
     updateBadge();
+    try { if (typeof summaryPageOpen !== 'undefined' && summaryPageOpen && typeof renderSummaryPage === 'function') renderSummaryPage(); } catch (e) {}
     var pn = document.getElementById('aoPanel');
     if (pn && pn.classList.contains('open')) renderPanel();
   }
   // Expose globally for onclick
   window._aoDeleteItem = deleteItem;
+
+  /* ─── Change quantity of one item (from the panel or the Order Summary) ── */
+  function setQty(catalog, code, qty) {
+    qty = parseInt(qty, 10);
+    if (!qty || qty <= 0) { deleteItem(catalog, code); return; }
+    var shared = getShared();
+    if (!shared[catalog] || !shared[catalog][code]) return;
+    shared[catalog][code].qty = qty;
+    saveShared(shared);
+    var pid = getPageId();
+    if (catalog === pid) {   // keep the open catalog page in step, or its next sync would undo the change
+      if (window.orderList && window.orderList[code] !== undefined) {
+        if (typeof window.orderList[code] === 'object') window.orderList[code].qty = qty; else window.orderList[code] = qty;
+        if (typeof window.updateOrderPanel === 'function') window.updateOrderPanel();
+      }
+      if (window.orderMap && window.orderMap[code]) {
+        if (typeof window.orderMap[code] === 'object') window.orderMap[code].qty = qty; else window.orderMap[code] = qty;
+        if (typeof window.saveOrder === 'function') window.saveOrder();
+        if (typeof window.updateOrderPanel === 'function') window.updateOrderPanel();
+        if (typeof window.updateStats === 'function') window.updateStats();
+        if (typeof window.updB === 'function') window.updB();
+      }
+      var ins = document.querySelectorAll('.qty-input[data-code="' + code + '"], .qty-input[data-sku="' + code + '"]');
+      for (var i = 0; i < ins.length; i++) { ins[i].value = qty; ins[i].dataset.hasValue = 'true'; }
+      _lastHash = '';
+    } else if (catalog === 'pedals') {   // pedals keeps its own copy of the order
+      try {
+        var own = JSON.parse(localStorage.getItem('shimano_pedals_order')) || {};
+        if (own[code] !== undefined) { if (typeof own[code] === 'object') own[code].qty = qty; else own[code] = qty; }
+        localStorage.setItem('shimano_pedals_order', JSON.stringify(own));
+      } catch (e) {}
+    }
+    afterChange();
+  }
+  function afterChange() {
+    updateBadge();
+    var pn = document.getElementById('aoPanel');
+    if (pn && pn.classList.contains('open')) renderPanel();
+    try { if (typeof summaryPageOpen !== 'undefined' && summaryPageOpen && typeof renderSummaryPage === 'function') renderSummaryPage(); } catch (e) {}
+  }
+  window._aoSetQty = setQty;
+  // live update while typing / using the arrows; empty or 0 removes only when the box is left
+  window._aoQtyInput = function (pg, code, val) { var v = parseInt(val, 10); if (v > 0) setQty(pg, code, v); };
+  window._aoQtyChange = function (pg, code, val) { var v = parseInt(val, 10); if (v > 0) setQty(pg, code, v); else deleteItem(pg, code); };
+
+  function goToSummary() {
+    if (getPageId() === 'hardgoods' && typeof openSummaryPage === 'function') { togglePanel(); openSummaryPage(); return; }
+    location.href = 'hardgoods.html?skip=true#openOrderSummary';
+  }
+
+  /* ─── Totals block (same layout as the Order Summary bar) ── */
+  function summaryHTML(items) {
+    var PR = window.ShimanoPricing, T = PR.totals(items), note = PR.minOrderNote(T);
+    var pct = Math.min(100, T.available / T.min * 100);
+    var tiers = (PR.tiers || []).map(function (x, i, a) {
+      var on = T.tier && T.tier.min === x.min;
+      return '<em' + (on ? ' class="on"' : '') + '>\u20ac' + Number(x.min).toLocaleString('en-US') + (i === a.length - 1 ? '+' : '') + ' ' + PR.pctLabel(x.pct) + '</em>';
+    }).join(' ');
+    return '<div class="aos">' +
+      '<div class="aos-top"><div class="aos-small">' +
+        '<div><span>Order total</span><b>' + PR.eur(T.grand) + '</b></div>' +
+        (T.etd > 0 ? '<div><span>ETD (backorder)</span><b>' + PR.eur(T.etd) + '</b></div>' : '') +
+        (T.campaignSavings > 0 ? '<div class="save"><span>Campaign savings</span><b>' + PR.eur(T.campaignSavings) + '</b></div>' : '') +
+        (T.volumeSavings > 0 ? '<div class="save"><span>Volume discount ' + PR.pctLabel(T.tier.pct) + '</span><b>' + PR.eur(T.volumeSavings) + '</b></div>' : '') +
+      '</div><div class="aos-big"><span>Shippable amount</span><b>' + PR.eur(T.available) + '</b></div></div>' +
+      '<div class="aos-bar"><i style="width:' + pct.toFixed(1) + '%"' + (T.ok ? ' class="ok"' : '') + '></i></div>' +
+      '<div class="aos-note ' + (T.ok ? 'ok' : 'warn') + '">' + note.text + '</div>' +
+      (T.next && T.ok ? '<div class="aos-note tier">Add ' + PR.eur(T.next.missing) + ' more in available items (at list price) to unlock a ' + PR.pctLabel(T.next.pct) + ' volume discount.</div>' : '') +
+      (T.noPrice > 0 ? '<div class="aos-note muted">' + T.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
+      (tiers ? '<div class="aos-tiers">Volume discount on shippable amount: ' + tiers + '</div>' : '') +
+    '</div>';
+  }
 
   /* ─── Totals ────────────────────────────────────────── */
   function getTotals() {
@@ -299,6 +378,35 @@ background:rgba(239,68,68,.06);color:#ef4444;font-family:"Barlow Condensed",Aria
 font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;\
 margin-top:8px;transition:all .2s}\
 .ao-clear:hover{background:rgba(239,68,68,.12)}\
+.ao-qi{width:46px;padding:3px 4px;border-radius:6px;border:1px solid var(--border,#2a2a3a);background:var(--bg,#0d0d14);\
+color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;text-align:center}\
+.ao-qi:focus{outline:none;border-color:#0082ca}\
+.ao-row.pp-ao{grid-template-columns:92px 1fr 50px 64px 22px !important}\
+.aos{font-family:"Barlow Condensed",Arial,sans-serif;margin-bottom:10px}\
+.aos-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}\
+.aos-small div{display:flex;gap:10px;justify-content:space-between;font-size:12px;color:var(--text-muted,#8a8aa0);min-width:150px}\
+.aos-small b{color:var(--text,#e8e8f0);font-weight:700}\
+.aos-small .save b{color:#00c896}\
+.aos-big{text-align:right}\
+.aos-big span{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text,#e8e8f0);font-weight:700}\
+.aos-big b{font-size:26px;color:#00c896;line-height:1.05}\
+.aos-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin:10px 0 6px}\
+.aos-bar i{display:block;height:100%;background:#f59e0b}.aos-bar i.ok{background:#00c896}\
+.aos-note{font-family:Barlow,Arial,sans-serif;font-size:11px;line-height:1.35;padding:5px 8px;border-radius:6px;margin-top:4px}\
+.aos-note.ok{background:rgba(0,200,150,.1);color:#00c896}.aos-note.warn{background:rgba(245,158,11,.12);color:#f5b544}\
+.aos-note.tier{background:rgba(0,130,202,.14);color:#5bb4ff;font-weight:600}.aos-note.muted{color:var(--text-muted,#8a8aa0);padding:0 8px}\
+.aos-tiers{margin-top:6px;font-family:Barlow,Arial,sans-serif;font-size:11px;font-weight:600;color:var(--text,#e8e8f0);line-height:1.7}\
+.aos-tiers em{font-style:normal;padding:1px 5px;border-radius:4px;white-space:nowrap}.aos-tiers em.on{background:#0082ca;color:#fff}\
+.ao-btns{display:flex;gap:8px}.ao-btns .ao-export{flex:1.25}\
+.ao-goto{flex:1;padding:12px 8px;border-radius:8px;border:1px solid #0082ca;background:transparent;color:#5bb4ff;cursor:pointer;\
+font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}\
+.ao-goto:hover{background:rgba(0,130,202,.12)}\
+#aoPanel .ao-row.pp-ao{grid-template-columns:92px 1fr 50px 64px 22px !important}\
+@media(max-width:768px){#aoPanel .ao-row.pp-ao{grid-template-columns:74px 1fr 46px 58px 20px !important}.ao-qi{width:42px}\
+.aos-big b{font-size:22px}.ao-goto{font-size:11px;padding:12px 4px;white-space:nowrap}.ao-export{font-size:12px}\
+.ao-foot{padding:12px 14px}.ao-fr{margin-bottom:8px}.ao-fr .ao-chips{display:none}.ao-ft{font-size:16px;white-space:nowrap}\
+.aos-tiers{font-size:10px;line-height:1.6}.aos-note{font-size:10.5px}}\
+.ao-ft{white-space:nowrap}\
 @media(max-width:768px){.ao-panel{width:100vw}.ao-fab{bottom:14px;right:14px;width:50px;height:50px;border-radius:12px}\
 .ao-row{grid-template-columns:80px 1fr 30px 22px}}';
     document.head.appendChild(css);
@@ -323,14 +431,16 @@ margin-top:8px;transition:all .2s}\
       '<div class="ao-foot" id="aoFoot">' +
         '<div class="ao-fr"><div><div class="ao-fl">Total SKUs</div><div class="ao-chips" id="aoChips"></div></div>' +
         '<div class="ao-ft" id="aoTotal">0</div></div>' +
-        '<button class="ao-export" id="aoExport"><span class="ao-spin" id="aoSpin"></span>' +
+        '<div class="ao-btns"><button class="ao-export" id="aoExport"><span class="ao-spin" id="aoSpin"></span>' +
         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> EXPORT TO EXCEL</button>' +
+        '<button class="ao-goto" id="aoGoto">Order Summary \u2192</button></div>' +
         '<button class="ao-clear" id="aoClear">\u2715 Clear All Orders</button>' +
       '</div>';
     document.body.appendChild(pn);
 
     document.getElementById('aoClose').onclick = togglePanel;
     document.getElementById('aoExport').onclick = doExport;
+    document.getElementById('aoGoto').onclick = goToSummary;
     document.getElementById('aoClear').onclick = doClear;
   }
 
@@ -381,7 +491,9 @@ margin-top:8px;transition:all .2s}\
         html += '<div class="ao-row' + (PR ? ' pp-ao' : '') + '">' +
           '<span class="ao-rc">' + code + '</span>' +
           '<span class="ao-rd" title="' + desc.replace(/"/g,'&quot;') + '">' + desc + '</span>' +
-          '<span class="ao-rq">\u00D7' + v.qty + '</span>' +
+          '<span class="ao-rq"><input class="ao-qi" type="number" min="1" value="' + (v.qty || 0) + '" data-ao-key="' + pg + '|' + code.replace(/"/g, '&quot;') + '"' +
+            ' oninput="_aoQtyInput(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"' +
+            ' onchange="_aoQtyChange(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"></span>' +
           (PR ? '<span class="pp-ao-p' + (pi && pi.status !== 'available' ? ' etd' : '') + '" title="' +
             (pi ? (pi.status === 'available' ? 'Available' : 'ETD \u2014 backorder') : 'Price on request') + '">' +
             (pi && LNS[pg + '|' + code] ? PR.eur(LNS[pg + '|' + code].total) : '\u2014') + '</span>' : '') +
@@ -398,7 +510,13 @@ margin-top:8px;transition:all .2s}\
     }
 
     foot.style.display = '';
+    var _ae = document.activeElement, _fk = _ae && _ae.dataset ? _ae.dataset.aoKey : null, _st = body.scrollTop;
     body.innerHTML = html;
+    body.scrollTop = _st;
+    if (_fk) {
+      var _in = body.querySelectorAll('input[data-ao-key]');
+      for (var _i = 0; _i < _in.length; _i++) if (_in[_i].dataset.aoKey === _fk) { _in[_i].focus(); break; }
+    }
     totalEl.textContent = totalQty + ' pcs';
     countEl.textContent = ' \u2014 ' + allCount + ' SKUs';
 
@@ -420,7 +538,7 @@ margin-top:8px;transition:all .2s}\
         money.id = 'aoMoney';
         foot.insertBefore(money, foot.firstChild);
       }
-      money.innerHTML = window.ShimanoPricing.panelHTML(collectAll());
+      money.innerHTML = summaryHTML(collectAll());
     }
 
     // Optional add-on: cross-sell.js appends its suggestions under the list
