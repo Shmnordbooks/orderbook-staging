@@ -1173,6 +1173,18 @@
   .os-sticky .oss-tiers em { color: var(--text); }
   .os-sticky .oss-tiers em { font-style: normal; padding: 1px 6px; border-radius: 4px; }
   .os-sticky .oss-tiers em.on { background: #0082ca; color: #fff; font-weight: 700; }
+  .oss-nudge{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 12px;border-radius:9px;color:#fff;background:linear-gradient(90deg,#0062c4,#0096e8);box-shadow:0 0 0 0 rgba(0,150,232,.55);animation:ndPulse 2.2s ease-out infinite}
+  .oss-nudge .nd-ic{flex-shrink:0;display:flex}
+  .oss-nudge .nd-tx{display:flex;flex-direction:column;line-height:1.25}
+  .oss-nudge b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em}
+  .oss-nudge .nd-amt{font-size:18px}
+  .oss-nudge .nd-pct{display:inline-block;background:#ffd23f;color:#111;border-radius:5px;padding:0 6px;margin-left:2px;font-size:16px}
+  .oss-nudge small{font-family:Barlow,Arial,sans-serif;font-size:11px;opacity:.85}
+  @keyframes ndPulse{0%{box-shadow:0 0 0 0 rgba(0,150,232,.55)}
+  70%{box-shadow:0 0 0 9px rgba(0,150,232,0)}
+  100%{box-shadow:0 0 0 0 rgba(0,150,232,0)}
+  }
+  
   /* "scroll down" hint above the bar */
   .os-scroll-hint { position: absolute; left: 50%; top: -46px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px;
     padding: 7px 14px 7px 10px; border-radius: 20px; border: 1px solid rgba(0,130,202,.5); background: #0082ca; color: #fff; cursor: pointer;
@@ -39715,7 +39727,9 @@ function renderSummaryPage() {
       '<div class="oss-grid">' +
         '<div class="oss-notes">' +
           '<div class="oss-note ' + (T.ok ? 'ok' : 'warn') + '">' + note.text + '</div>' +
-          (T.next && T.ok ? '<div class="oss-note tier">Add ' + PR.eur(T.next.missing) + ' more in available items (at list price) to unlock a ' + PR.pctLabel(T.next.pct) + ' volume discount.</div>' : '') +
+          (T.next && T.ok ? '<div class="oss-nudge"><span class="nd-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span><div class="nd-tx">' +
+            '<b>Add <span class="nd-amt">' + PR.eur(T.next.missing) + '</span> more and get <span class="nd-pct">' + PR.pctLabel(T.next.pct) + ' OFF</span></b>' +
+            '<small>on your whole shippable order \u00b7 available items, at list price</small></div></div>' : '') +
           (T.noPrice > 0 ? '<div class="oss-note muted">' + T.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
         '</div>' +
         '<div class="oss-nums">' +
@@ -40357,7 +40371,7 @@ document.addEventListener('click', e => {
 <script>/* daily prices: always fetch the latest file (no browser cache) */document.write('<script src="prices-data.js?v='+Math.floor(Date.now()/300000)+'"><\/script>');</script>
 <script src="pricing.js?v=20261109a"></script>
 <script src="order-export.js?v=20261118a"></script>
-<script src="shared-cart.js?v=20261118c"></script>
+<script src="shared-cart.js?v=20261118d"></script>
 <script src="top-picks.js?v=20261109e"></script>
 <script src="cross-sell.js"></script>
 <script>

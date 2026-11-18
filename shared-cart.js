@@ -276,7 +276,9 @@
       '</div><div class="aos-big"><span>Shippable amount</span><b>' + PR.eur(T.available) + '</b></div></div>' +
       '<div class="aos-bar"><i style="width:' + pct.toFixed(1) + '%"' + (T.ok ? ' class="ok"' : '') + '></i></div>' +
       '<div class="aos-note ' + (T.ok ? 'ok' : 'warn') + '">' + note.text + '</div>' +
-      (T.next && T.ok ? '<div class="aos-note tier">Add ' + PR.eur(T.next.missing) + ' more in available items (at list price) to unlock a ' + PR.pctLabel(T.next.pct) + ' volume discount.</div>' : '') +
+      (T.next && T.ok ? '<div class="aos-nudge"><span class="nd-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span><div class="nd-tx">' +
+            '<b>Add <span class="nd-amt">' + PR.eur(T.next.missing) + '</span> more and get <span class="nd-pct">' + PR.pctLabel(T.next.pct) + ' OFF</span></b>' +
+            '<small>on your whole shippable order \u00b7 available items, at list price</small></div></div>' : '') +
       (T.noPrice > 0 ? '<div class="aos-note muted">' + T.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
       (tiers ? '<div class="aos-tiers">Volume discount on shippable amount: ' + tiers + '</div>' : '') +
     '</div>';
@@ -410,6 +412,7 @@ color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-s
 .ao-goto{flex:1;padding:12px 8px;border-radius:8px;border:1px solid #0082ca;background:transparent;color:#5bb4ff;cursor:pointer;\
 font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}\
 .ao-goto:hover{background:rgba(0,130,202,.12)}\
+.aos-nudge{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 12px;border-radius:9px;color:#fff;background:linear-gradient(90deg,#0062c4,#0096e8);box-shadow:0 0 0 0 rgba(0,150,232,.55);animation:ndPulse 2.2s ease-out infinite}.aos-nudge .nd-ic{flex-shrink:0;display:flex}.aos-nudge .nd-tx{display:flex;flex-direction:column;line-height:1.25}.aos-nudge b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em}.aos-nudge .nd-amt{font-size:18px}.aos-nudge .nd-pct{display:inline-block;background:#ffd23f;color:#111;border-radius:5px;padding:0 6px;margin-left:2px;font-size:16px}.aos-nudge small{font-family:Barlow,Arial,sans-serif;font-size:11px;opacity:.85}@keyframes ndPulse{0%{box-shadow:0 0 0 0 rgba(0,150,232,.55)}70%{box-shadow:0 0 0 9px rgba(0,150,232,0)}100%{box-shadow:0 0 0 0 rgba(0,150,232,0)}}\
 .ao-up{font-family:"Barlow Condensed",Arial,sans-serif;font-size:12px;text-align:right;color:var(--text-muted,#8a8aa0);line-height:1.1}\
 .ao-up.deal{color:#00c896}.ao-up s{display:block;font-size:10px;color:var(--text-muted,#6b6b82)}\
 .ao-hdr{display:grid;grid-template-columns:100px 1fr 74px 50px 76px 22px;gap:6px;padding:6px 20px 4px;font-family:"Barlow Condensed",Arial,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted,#6b6b82);border-bottom:1px solid var(--border,#1e1e2e)}\
