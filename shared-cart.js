@@ -250,6 +250,15 @@
     location.href = 'hardgoods.html?skip=true#openOrderSummary';
   }
 
+  /* unit price cell: net unit price; list price struck through when a discount applies */
+  function unitCell(ln) {
+    var PR = window.ShimanoPricing;
+    if (!ln || !ln.p || ln.unit == null) return '<span class="ao-up">\u2014</span>';
+    var deal = ln.unit < ln.p.list;
+    return '<span class="ao-up' + (deal ? ' deal' : '') + '" title="' + (ln.label || 'List price') + '">' +
+      (deal ? '<s>' + PR.eur(ln.p.list) + '</s>' : '') + PR.eur(ln.unit) + '</span>';
+  }
+
   /* ─── Totals block (same layout as the Order Summary bar) ── */
   function summaryHTML(items) {
     var PR = window.ShimanoPricing, T = PR.totals(items), note = PR.minOrderNote(T);
@@ -319,7 +328,7 @@ transform:scale(0);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}\
 .ao-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);\
 z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s}\
 .ao-overlay.open{opacity:1;pointer-events:all}\
-.ao-panel{position:fixed;top:0;right:0;width:460px;max-width:96vw;height:100vh;\
+.ao-panel{position:fixed;top:0;right:0;width:580px;max-width:96vw;height:100vh;\
 background:var(--surface,#111118);border-left:1px solid var(--border,#1e1e2e);\
 z-index:10001;display:flex;flex-direction:column;transform:translateX(100%);\
 transition:transform .35s cubic-bezier(.22,1,.36,1);box-shadow:-8px 0 40px rgba(0,0,0,.45)}\
@@ -381,7 +390,7 @@ margin-top:8px;transition:all .2s}\
 .ao-qi{width:46px;padding:3px 4px;border-radius:6px;border:1px solid var(--border,#2a2a3a);background:var(--bg,#0d0d14);\
 color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;text-align:center}\
 .ao-qi:focus{outline:none;border-color:#0082ca}\
-.ao-row.pp-ao{grid-template-columns:92px 1fr 50px 64px 22px !important}\
+.ao-row.pp-ao{grid-template-columns:100px 1fr 74px 50px 76px 22px !important}\
 .aos{font-family:"Barlow Condensed",Arial,sans-serif;margin-bottom:10px}\
 .aos-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}\
 .aos-small div{display:flex;gap:10px;justify-content:space-between;font-size:12px;color:var(--text-muted,#8a8aa0);min-width:150px}\
@@ -401,8 +410,13 @@ color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-s
 .ao-goto{flex:1;padding:12px 8px;border-radius:8px;border:1px solid #0082ca;background:transparent;color:#5bb4ff;cursor:pointer;\
 font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}\
 .ao-goto:hover{background:rgba(0,130,202,.12)}\
-#aoPanel .ao-row.pp-ao{grid-template-columns:92px 1fr 50px 64px 22px !important}\
+.ao-up{font-family:"Barlow Condensed",Arial,sans-serif;font-size:12px;text-align:right;color:var(--text-muted,#8a8aa0);line-height:1.1}\
+.ao-up.deal{color:#00c896}.ao-up s{display:block;font-size:10px;color:var(--text-muted,#6b6b82)}\
+.ao-hdr{display:grid;grid-template-columns:100px 1fr 74px 50px 76px 22px;gap:6px;padding:6px 20px 4px;font-family:"Barlow Condensed",Arial,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted,#6b6b82);border-bottom:1px solid var(--border,#1e1e2e)}\
+.ao-hdr span:nth-child(n+3){text-align:right}.ao-hdr span:nth-child(4){text-align:center}\
+#aoPanel .ao-row.pp-ao{grid-template-columns:100px 1fr 74px 50px 76px 22px !important}\
 @media(max-width:768px){#aoPanel .ao-row.pp-ao{grid-template-columns:74px 1fr 46px 58px 20px !important}.ao-qi{width:42px}\
+.ao-up,.ao-hdr{display:none !important}\
 .aos-big b{font-size:22px}.ao-goto{font-size:11px;padding:12px 4px;white-space:nowrap}.ao-export{font-size:12px}\
 .ao-foot{padding:12px 14px}.ao-fr{margin-bottom:8px}.ao-fr .ao-chips{display:none}.ao-ft{font-size:16px;white-space:nowrap}\
 .aos-tiers{font-size:10px;line-height:1.6}.aos-note{font-size:10.5px}}\
@@ -472,6 +486,7 @@ font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;l
     if (PRT) PRT.lines.forEach(function (l) { LNS[l.item.catalog + '|' + l.item.code] = l; });
     var pageOrder = pageOrderFor(shared);
 
+    if (PRT) html += '<div class="ao-hdr"><span>Item code</span><span>Description</span><span>Unit price</span><span>Qty</span><span>Total</span><span></span></div>';
     for (var p = 0; p < pageOrder.length; p++) {
       var pg = pageOrder[p], items = shared[pg];
       if (!items || Object.keys(items).length === 0) continue;
@@ -491,6 +506,7 @@ font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;l
         html += '<div class="ao-row' + (PR ? ' pp-ao' : '') + '">' +
           '<span class="ao-rc">' + code + '</span>' +
           '<span class="ao-rd" title="' + desc.replace(/"/g,'&quot;') + '">' + desc + '</span>' +
+          (PR ? unitCell(LNS[pg + '|' + code]) : '') +
           '<span class="ao-rq"><input class="ao-qi" type="number" min="1" value="' + (v.qty || 0) + '" data-ao-key="' + pg + '|' + code.replace(/"/g, '&quot;') + '"' +
             ' oninput="_aoQtyInput(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"' +
             ' onchange="_aoQtyChange(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"></span>' +
