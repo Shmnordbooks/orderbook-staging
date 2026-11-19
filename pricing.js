@@ -88,7 +88,7 @@
     var M = '\u20ac' + Number(t.min).toLocaleString('en-US', { maximumFractionDigits: 0 });
     if (t.ok) {
       return { ok: true, text: 'Your available items total ' + eur(t.available) + ' and meet the ' + M +
-        ' minimum.' + (t.etd > 0 ? ' ETD items (' + eur(t.etd) + ') will be shipped when they become available.' : '') };
+        ' minimum.' };
     }
     if (t.grand >= t.min) {
       return { ok: false, text: 'Your total order value is ' + eur(t.grand) + ', but the shippable (available) value is ' +
