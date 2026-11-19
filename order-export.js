@@ -71,7 +71,7 @@
 
     t.lines.forEach(function (ln) {
       var it = ln.item, p = ln.p, f = infoFor(it.code), q = ln.qty;
-      var st = !p ? '' : p.status === 'available' ? 'Available' : p.status === 'etd' ? 'ETD (backorder)' : 'N/A';
+      var st = !p ? '' : p.status === 'available' ? 'Available' : p.status === 'etd' ? (p.etd ? 'ETD ' + p.etd : 'ETD (backorder)') : 'N/A';
       var kg = f.kg ? Math.round(f.kg * q * 1000) / 1000 : '';
       if (f.kg) { totKg += f.kg * q; anyKg = true; }
       totQty += q;
@@ -79,10 +79,13 @@
       r[C['Catalog']] = it.source; r[C['Item Code']] = it.code; r[C['Description']] = it.desc1;
       r[C['Model / Spec']] = it.desc2; r[C['Status']] = st; r[C['QTY']] = q;
       if (p) {
+        // volume discount is shown once on the shippable amount (totals), not per line;
+        // campaign prices stay per line
+        var vol = ln.label && ln.label.indexOf('VOLUME') === 0;
         r[C['List Price']] = p.list;
-        r[C['Discount']] = ln.label;
-        r[C['Net Price']] = ln.unit;
-        r[C['Line Total']] = ln.total;
+        r[C['Discount']] = vol ? '' : ln.label;
+        r[C['Net Price']] = vol ? p.list : ln.unit;
+        r[C['Line Total']] = vol ? Math.round(p.list * q * 100) / 100 : ln.total;
         r[C['SRP']] = p.srp || '';
       } else {
         r[C['List Price']] = 'Price on request';
@@ -94,11 +97,13 @@
     rows.push(blank());
     var LT = C['Line Total'], LBL = C['Net Price'];
     function sumRow(label, val) { var r = blank(); r[LBL] = label; r[LT] = Math.round(val * 100) / 100; rows.push(r); return rows.length - 1; }
-    var rAv = sumRow('Available (shippable)', t.available);
+    var availList = Math.round((t.available + t.volumeSavings) * 100) / 100;   // shippable at list / campaign prices
+    var rTot = sumRow('ORDER TOTAL', availList + t.etd + t.other);
+    var rAv = sumRow('Available (shippable)', availList);
     var rEtd = sumRow('ETD (backorder)', t.etd);
-    var rTot = sumRow('ORDER TOTAL', t.grand);
-    var rSave = t.campaignSavings > 0 ? sumRow('Campaign savings (included)', t.campaignSavings) : -1;
-    var rVol = t.volumeSavings > 0 ? sumRow('Volume discount ' + PR.pctLabel(t.tier.pct) + ' (included)', t.volumeSavings) : -1;
+    var rVol = t.volumeSavings > 0 ? sumRow('Volume discount ' + PR.pctLabel(t.tier.pct) + ' on shippable amount', -t.volumeSavings) : -1;
+    var rNet = t.volumeSavings > 0 ? sumRow('Shippable amount after ' + PR.pctLabel(t.tier.pct) + ' discount', t.available) : -1;
+    var rSave = t.campaignSavings > 0 ? sumRow('Campaign savings (included in prices)', t.campaignSavings) : -1;
     rows[rTot][C['QTY']] = totQty;
     rows[rTot][C['Weight (kg)']] = anyKg ? Math.round(totKg * 100) / 100 : '';
 
@@ -137,8 +142,9 @@
           if (r % 2 === 0) s.fill = { fgColor: { rgb: 'F6F8FA' } };
         }
         if (r > last + 1) {
-          s.font = { name: 'Arial', sz: 10, bold: r === rTot || r === rAv, color: { rgb: r === rSave ? '0B8A5A' : '222222' } };
+          s.font = { name: 'Arial', sz: 10, bold: r === rTot || r === rAv || r === rNet, color: { rgb: r === rSave ? '0B8A5A' : '222222' } };
           if (r === rSave || r === rVol) { s.font.italic = true; s.font.color = { rgb: '0B8A5A' }; }
+          if (r === rNet) { s.font.color = { rgb: '0B6B47' }; s.font.sz = 11; s.border = { top: { style: 'thin', color: { rgb: '0B8A5A' } } }; }
           if (r === rTot) s.border = { top: { style: 'thin', color: { rgb: '0082CA' } } };
           if (c === LBL) s.alignment = { horizontal: 'right' };
           if (c === C['QTY'] || c === C['Weight (kg)']) s.alignment = { horizontal: 'center' };

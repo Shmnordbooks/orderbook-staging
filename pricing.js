@@ -32,7 +32,7 @@
     var r = D.items[String(code || '').trim()];
     if (!r) return null;
     var status = normStatus(statusHint) || FLAG[r[2]] || 'unavailable';
-    var out = { list: r[0], srp: r[1], net: r[0], status: status, campaign: null };
+    var out = { list: r[0], srp: r[1], net: r[0], status: status, campaign: null, etd: (D.etd && D.etd[String(code).trim()]) || '' };
     if (r.length > 4 && status === 'available' && CAMP[r[3]]) {
       out.net = r[4];
       out.campaign = CAMP[r[3]];
@@ -51,7 +51,7 @@
   function totals(items) {
     var t = { available: 0, etd: 0, other: 0, noPrice: 0, savings: 0, campaignSavings: 0, volumeSavings: 0,
       lines: [], tier: null, next: null };
-    var gross = 0;
+    var gross = 0, volBase = 0, volNet = 0;
     items.forEach(function (it) {
       var p = info(it.code), q = Number(it.qty) || 0;
       if (p && q && p.status === 'available') gross += p.net * q;
@@ -68,13 +68,20 @@
       else if (t.tier && p.status === 'available') {
         ln.unit = r2(p.list * (1 - t.tier.pct));
         ln.label = 'VOLUME -' + pctLabel(t.tier.pct);
-        t.volumeSavings += (p.list - ln.unit) * q;
+        ln.total = r2(ln.unit * q);
+        volBase += r2(p.list * q); volNet += ln.total;
+        t.available += ln.total;
+        return;
       }
       ln.total = r2(ln.unit * q);
       if (p.status === 'available') t.available += ln.total;
       else if (p.status === 'etd') t.etd += ln.total;
       else t.other += ln.total;
     });
+    if (t.tier && volBase) {   // discount is exactly pct of the shippable list value (no per-line rounding drift)
+      t.volumeSavings = r2(volBase * t.tier.pct);
+      t.available = r2(t.available - volNet + volBase - t.volumeSavings);
+    }
     t.savings = t.campaignSavings + t.volumeSavings;
     t.grand = t.available + t.etd + t.other;
     t.min = MIN;
