@@ -243,6 +243,10 @@
   window._aoSetQty = setQty;
   // live update while typing / using the arrows; empty or 0 removes only when the box is left
   window._aoQtyInput = function (pg, code, val) { var v = parseInt(val, 10); if (v > 0) setQty(pg, code, v); };
+  window._aoStep = function (pg, code, d) {
+    var s = getShared(), cur = s[pg] && s[pg][code] ? (parseInt(s[pg][code].qty, 10) || 0) : 0;
+    setQty(pg, code, Math.max(1, cur + d));
+  };
   window._aoQtyChange = function (pg, code, val) { var v = parseInt(val, 10); if (v > 0) setQty(pg, code, v); else deleteItem(pg, code); };
 
   function goToSummary() {
@@ -393,7 +397,12 @@ margin-top:8px;transition:all .2s}\
 .ao-qi{width:46px;padding:3px 4px;border-radius:6px;border:1px solid var(--border,#2a2a3a);background:var(--bg,#0d0d14);\
 color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;text-align:center}\
 .ao-qi:focus{outline:none;border-color:#0082ca}\
-.ao-row.pp-ao{grid-template-columns:100px 1fr 74px 50px 76px 22px !important}\
+.ao-step{display:inline-flex;align-items:center;border:1px solid var(--border,#2a2a3a);border-radius:6px;overflow:hidden;background:var(--bg,#0d0d14)}\
+.ao-step button{width:20px;height:24px;border:0;background:transparent;color:var(--text,#e8e8f0);font-size:14px;font-weight:700;cursor:pointer;line-height:1;padding:0}\
+.ao-step button:hover{background:rgba(0,130,202,.18);color:#5bb4ff}\
+.ao-step .ao-qi{width:34px;border:0;border-radius:0;padding:3px 0}\
+.ao-qi::-webkit-inner-spin-button,.ao-qi::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.ao-qi{-moz-appearance:textfield;appearance:textfield}\
+.ao-row.pp-ao{grid-template-columns:96px 1fr 72px 80px 74px 22px !important}\
 .aos{font-family:"Barlow Condensed",Arial,sans-serif;margin-bottom:10px}\
 .aos-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}\
 .aos-small div{display:flex;gap:10px;justify-content:space-between;font-size:12px;color:var(--text-muted,#8a8aa0);min-width:150px}\
@@ -417,10 +426,10 @@ font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;l
 .aos-nudge{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 12px;border-radius:9px;color:#fff;background:linear-gradient(90deg,#0062c4,#0096e8);box-shadow:0 0 0 0 rgba(0,150,232,.55);animation:ndPulse 2.2s ease-out infinite}.aos-nudge .nd-ic{flex-shrink:0;display:flex}.aos-nudge .nd-tx{display:flex;flex-direction:column;line-height:1.25}.aos-nudge b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em}.aos-nudge .nd-amt{font-size:18px}.aos-nudge .nd-pct{display:inline-block;background:#ffd23f;color:#111;border-radius:5px;padding:0 6px;margin-left:2px;font-size:16px}.aos-nudge small{font-family:Barlow,Arial,sans-serif;font-size:11px;opacity:.85}@keyframes ndPulse{0%{box-shadow:0 0 0 0 rgba(0,150,232,.55)}70%{box-shadow:0 0 0 9px rgba(0,150,232,0)}100%{box-shadow:0 0 0 0 rgba(0,150,232,0)}}\
 .ao-up{font-family:"Barlow Condensed",Arial,sans-serif;font-size:12px;text-align:right;color:var(--text-muted,#8a8aa0);line-height:1.1}\
 .ao-up.deal{color:#00c896}.ao-up s{display:block;font-size:10px;color:var(--text-muted,#6b6b82)}\
-.ao-hdr{display:grid;grid-template-columns:100px 1fr 74px 50px 76px 22px;gap:6px;padding:6px 20px 4px;font-family:"Barlow Condensed",Arial,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted,#6b6b82);border-bottom:1px solid var(--border,#1e1e2e)}\
+.ao-hdr{display:grid;grid-template-columns:96px 1fr 72px 80px 74px 22px;gap:6px;padding:6px 20px 4px;font-family:"Barlow Condensed",Arial,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted,#6b6b82);border-bottom:1px solid var(--border,#1e1e2e)}\
 .ao-hdr span:nth-child(n+3){text-align:right}.ao-hdr span:nth-child(4){text-align:center}\
-#aoPanel .ao-row.pp-ao{grid-template-columns:100px 1fr 74px 50px 76px 22px !important}\
-@media(max-width:768px){#aoPanel .ao-row.pp-ao{grid-template-columns:74px 1fr 46px 58px 20px !important}.ao-qi{width:42px}\
+#aoPanel .ao-row.pp-ao{grid-template-columns:96px 1fr 72px 80px 74px 22px !important}\
+@media(max-width:768px){#aoPanel .ao-row.pp-ao{grid-template-columns:70px 1fr 78px 56px 20px !important}.ao-step .ao-qi{width:30px}\
 .ao-up,.ao-hdr{display:none !important}\
 .aos-big b{font-size:22px}.ao-goto{font-size:11px;padding:12px 4px;white-space:nowrap}.ao-export{font-size:12px}\
 .ao-foot{padding:12px 14px}.ao-fr{margin-bottom:8px}.ao-fr .ao-chips{display:none}.ao-ft{font-size:16px;white-space:nowrap}\
@@ -512,9 +521,11 @@ font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;l
           '<span class="ao-rc">' + code + '</span>' +
           '<span class="ao-rd" title="' + desc.replace(/"/g,'&quot;') + '">' + desc + '</span>' +
           (PR ? unitCell(LNS[pg + '|' + code]) : '') +
-          '<span class="ao-rq"><input class="ao-qi" type="number" min="1" value="' + (v.qty || 0) + '" data-ao-key="' + pg + '|' + code.replace(/"/g, '&quot;') + '"' +
+          '<span class="ao-rq"><span class="ao-step"><button type="button" onclick="_aoStep(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',-1)">\u2212</button>' +
+            '<input class="ao-qi" type="number" min="1" value="' + (v.qty || 0) + '" data-ao-key="' + pg + '|' + code.replace(/"/g, '&quot;') + '"' +
             ' oninput="_aoQtyInput(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"' +
-            ' onchange="_aoQtyChange(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)"></span>' +
+            ' onchange="_aoQtyChange(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',this.value)">' +
+            '<button type="button" onclick="_aoStep(\'' + pg + '\',\'' + code.replace(/'/g,"\\'") + '\',1)">+</button></span></span>' +
           (PR ? '<span class="pp-ao-p' + (pi && pi.status !== 'available' ? ' etd' : '') + '" title="' +
             (pi ? (pi.status === 'available' ? 'Available' : 'ETD \u2014 backorder') : 'Price on request') + '">' +
             (pi && LNS[pg + '|' + code] ? PR.eur(LNS[pg + '|' + code].total) : '\u2014') + '</span>' : '') +

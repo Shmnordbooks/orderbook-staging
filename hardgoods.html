@@ -1215,6 +1215,12 @@
     font-size: 18px; font-weight: 800;
     color: var(--avail); text-align: center;
   }
+  .os-step { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--surface); }
+  .os-step button { width: 24px; height: 30px; border: 0; background: transparent; color: var(--text); font-size: 16px; font-weight: 700; cursor: pointer; line-height: 1; }
+  .os-step button:hover { background: rgba(0,130,202,.18); color: #5bb4ff; }
+  .os-step .os-row-qty-edit { width: 42px !important; border: 0 !important; border-radius: 0 !important; padding: 5px 2px !important; }
+  .os-row-qty-edit::-webkit-inner-spin-button, .os-row-qty-edit::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .os-row-qty-edit { -moz-appearance: textfield; appearance: textfield; }
   .os-row-qty-edit {
     width: 64px; padding: 5px 8px;
     background: var(--surface); border: 1px solid var(--border);
@@ -39680,11 +39686,11 @@ function renderSummaryPage() {
       // For hardgoods items: editable qty + remove; for other catalogs: read-only display (edit via their own page)
       var qtyCell = '', removeCell = '';
       if (pg === 'hardgoods') {
-        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="hardgoods|' + code + '" oninput="osQtyInput(\'hardgoods\',\'' + code + '\',this.value)" onchange="osQtyChange(\'hardgoods\',\'' + code + '\',this.value)"></div>';
+        qtyCell = '<div style="text-align:center"><span class="os-step"><button type="button" onclick="osStep(\'hardgoods\',\'' + code + '\',-1,this)">\u2212</button><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="hardgoods|' + code + '" oninput="osQtyInput(\'hardgoods\',\'' + code + '\',this.value)" onchange="osQtyChange(\'hardgoods\',\'' + code + '\',this.value)"><button type="button" onclick="osStep(\'hardgoods\',\'' + code + '\',1,this)">+</button></span></div>';
         removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="removeFromOrder(\'' + code + '\')" title="Remove">✕</button></div>';
       } else {
         var _c = code.replace(/'/g, "\\'");
-        qtyCell = '<div style="text-align:center"><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="' + pg + '|' + code + '" oninput="osQtyInput(\'' + pg + '\',\'' + _c + '\',this.value)" onchange="osQtyChange(\'' + pg + '\',\'' + _c + '\',this.value)"></div>';
+        qtyCell = '<div style="text-align:center"><span class="os-step"><button type="button" onclick="osStep(\'' + pg + '\',\'' + _c + '\',-1,this)">\u2212</button><input class="os-row-qty-edit" type="number" min="1" value="' + qty + '" data-os-key="' + pg + '|' + code + '" oninput="osQtyInput(\'' + pg + '\',\'' + _c + '\',this.value)" onchange="osQtyChange(\'' + pg + '\',\'' + _c + '\',this.value)"><button type="button" onclick="osStep(\'' + pg + '\',\'' + _c + '\',1,this)">+</button></span></div>';
         removeCell = '<div style="text-align:center"><button class="os-row-remove" onclick="osSetSharedQty(\'' + pg + '\',\'' + _c + '\',0)" title="Remove">✕</button></div>';
       }
 
@@ -39764,6 +39770,13 @@ function renderSummaryPage() {
 /* Order Summary quantity boxes: live update while typing / using the arrows (only for valid numbers);
    an empty or 0 value removes the item only when the box is left (change), not while retyping */
 var osHgTouched = false;
+/* − / + buttons (the browser's own spin arrows misfire when the row re-renders under the mouse) */
+function osStep(pg, code, d, btn) {
+  var inp = btn && btn.parentNode ? btn.parentNode.querySelector('input') : null;
+  var v = Math.max(1, (parseInt(inp && inp.value, 10) || 0) + d);
+  if (inp) inp.value = v;
+  osQtyInput(pg, code, v);
+}
 function osQtyInput(pg, code, val) {
   var v = parseInt(val, 10);
   if (!v || v <= 0) return;
@@ -40380,7 +40393,7 @@ document.addEventListener('click', e => {
 <script>/* daily prices: always fetch the latest file (no browser cache) */document.write('<script src="prices-data.js?v='+Math.floor(Date.now()/300000)+'"><\/script>');</script>
 <script src="pricing.js?v=20261119d"></script>
 <script src="order-export.js?v=20261119c"></script>
-<script src="shared-cart.js?v=20261119c"></script>
+<script src="shared-cart.js?v=20261119d"></script>
 <script src="top-picks.js?v=20261109e"></script>
 <script src="cross-sell.js"></script>
 <script>
