@@ -281,6 +281,7 @@
             '<small>on your whole shippable order \u00b7 available items, at list price</small></div></div>' : '') +
       (T.noPrice > 0 ? '<div class="aos-note muted">' + T.noPrice + ' pcs without a list price (price on request) are not included.</div>' : '') +
       (tiers ? '<div class="aos-tiers">Volume discount on shippable amount: ' + tiers + '</div>' : '') +
+      (PR.disclaimer ? '<div class="aos-disc">\u24D8 ' + PR.disclaimer + '</div>' : '') +
     '</div>';
   }
 
@@ -412,6 +413,7 @@ color:var(--text,#e8e8f0);font-family:"Barlow Condensed",Arial,sans-serif;font-s
 .ao-goto{flex:1;padding:12px 8px;border-radius:8px;border:1px solid #0082ca;background:transparent;color:#5bb4ff;cursor:pointer;\
 font-family:"Barlow Condensed",Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}\
 .ao-goto:hover{background:rgba(0,130,202,.12)}\
+.aos-disc{margin-top:6px;font-family:Barlow,Arial,sans-serif;font-size:10.5px;line-height:1.35;color:var(--text-muted,#8a8aa0);font-style:italic}\
 .aos-nudge{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 12px;border-radius:9px;color:#fff;background:linear-gradient(90deg,#0062c4,#0096e8);box-shadow:0 0 0 0 rgba(0,150,232,.55);animation:ndPulse 2.2s ease-out infinite}.aos-nudge .nd-ic{flex-shrink:0;display:flex}.aos-nudge .nd-tx{display:flex;flex-direction:column;line-height:1.25}.aos-nudge b{font-family:"Barlow Condensed",Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em}.aos-nudge .nd-amt{font-size:18px}.aos-nudge .nd-pct{display:inline-block;background:#ffd23f;color:#111;border-radius:5px;padding:0 6px;margin-left:2px;font-size:16px}.aos-nudge small{font-family:Barlow,Arial,sans-serif;font-size:11px;opacity:.85}@keyframes ndPulse{0%{box-shadow:0 0 0 0 rgba(0,150,232,.55)}70%{box-shadow:0 0 0 9px rgba(0,150,232,0)}100%{box-shadow:0 0 0 0 rgba(0,150,232,0)}}\
 .ao-up{font-family:"Barlow Condensed",Arial,sans-serif;font-size:12px;text-align:right;color:var(--text-muted,#8a8aa0);line-height:1.1}\
 .ao-up.deal{color:#00c896}.ao-up s{display:block;font-size:10px;color:var(--text-muted,#6b6b82)}\

@@ -250,5 +250,6 @@
   window.addEventListener('load', function () { unifyExport(); setTimeout(unifyExport, 1500); });
 
   window.ShimanoPricing = { info: info, totals: totals, tiers: TIERS, pctLabel: pctLabel, minOrderNote: minOrderNote, panelHTML: panelHTML, eur: eur,
-    generated: D.generated, minOrder: MIN };
+    generated: D.generated, minOrder: MIN,
+    disclaimer: 'Prices and stock availability are shown for guidance only and may contain errors or change without notice (E&OE). Orders become binding only after written confirmation by our sales team.' };
 })();

@@ -63,7 +63,8 @@
     var ri = blank(); ri[0] = 'Dealer prices in EUR, FCA Venray (NL). Price list of ' + PR.generated +
       '. Minimum order: \u20ac' +
       Number(PR.minOrder).toLocaleString('en-US') +
-      ' of available items.' + (tierTxt ? ' Volume discount on available items: ' + tierTxt + '.' : ''); rows.push(ri);                              // 2 info
+      ' of available items.' + (tierTxt ? ' Volume discount on available items: ' + tierTxt + '.' : '') +
+      (PR.disclaimer ? ' ' + PR.disclaimer : ''); rows.push(ri);                              // 2 info
     rows.push(blank());                                                  // 3
     rows.push(HEAD.slice());                                             // 4 header
     var first = rows.length, totQty = 0, totKg = 0, anyKg = false;
@@ -105,7 +106,7 @@
     ws['!cols'] = [{ wch: 13 }, { wch: 20 }, { wch: 34 }, { wch: 26 }, { wch: 15 }, { wch: 6 }, { wch: 10 }, { wch: 16 },
       { wch: 10 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 11 }, { wch: 12 }, { wch: 10 }];
     ws['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: NC - 1 } }, { s: { r: 2, c: 0 }, e: { r: 2, c: NC - 1 } }];
-    ws['!rows'] = []; ws['!rows'][1] = { hpt: 30 }; ws['!rows'][2] = { hpt: 26 };
+    ws['!rows'] = []; ws['!rows'][1] = { hpt: 30 }; ws['!rows'][2] = { hpt: 40 };
     if (!ws['!sheetViews']) ws['!sheetViews'] = [{}];
     ws['!sheetViews'][0].showGridLines = false;
 
